@@ -1,0 +1,75 @@
+#!/bin/bash
+
+# add variables
+i1=0
+
+# add functions
+function prompt()
+{
+	read -p "$1 [YES/NO]: " input
+}
+
+function myechoh0()
+{
+	echo '==========================================================='
+	echo "$1"
+	echo '==========================================================='
+}
+function myechoh1()
+{
+	echo
+	if [ "$1" ]; then
+			echo "--> $i1. $1"
+	fi
+	echo '==========================================================='
+	i1=$[$i1+1]
+}
+function myechoh2()
+{
+	echo
+	echo "- $1"
+}
+function myechoh3()
+{
+	echo -e "\t$1"
+}
+function myechoh4()
+{
+	echo -e "\t\t$1"
+}
+
+
+# new script
+myechoh0 'Install Nvidia Driver'
+
+	read -p 'Please enter console with ctrl+alt+F1, and then run this script again [YES/NO] '
+
+
+# new chapter
+myechoh1 'remove old Nvidia driver'
+	#sudo apt-get purge nvidia*
+
+
+# new chapter
+myechoh1 'blacklist nouveau'
+	#cd /etc/modprobe.d/
+	#sudo sh -c "echo 'blacklist nouveau' >> blacklist-nouveau.conf"
+	#sudo sh -c "echo 'options nouveau modset=0' >> blacklist-nouveau.conf"
+	#cd -
+	#sudo update-initramfs -u
+	
+	lsmod | grep nouveau
+
+
+# new chapter
+myechoh1 'init 3 and installation'
+
+	#sudo service lightdm stop
+	#sudo init 3
+	#cd /home/xy2/tools/GPU/
+	#sudo ./NVIDIA-Linux-x86_64-390.48.run -no-x-check -no-nouveau-check -no-opengl-files
+	#cd -
+	#sudo service lightdm start
+
+# new chapter
+myechoh1 'End'
