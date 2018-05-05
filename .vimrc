@@ -3,7 +3,7 @@
 " 当新建 .h .c .hpp .cpp .mk .sh等文件时自动调用SetTitle 函数
 
 "autocmd BufNewFile *.[ch],*.hpp,*.cpp,Makefile,*.mk,*.sh exec ":call SetTitle()"
-autocmd BufNewFile *.[ch],*.hpp,*.cpp,Makefile,*.mk,*.sh* exec ":call SetTitle()"
+"autocmd BufNewFile *.[ch],*.hpp,*.cpp,Makefile,*.mk,*.sh* exec ":call SetTitle()"
 
 
 " 加入注释

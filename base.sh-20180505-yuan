@@ -1,17 +1,10 @@
 #!/bin/bash
 
-/*================================================================
-*   Copyright (C) 2018 xxx Ltd. All rights reserved.
-*
-*   文件名称：base.sh-20180505-yuan-bak
-*   创 建 者：Xiong Yuan
-*   创建日期：2018年05月06日
-*   描    述：
-*
-================================================================*/
-
 # add variables
 i1=0
+if [ "$1" ]; then
+	i1=$1
+fi
 
 #echo
 #echo -e "\033[30m 黑色字oldboy trainning \033[0m"
@@ -84,6 +77,11 @@ function myechoy()
 	#echo -e "\t\t$1"
 }
 
+function mysource()
+{
+	(source $1 $i1)
+	i1=$[$i1+1]
+}
 
 
 # new chapter
