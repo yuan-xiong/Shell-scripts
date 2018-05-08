@@ -84,7 +84,8 @@ function myecho4ref()
 function myechoy()
 {
 	# 黄底黑字
-	echo -e "\t\t\033[43;30m$1\033[0m"
+	echo -e "\033[43;30m$1\033[0m"
+	#echo -e "\t\t\033[43;30m$1\033[0m"
 	#echo -e "\t\t$1"
 }
 
@@ -97,11 +98,50 @@ function mysource()
 
 
 # new chapter
-myecho1task 'task'
+myecho1task 'make and install Linux System'
+myechoy 'http//www.alterawiki.com/wiki/Compiling_u-boot_and_Linux_Kernel_for_Cyclone_V_SoC'
+myecho4ref 'reference: https://blog.csdn.net/foolishcsdn/article/details/53558933'
+myecho4ref 'https://blog.csdn.net/ffmxnjm/article/details/72933915'
 
-myechoh2thing 'things'
-myechoh3step 'steps'
-myecho4ref 'reference'
+myechoh2thing 'download linux kernel'
+myechoh3step 'https://www.kernel.org'
+myecho4ref 'kernel 4.4.131'
+myecho4ref 'kernel 4.16.7'
+
+myechoh2thing 'install prerequisites'
+myechoh3step 'https://www.cnblogs.com/acm-icpcer/p/8029656.html'
+	sudo apt-get install libncurses5-dev libssl-dev
+	sudo apt-get install build-essential openssl
+	sudo apt-get install zlibc minizip
+	sudo apt-get install libidn11-dev libidn11
+
+myechoh2thing 'make linux kernel'
+	#tar Jxvf linux-4.4.131.tar.xz
+myechoh3step 'make menuconfig'
+	#mkdir -p linux-4.4.131/build
+	cd linux-4.4.131/
+
+	sudo make mrproper
+	sudo make clean
+	sudo make O=build menuconfig
+myechoh3step 'make'
+	# 1. local make and install
+	prompt 'Be careful, do you want to install on local marchine? '
+
+	# way 1: default output dir
+	#sudo make -j16
+	#sudo make modules_install        //安装内核模块
+	#sudo make install      //安装内核
+
+	# way 2: use output dir
+	sudo make O=build/kernel -j16
+	#sudo make O=build/kernel modules_install
+	#sudo make O=build/kernel install
+
+	# 2. cross make and install
+	make O=build/kernel-zimage zImage
+	#make bzImage
+	cd -
 
 echo
 echo '==========================================================='

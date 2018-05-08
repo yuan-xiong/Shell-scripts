@@ -79,12 +79,12 @@ myechoh3 'blacklist nouveau'
 	#sudo update-initramfs -u
 	#lsmod | grep nouveau
 myechoh3 'init 3 and installation'
-	#read -p 'Please enter console with ctrl+alt+F1, and then run this script again [YES/NO] '
+	read -p 'Please enter console with ctrl+alt+F1, and then run this script again [YES/NO] '
 #	sudo service lightdm stop
 #	sudo init 3
-	#cd /home/xy2/tools/GPU/
-	#sudo ./NVIDIA-Linux-x86_64-390.48.run -no-x-check -no-nouveau-check -no-opengl-files
-	#cd -
+	cd /home/xy2/tools/GPU/
+	sudo ./NVIDIA-Linux-x86_64-390.48.run -no-x-check -no-nouveau-check -no-opengl-files
+	cd -
 #	sudo service lightdm start
 
 #	lspci | grep -i nvidia
