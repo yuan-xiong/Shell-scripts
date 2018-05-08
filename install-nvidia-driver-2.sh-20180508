@@ -97,11 +97,21 @@ function mysource()
 
 
 # new chapter
-myecho1task 'task'
+myecho1task 'Install Nvidia Driver'
+myechoy 'https://askubuntu.com/questions/742857/dual-gpu-nvidia-940m-intel-sky-lake'
 
-myechoh2thing 'things'
-myechoh3step 'steps'
-myecho4ref 'reference'
+myechoh2thing 'install with apt-get & ppa'
+myechoh3step 'add ppa'
+	sudo add-apt-repository ppa:graphics-drivers/ppa
+myechoh3step 'update'
+	sudo apt-get update
+myechoh3step 'install'
+	sudo ubuntu-drivers autoinstall
+	nvidia-smi
+myechoh3step 'reboot'
+	prompt 'Want to reboot now ?'
+	prompt 'Remember to set Using NVIDIA binary driver -version 396.24 from nvidia-396(open source) in Software & Update > Additional Drivers ?'
+	sudo reboot
 
 echo
 echo '==========================================================='

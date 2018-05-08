@@ -85,7 +85,6 @@ function myechoy()
 {
 	# 黄底黑字
 	echo -e "\033[43;30m$1\033[0m"
-	#echo -e "\t\t\033[43;30m$1\033[0m"
 	#echo -e "\t\t$1"
 }
 

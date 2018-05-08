@@ -70,7 +70,7 @@ myechoh1 'CUDA'
 
 myechoh2 'install Nvidia driver'
 myechoh3 'remove old Nvidia driver'
-	#sudo apt-get purge nvidia*
+	sudo apt-get purge nvidia*
 myechoh3 'blacklist nouveau'
 	#cd /etc/modprobe.d/
 	#sudo sh -c "echo 'blacklist nouveau' >> blacklist-nouveau.conf"
@@ -80,12 +80,12 @@ myechoh3 'blacklist nouveau'
 	#lsmod | grep nouveau
 myechoh3 'init 3 and installation'
 	read -p 'Please enter console with ctrl+alt+F1, and then run this script again [YES/NO] '
-#	sudo service lightdm stop
+	sudo service lightdm stop
 #	sudo init 3
 	cd /home/xy2/tools/GPU/
 	sudo ./NVIDIA-Linux-x86_64-390.48.run -no-x-check -no-nouveau-check -no-opengl-files
 	cd -
-#	sudo service lightdm start
+	sudo service lightdm start
 
 #	lspci | grep -i nvidia
 #	sudo dpkg --list | grep nvidia-*
