@@ -80,9 +80,14 @@ function mysource()
 # new chapter
 myecho1task 'Cyclone V SDK for OpenCL 20180508'
 myecho4ref 'https://www.altera.com.cn/documentation/ewa1400875619714.html'
-myechoh2thing 'Cyclone V SE SoC'
-myechoh2thing 'Cyclone V SX SoC [Yes]'
-myechoh2thing 'Cyclone V ST SoC'
+
+myechoh3step 'Cyclone V:	'
+myechoh3step 'Arria 10:		1.5 TFLOPS'
+myechoh3step 'Stratix 10:		10  TFLOPS'
+
+myechoh3step 'Cyclone V SE SoC'
+myechoh2thing 'Cyclone V SX SoC	[Yes]'
+myechoh3step 'Cyclone V ST SoC'
 
 #-----------------------------------------------------------------
 myechoy '1. Intel FPGA SDK for OpenCL™ Standard Edition Cyclone V SoC Getting Started Guide'
@@ -138,8 +143,10 @@ myecho4ref 'Intel FPGA SDK for OpenCL Standard Edition Programming Guide.'
 myechoh3step 'Optimize Area'
 myecho4ref 'Intel FPGA SDK for OpenCL Standard Edition Best Practices Guide'
 
+
 #-----------------------------------------------------------------
 myechoy '2. Setting Up the Intel FPGA SDK for OpenCL, Intel SoC FPGA Embedded Design Suite, and the Cyclone V SoC Development Kit for Linux'
+
 
 myechoh2thing '2.1 Upgrading to Current Version of Intel FPGA SDK for OpenCL for SoC FPGA'
 myechoh3step 'Update SDK softwares'
@@ -149,21 +156,115 @@ myecho4ref 'Writing an SD Card Image File onto the Micro SD Flash Card.'
 
 myechoh2thing '2.2 Downloading the Intel FPGA SDK for OpenCL Standard Edition'
 myechoh3step 'Intel FPGA SDK for OpenCL Download Center [Standard Edition]'
-myecho4ref 'http://dl.altera.com/opencl/'
-	# way 1: setup with script
-	#source setup.sh
-	# way 2: set env. in ~/.bashrc
-	#vim ~/.bashrc
-	echo $INTELFPGAOCLSDKROOT
+	prompt '[Download] http://dl.altera.com/opencl/'
+
+
 myechoh2thing '2.3 Downloading the Intel SoC FPGA Embedded Development Suite'
 myechoh3step 'Intel FPGA SoC EDS Download Center [Standard Edition]'
-myecho4ref 'http://dl.altera.com/soceds/'
+	prompt '[Download] http://dl.altera.com/soceds/'
 
 
 myechoh2thing '2.4 Installing the Intel FPGA SDK for OpenCL'
+myechoh3step 'install with *.run script'
 myecho4ref 'root privilege'
 myecho4ref 'Linux gcc'
 myecho4ref 'jdk (optional)'
+	#cd tools 
+	#source setup.sh
+	echo $INTELFPGAOCLSDKROOT
+	#cd -
+
+
+myechoh2thing '2.5 Setting the Intel FPGA SDK for OpenCL User Environment Variables for SoC FPGA'
+myechoh3step 'write env. script'
+	echo $INTELFPGAOCLSDKROOT
+
+	# use variable instead of file name
+	filename='my_cycloneV-env.sh-20180509'
+	echo "#!/bin/bash" >> $filename
+	echo "" >> $filename
+	echo "# sdk root" >> $filename
+	echo "export PATH=\$INTELFPGAOCLSDKROOT/bin:\$PATH" >> $filename
+	echo "export AOCL_BOARD_PACKAGE_ROOT=\$INTELFPGAOCLSDKROOT/board/c5soc" >> $filename
+
+	echo "# library path" >> $filename
+	echo "export LD_LIBRARY_PATH=\$INTELFPGAOCLSDKROOT/host/linux64/lib:\$LD_LIBRARY_PATH" >> $filename
+	echo "export LD_LIBRARY_PATH=\$AOCL_BOARD_PACKAGE_ROOT/linux64/lib:\$LD_LIBRARY_PATH" >> $filename
+
+	echo "# Quartus path" >> $filename
+	echo "export QUARTUS_ROOTDIR_OVERRIDE=<Quartus Prime software installation directory>" >> $filename
+
+
+myechoh2thing '2.6 Installing the Intel SoC FPGA Embedded Development Suite *** Edition'
+myechoh3step 'install with *.run script'
+myecho4ref 'contains gcc chain'
+	#cd tools/
+	#chmod +x SoCEDSSetup-18.0.0.614-linux.run
+	#./SoCEDSSetup-18.0.0.614-linux.run
+	#cd -
+
+
+myechoh2thing '2.7 Installing the Cyclone V SoC Development Kit'
+myechoh3step 'Writing an SD Card Image onto the Micro SD Flash Card'
+myecho4ref 'linux_sd_card_image.tgz (INTELFPGAOCLSDKROOT/board/c5soc/) in Cyclone V SoC Development Kit Reference Platform'
+myecho4ref 'check AOCL_BOARD_PACKAGE_ROOT in board_env.xml'
+	#tar zxvf linux_sd_card_image.tgz
+	#prompt 'Please insert a SD flash card...'
+	#dmesg | tail
+	prompt 'Warning: flash sd card image to /dev/sde'
+	#sudo dd if=linux_sd_card_image of=/dev/sde bs=1M sync
+
+myechoh3step 'Load Image in Micro SD Flash Card'
+myecho4ref 'insert sd card back to Cyclone V'
+myecho4ref 'https://www.altera.com/documentation/ewa1403875738903.html#ewa1403886518038'
+#-----------------------------------------------------------------
+mysource 'cycloneV4-create-sd-card-image.sh-20180509*'
+
+myechoh3step 'Configuring the SW3 Switches'
+	prompt 'Warning: SW3 1-6 ON/OFF/ON/OFF/ON/ON'
+
+myechoh3step 'Setting Up Terminal Connection'
+	prompt 'Warning: Connect micro-USB to J8 on Cyclone V and COM3 on PC'
+	prompt 'Warning: Power up Cyclone V'
+	
+myechoh3step 'Setting Environment Variables and Loading OpenCL Linux Kernel Driver'
+myecho4ref 'Running on Cyclone V Board'
+	#dmesg | tail
+	prompt 'Login as root with no passwd'
+	prompt 'set the environment variables'
+myecho4ref 'load the OpenCL Linux kernel driver'
+
+myechoh3step 'Connecting the Board to Network via Ethernet'
+myecho4ref 'HPS Ethernet port'
+myecho4ref 'Secure Shell (SSH)'
+myecho4ref 'scp'
+myecho4ref 'ip address'
+myecho4ref 'shared drive'
+
+
+myechoh2thing '2.8 Verifying Host Runtime Functionality via Emulation'
+myechoh3step 'Downloading an OpenCL Design Example'
+myechoh3step 'Compiling a Kernel for Emulation'
+myecho4ref '-march=emulator'
+myecho4ref '-board=<board_name>'
+myechoh3step 'Building the Host Application'
+myechoh3step 'Emulating Your OpenCL Kernel'
+
+myechoh3step 'Connecting the Board to Network via Ethernet'
+myecho4ref 'HPS Ethernet port'
+
+
+myechoh2thing '2.9 Creating the Hardware Configuration File of an OpenCL Kernel for SoC FPGA'
+
+
+myechoh2thing '2.10 Executing an OpenCL Kernel on an SoC FPGA'
+myechoh3step 'Running the Host Application'
+myechoh3step 'Output from Successful Kernel Execution on the Cyclone V SoC Development Kit'
+
+
+myechoh2thing '2.11 Uninstalling the Software'
+myechoh3step 'Uninstalling the Software'
+
 
 # new chapter
 echo
