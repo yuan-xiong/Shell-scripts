@@ -1,0 +1,6 @@
+cp clcaffe_201608/.build_release/lib/libcaffe.so.1.0.0-rc3 YoloWithAVM/ &&
+ls -l YoloWithAVM/ &&
+scp -r YoloWithAVM/ intel@inte-CarBranch-Ubuntu14:~/yuan/scp/
+rm YoloWithAVM/libcaffe.so.1.0.0-rc3 &&
+ls -l YoloWithAVM/
+#scp -r clcaffe_201608/.build_release/lib/libcaffe.so.1.0.0-rc3 intel@inte-CarBranch-Ubuntu14:~/yuan/scp/

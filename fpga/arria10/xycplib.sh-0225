@@ -1,0 +1,6 @@
+#!/bin/sh
+
+for line in `cat a.txt`
+do
+	cp $line .
+done

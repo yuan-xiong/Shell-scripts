@@ -1,0 +1,8 @@
+#!/bin/sh
+command=$0
+name=$1
+
+echo "\n"
+echo "${command} ${name} ......"
+echo "${command} ${name} Done!"
+echo "\n"
