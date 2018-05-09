@@ -1,0 +1,172 @@
+#!/bin/bash
+
+# add variables
+i1=0
+if [ "$1" ]; then
+	i1=$1
+fi
+
+# add functions
+function prompt()
+{
+	read -p "$1 [YES/NO]: " input
+}
+
+# script name
+function myecho0script()
+{
+	echo
+	echo '==========================================================='
+	echo "$1"
+	echo '==========================================================='
+	echo
+}
+
+# task title
+function myecho1task()
+{
+	echo
+	if [ "$1" ]; then
+		# 蓝底白字
+		echo -e "\033[44;37m --> $i1. $1\033[0m"
+	fi
+	i1=$[$i1+1]
+}
+
+# things title
+function myechoh2thing()
+{
+	echo
+	# 红色字
+	#echo -e "\033[31m - $1 \033[0m"
+	# 绿色字
+	echo -e "\033[32m - $1 \033[0m"
+	# 红底白字
+	#echo -e "\033[41;37m- $1\033[0m"
+}
+
+# steps title
+function myechoh3step()
+{
+	echo
+	echo -e " * $1"
+	#echo -e "\t* $1"
+}
+
+# reference title
+function myecho4ref()
+{
+	#echo
+	echo -e "\t$1"
+}
+
+# highlight title
+function myechoy()
+{
+	echo
+	# 黄底黑字
+	echo -e "\033[43;30m$1\033[0m"
+	#echo -e "\t\t$1"
+}
+
+# call outside script
+function mysource()
+{
+	(source $1 $i1)
+	i1=$[$i1+1]
+}
+
+
+# new chapter
+myecho1task 'Cyclone V SDK for OpenCL 20180508'
+myecho4ref 'https://www.altera.com.cn/documentation/ewa1400875619714.html'
+myechoh2thing 'Cyclone V SE SoC'
+myechoh2thing 'Cyclone V SX SoC [Yes]'
+myechoh2thing 'Cyclone V ST SoC'
+
+#-----------------------------------------------------------------
+myechoy '1. Intel FPGA SDK for OpenCL™ Standard Edition Cyclone V SoC Getting Started Guide'
+
+myechoh2thing '1.1 Prerequisites'
+myechoh3step 'Hardware Requirements'
+myecho4ref 'Cyclone V SoC'
+myecho4ref 'root privilege'
+myecho4ref '85GB Disk'
+myecho4ref '8GB RAM'
+myecho4ref 'Window or Linux development system'
+
+myechoh3step 'Software Requirements'
+myecho4ref 'Perl >= version 5'
+myecho4ref 'set Perl path'
+
+
+myechoh2thing '1.2 Content'
+myechoh3step 'AOC'
+myecho4ref 'Intel FPGA SDK for OpenCL Offline Compiler'
+myechoh3step 'AOCL'
+myecho4ref 'Intel FPGA SDK for OpenCL Standard Edition utility'
+myechoh3step 'host runtime'
+myecho4ref 'OpenCL host and runtime API'
+
+myechoh3step 'OpenCL Example Applications'
+myecho4ref 'https://www.altera.com/products/design-software/embedded-software-developers/opencl/developer-zone.html#design-examples'
+
+
+myechoh2thing '1.3 Setup process for the Cyclone V SoC'
+myechoh3step 'Review prerequisites'
+myechoh3step 'Download the tar file and the SoC EDS (Tar file includes SDK, Intel Quartus Prime software, and device support)'
+myechoh3step '1. Unpack tar file; 2. Run the setup.bat|sh file; 3. Run the SoC EDS isntaller'
+myechoh3step 'Install Cyclone V SoC Development Kit'
+myechoh3step 'Set up Cyclone V Development Kit -- 1. Write SD card image onto flash card; 2. Set DIP switches; 3. Terminal Connection; 4. Set env. variables and load Linux kernel driver.'
+myechoh3step 'Connect board to network'
+myechoh3step 'Run hello_world on FPGA'
+
+
+myechoh2thing '1.4 Overview of the Intel FPGA SDK for OpenCL Cyclone V SoC Programming Flow'
+
+
+myechoh2thing '1.5 Cyclone V SoC Development Kit Reference Platform Board Variants'
+myechoh3step 'c5soc board'
+myechoh3step 'c5soc_sharedonly board'
+myecho4ref 'To target this board variant when compiling your OpenCL kernel, include the --board=c5soc_sharedonly option in your aoc command.'
+
+
+myechoh2thing '1.6 Cyclone V SoC FPGA-Specific OpenCL Design Considerations'
+myechoh3step 'Shared memory'
+myecho4ref 'Intel FPGA SDK for OpenCL Standard Edition Programming Guide.'
+
+myechoh3step 'Optimize Area'
+myecho4ref 'Intel FPGA SDK for OpenCL Standard Edition Best Practices Guide'
+
+#-----------------------------------------------------------------
+myechoy '2. Setting Up the Intel FPGA SDK for OpenCL, Intel SoC FPGA Embedded Design Suite, and the Cyclone V SoC Development Kit for Linux'
+
+myechoh2thing '2.1 Upgrading to Current Version of Intel FPGA SDK for OpenCL for SoC FPGA'
+myechoh3step 'Update SDK softwares'
+myechoh3step 'Reprogram flash card with Upgraded SDK'
+myecho4ref 'Writing an SD Card Image File onto the Micro SD Flash Card.'
+
+
+myechoh2thing '2.2 Downloading the Intel FPGA SDK for OpenCL Standard Edition'
+myechoh3step 'Intel FPGA SDK for OpenCL Download Center [Standard Edition]'
+myecho4ref 'http://dl.altera.com/opencl/'
+	# way 1: setup with script
+	#source setup.sh
+	# way 2: set env. in ~/.bashrc
+	#vim ~/.bashrc
+	echo $INTELFPGAOCLSDKROOT
+myechoh2thing '2.3 Downloading the Intel SoC FPGA Embedded Development Suite'
+myechoh3step 'Intel FPGA SoC EDS Download Center [Standard Edition]'
+myecho4ref 'http://dl.altera.com/soceds/'
+
+
+myechoh2thing '2.4 Installing the Intel FPGA SDK for OpenCL'
+myecho4ref 'root privilege'
+myecho4ref 'Linux gcc'
+myecho4ref 'jdk (optional)'
+
+# new chapter
+echo
+echo '==========================================================='
+echo 'End'
+
