@@ -1,0 +1,100 @@
+#!/bin/bash
+
+
+# add variables
+i1=0
+release=$1
+
+
+# add functions
+function prompt()
+{
+	read -p "$1 [YES/NO]: " input
+}
+
+function myechoh0()
+{
+	echo '==========================================================='
+	echo "$1"
+	echo '==========================================================='
+}
+function myechoh1()
+{
+	echo
+	if [ "$1" ]; then
+		echo "--> $i1. $1"
+	fi
+	echo '==========================================================='
+	i1=$[$i1+1]
+}
+function myechoh2()
+{
+	echo
+	echo "- $1"
+	#echo `date +"%Y-%m-%d %H:%M:%S"`
+}
+function myechoh3()
+{
+	echo -e "\t$1"
+}
+function myechoh4()
+{
+	echo -e "\t\t$1"
+}
+
+
+# new script
+myechoh0 'Yuan: Setup Cyclone'
+
+
+# new charpter
+myechoh1 'readme'
+myechoh2 'SoC Development Kit Setup Instructions (Windows 7)'
+myechoh3 'Guide: https://rocketboards.org/foswiki/pub/Documentation/GettingStartedWithTheAlteraDevelopmentKit/SoC_Dev_Kit_Setup_instructions.pdf'
+
+myechoh3 'CarBranch'
+myechoh3 'https://wiki.ith.intel.com/display/TCEWiki/Car+Branch'
+
+# new charpter
+myechoh1 'install software'
+myechoh2 'install Quartus'
+myechoh3 'https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/manual/quartus_install.pdf'
+	#tar xvf /home/xy/tools/FPGA/home/xy/tools/FPGA//Quartus-web-15.0.0.145-linux.tar
+	#cd /home/xy/tools/FPGA/quartus-web-15.0.0.145/
+	#./setup.sh
+	#cd -
+
+myechoh2 'install EDS'
+myechoh3 'https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/ug/ug_soc_eds.pdf'
+
+myechoh2 'install development kit'
+myechoh3 'https://www.altera.com/products/boards_and_kits/dev-kits/altera/kit-cyclone-v-soc.html'
+
+myechoh2 'install USB Blaster II'
+myechoh3 'https://www.altera.com/support/support-resources/download/drivers/dri-index.html'
+myechoh3 'configuration:'
+myechoh4 'http://www.alterawiki.com/wiki/index.php?title=On-Board_USB-Blaster_II&oldid=4233'
+myechoh3 'for linux:'
+myechoh4 'https://www.altera.com/content/dam/altera-www/global/en_US/pdfs/literature/ug/ug_usb_blstr.pdf'
+
+
+# new charpter
+myechoh1 'setup-board'
+
+myechoh2 'install UART to USB driver'
+myechoh3 'connect to J8 port'
+myechoh4 'J8 USB-UART port USB connector with USB-to-UART bridge for RS-232 terminal'
+myechoh3 'CDM 2.08.24 WHQL Certified.zip'
+
+myechoh2 'connect putty'
+myechoh3 'connect to COM3'
+
+myechoh2 'power on board'
+	#`prompt 'Please connect to power and network'`
+	prompt 'Please login with root, no password'
+	echo '***.***.***.***'
+	echo 'Hello Tim!'
+
+
+# new charpter
+myechoh2 'End'
