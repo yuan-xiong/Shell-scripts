@@ -69,20 +69,20 @@ function myechoh2thing()
 function myechoh3step()
 {
 	echo
-	#echo -e "\t[ $1 ]"
-	echo -e "\t* $1"
+	echo -e " * $1"
 }
 
 # reference title
 function myecho4ref()
 {
 	#echo
-	echo -e "$1"
+	echo -e "\t$1"
 }
 
 # highlight title
 function myechoy()
 {
+	echo
 	# 黄底黑字
 	echo -e "\033[43;30m$1\033[0m"
 	#echo -e "\t\t$1"
@@ -99,10 +99,12 @@ function mysource()
 # new chapter
 myecho1task 'task'
 
+#-----------------------------------------------------------------
 myechoh2thing 'things'
 myechoh3step 'steps'
 myecho4ref 'reference'
 
+# new chapter
 echo
 echo '==========================================================='
 echo 'End'

@@ -50,7 +50,6 @@ function myechoh3step()
 {
 	echo
 	echo -e " * $1"
-	#echo -e "\t* $1"
 }
 
 # reference title
