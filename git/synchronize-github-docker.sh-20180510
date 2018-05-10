@@ -1,0 +1,112 @@
+#!/bin/bash
+
+# add variables
+i1=0
+if [ "$1" ]; then
+	i1=$1
+fi
+
+
+# add functions
+function prompt()
+{
+	read -p "$1 [YES/NO]: " input
+}
+
+# script name
+function myecho0script()
+{
+	echo
+	echo '==========================================================='
+	echo "$1"
+	echo '==========================================================='
+	echo
+}
+
+# task title
+function myecho1task()
+{
+	echo
+	if [ "$1" ]; then
+		# 蓝底白字
+		echo -e "\033[44;37m --> $i1. $1\033[0m"
+	fi
+	i1=$[$i1+1]
+}
+
+# things title
+function myecho2thing()
+{
+	echo
+	# 红色字
+	#echo -e "\033[31m - $1 \033[0m"
+	# 绿色字
+	echo -e "\033[32m - $1 \033[0m"
+	# 红底白字
+	#echo -e "\033[41;37m- $1\033[0m"
+}
+
+# steps title
+function myecho3step()
+{
+	echo
+	echo -e " * $1"
+}
+
+# reference title
+function myecho4ref()
+{
+	#echo
+	echo -e "\t$1"
+}
+
+# highlight title
+function myechoy()
+{
+	echo
+	# 黄底黑字
+	echo -e "\033[43;30m$1\033[0m"
+	#echo -e "\t\t$1"
+}
+
+# call outside script
+function mysource()
+{
+	(source $1 $i1)
+	i1=$[$i1+1]
+}
+
+
+# new chapter
+myecho1task 'Synchronize Docker github 20180510'
+
+#-----------------------------------------------------------------
+myecho2thing 'docker repository'
+myecho3step 'github'
+	#prompt '[Download...] git@github.com:docker_user/docker_practice.git'
+	#git clone git@github.com:docker_user/docker_practice.git
+#	git clone https://github.com/yeasy/docker_practice
+
+	#echo 'git config user'
+	#git config user.name 'abby0100'
+	#git config user.name 'yuan.xiong@intel.com'
+
+
+myecho2thing 'synchronize github'
+myecho3step 'fetch remote github'
+	prompt '[Synchronize...] https://github.com/yeasy/docker_practice'
+
+	cd docker_practice
+	#git remote add upstream https://github.com/yeasy/docker_practice
+	#git fetch upstream
+	#git checkout master
+	#git rebase upstream/master
+	#git push origin master
+#	git push -f origin master
+	cd -
+
+
+# new chapter
+echo
+#echo '==========================================================='
+echo 'End'
