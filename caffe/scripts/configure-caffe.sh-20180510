@@ -1,0 +1,120 @@
+#!/bin/bash
+
+# add variables
+i1=0
+if [ "$1" ]; then
+	i1=$1
+fi
+
+# add functions
+function prompt()
+{
+	read -p "$1 [YES/NO]: " input
+}
+
+# script name
+function myecho0script()
+{
+	echo
+	echo '==========================================================='
+	echo "$1"
+	echo '==========================================================='
+	echo
+}
+
+# task title
+function myecho1task()
+{
+	echo
+	if [ "$1" ]; then
+		# 蓝底白字
+		echo -e "\033[44;37m --> $i1. $1\033[0m"
+	fi
+	i1=$[$i1+1]
+}
+
+# things title
+function myecho2thing()
+{
+	echo
+	# 红色字
+	#echo -e "\033[31m - $1 \033[0m"
+	# 绿色字
+	echo -e "\033[32m - $1 \033[0m"
+	# 红底白字
+	#echo -e "\033[41;37m- $1\033[0m"
+}
+
+# steps title
+function myecho3step()
+{
+	echo
+	echo -e " * $1"
+}
+
+# reference title
+function myecho4ref()
+{
+	#echo
+	echo -e "\t$1"
+}
+
+# highlight title
+function myechoy()
+{
+	echo
+	# 黄底黑字
+	echo -e "\033[43;30m$1\033[0m"
+	#echo -e "\t\t$1"
+}
+
+# call outside script
+function mysource()
+{
+	(source $1 $i1)
+	i1=$[$i1+1]
+}
+
+# new script
+myecho1task 'configure & make Caffe'
+
+# makefile config
+myecho4ref 'https://zhuanlan.zhihu.com/p/25709284'
+myecho4ref 'https://www.linuxidc.com/Linux/2017-10/147617.htm'
+myecho4ref 'https://blog.csdn.net/u012253191/article/details/79027494'
+
+
+myecho2thing 'Makefile.config'
+myecho3step 'cp Makefile.config.example Makefile.config'
+myecho4ref 'USE_CUDNN := 1'
+myecho4ref 'USE_CUDNN := 1'
+myecho4ref 'BLAS := mkl'
+myecho4ref 'OPENCV_VERSION := 3'
+myecho4ref 'WITH_PYTHON_LAYER := 1'
+myecho4ref 'INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include /usr/include/hdf5/serial'
+myecho4ref 'LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/hdf5/serial'
+
+myecho4ref '#-gencode arch=compute_20,code=sm_20 \'
+myecho4ref '#-gencode arch=compute_20,code=sm_21 \'
+	#prompt '[Config] configure the Caffe Makefile.config done?'
+
+
+myecho2thing 'Makefile'
+myecho3step 'caffe/Makefile'
+myecho4ref 'LIBRARIES += glog gflags protobuf boost_system boost_filesystem m hdf5_serial_hl hdf5_serial'
+myecho4ref 'NVCCFLAGS += -D_FORCE_INLINES -ccbin=$(CXX) -Xcompiler -fPIC $(COMMON_FLAGS)'
+	#prompt '[Config] configure the Caffe Makefile done?'
+
+
+myecho2thing 'CUDA host_config'
+myecho3step '/usr/local/cuda/targets/x86_64-linux/include/crt/host_config.h'
+myecho4ref '//#error-- unsupported GNU version! gcc versions later than 6 are not supported!'
+	#prompt '[Config] configure the Caffe CUDA host_config done?'
+
+
+myecho2thing 'g++ 5'
+
+
+# new chapter
+echo
+echo 'End'

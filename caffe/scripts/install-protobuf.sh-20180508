@@ -1,0 +1,150 @@
+#!/bin/bash
+
+# add variables
+i1=0
+if [ "$1" ]; then
+	i1=$1
+fi
+
+# add functions
+function prompt()
+{
+	read -p "$1 [YES/NO]: " input
+}
+
+# script name
+function myecho0script()
+{
+	echo
+	echo '==========================================================='
+	echo "$1"
+	echo '==========================================================='
+	echo
+}
+
+# task title
+function myecho1task()
+{
+	echo
+	if [ "$1" ]; then
+		# 蓝底白字
+		echo -e "\033[44;37m --> $i1. $1\033[0m"
+	fi
+	i1=$[$i1+1]
+}
+
+# things title
+function myecho2thing()
+{
+	echo
+	# 红色字
+	#echo -e "\033[31m - $1 \033[0m"
+	# 绿色字
+	echo -e "\033[32m - $1 \033[0m"
+	# 红底白字
+	#echo -e "\033[41;37m- $1\033[0m"
+}
+
+# steps title
+function myecho3step()
+{
+	echo
+	echo -e " * $1"
+}
+
+# reference title
+function myecho4ref()
+{
+	#echo
+	echo -e "\t$1"
+}
+
+# highlight title
+function myechoy()
+{
+	echo
+	# 黄底黑字
+	echo -e "\033[43;30m$1\033[0m"
+	#echo -e "\t\t$1"
+}
+
+# call outside script
+function mysource()
+{
+	(source $1 $i1)
+	i1=$[$i1+1]
+}
+
+
+# new chapter
+myecho1task 'Install Protobuf 20180508'
+myecho4ref 'protobuf/src/README.md'
+myecho4ref 'https://blog.csdn.net/u014156736/article/details/52331392'
+#-----------------------------------------------------------------
+
+
+myecho2thing 'prerequisites'
+myecho3step 'apt-get'
+	#sudo apt-get install autoconf automake libtool curl make g++ unzip
+
+
+myecho2thing 'repository'
+	#prompt '[Download] https://github.com/google/protobuf.git'
+	#git clone https://github.com/google/protobuf.git
+	cd protobuf/
+	#git submodule update --init --recursive
+	#./autogen.sh
+
+
+myecho2thing 'make'
+	#./configure --prefix=/usr/local/protobuf
+	#make -j16
+
+
+myecho2thing 'make check & install'
+	#make check
+	#sudo make install
+
+
+myecho2thing 'set protobuf env.'
+	# 1. set env. in /etc/profile
+	prompt 'First set the protobuf env. to /etc/profile ?'
+	#echo "export PATH=\$PATH:/usr/local/protobuf/bin/" | sudo tee -a /etc/profile
+	#echo "export PKG_CONFIG_PATH=/usr/local/protobuf/lib/pkgconfig/" | sudo tee -a /etc/profile
+	#source /etc/profile
+
+	# 2. set env. in ~/.profile
+envfile=~/.profile
+	prompt 'First set the protobuf env. to ~/profile ?'
+	#echo "export PATH=\$PATH:/usr/local/protobuf/bin/" | sudo tee -a $envfile
+	#echo "export PKG_CONFIG_PATH=/usr/local/protobuf/lib/pkgconfig/" | sudo tee -a $envfile
+	#source $envfile
+
+	# 3. set ld in path
+envfile=/etc/ld.so.conf
+	prompt 'First set the protobuf ld to /etc/ld.so.conf ?'
+	#echo "/usr/local/protobuf/lib" | sudo tee -a $envfile
+	#source $envfile
+
+
+myecho2thing 'ldconfig'
+	#sudo ldconfig # refresh shared library cache.
+	cd -
+
+
+myecho2thing 'install python mode in protobuf'
+	cd protobuf/python/
+	#sudo python setup.py build
+	#sudo python setup.py test
+	#sudo python setup.py install
+	#完成后，验证是否安装成功
+	echo 'Check python protobuf:'
+	protoc --version
+	cd -
+
+
+# new chapter
+echo
+echo '==========================================================='
+echo 'End'
+

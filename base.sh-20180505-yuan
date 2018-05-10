@@ -54,7 +54,7 @@ function myecho1task()
 }
 
 # things title
-function myechoh2thing()
+function myecho2thing()
 {
 	echo
 	# 红色字
@@ -66,7 +66,7 @@ function myechoh2thing()
 }
 
 # steps title
-function myechoh3step()
+function myecho3step()
 {
 	echo
 	echo -e " * $1"
@@ -100,12 +100,11 @@ function mysource()
 myecho1task 'task'
 
 #-----------------------------------------------------------------
-myechoh2thing 'things'
-myechoh3step 'steps'
+myecho2thing 'things'
+myecho3step 'steps'
 myecho4ref 'reference'
 
 # new chapter
 echo
-echo '==========================================================='
+#echo '==========================================================='
 echo 'End'
-

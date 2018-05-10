@@ -1,0 +1,153 @@
+#!/bin/bash
+
+# add variables
+i1=0
+if [ "$1" ]; then
+	i1=$1
+fi
+
+# add functions
+function prompt()
+{
+	read -p "$1 [YES/NO]: " input
+}
+
+# script name
+function myecho0script()
+{
+	echo
+	echo '==========================================================='
+	echo "$1"
+	echo '==========================================================='
+	echo
+}
+
+# task title
+function myecho1task()
+{
+	echo
+	if [ "$1" ]; then
+		# 蓝底白字
+		echo -e "\033[44;37m --> $i1. $1\033[0m"
+	fi
+	i1=$[$i1+1]
+}
+
+# things title
+function myecho2thing()
+{
+	echo
+	# 红色字
+	#echo -e "\033[31m - $1 \033[0m"
+	# 绿色字
+	echo -e "\033[32m - $1 \033[0m"
+	# 红底白字
+	#echo -e "\033[41;37m- $1\033[0m"
+}
+
+# steps title
+function myecho3step()
+{
+	echo
+	echo -e " * $1"
+}
+
+# reference title
+function myecho4ref()
+{
+	#echo
+	echo -e "\t$1"
+}
+
+# highlight title
+function myechoy()
+{
+	echo
+	# 黄底黑字
+	echo -e "\033[43;30m$1\033[0m"
+	#echo -e "\t\t$1"
+}
+
+# call outside script
+function mysource()
+{
+	(source $1 $i1)
+	i1=$[$i1+1]
+}
+
+# new script
+myecho0script 'Set up Caffe on Ubuntu 16.04 20150510'
+
+
+#-----------------------------------------------------------------
+myecho2thing 'Installation instructions'
+myecho4ref 'http://caffe.berkeleyvision.org/installation.html'
+myecho4ref 'https://zhuanlan.zhihu.com/p/25709284'
+
+# downlaod Caffe
+myecho1task 'download Caffe'
+	#prompt '[Download] https://github.com/BVLC/caffe'
+	#git clone https://github.com/BVLC/caffe.git
+	#nvidia-smi
+
+# install CUDA
+#	sudo apt-get autoremove libopencv-dev
+	#mysource 'scripts/cuda9.1.sh-20180505-yuan'
+	
+
+# install BLAS
+	#mysource 'scripts/mkl2018.2.199.sh-20180505-yuan'
+
+# install Python and/or MATLAB Caffe (optional)
+#
+
+# install OpenCV 3.3.0
+	#mysource '/home/xy2/workspace/backup/scripts/opencv3.3.0.sh-20180505-yuan'
+#
+# makefile config
+	#mysource 'scripts/configure-caffe.sh-20180510'
+
+
+# install protobuf
+#myecho4ref '[Download] https://github.com/google/protobuf'
+	#mysource 'scripts/install-protobuf.sh-20180508'
+
+
+myecho2thing 'install prerequisites'
+	#prompt '[Install] libprotobuf libopencv libboost libhdf5-serial'
+	#sudo apt-get install libleveldb-dev libsnappy-dev libopencv-dev libboost-all-dev libhdf5-serial-dev
+#	sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libboost-all-dev libhdf5-serial-dev
+
+	#prompt 'First set Caffe ld env. to ~/.bashrc'
+envfile=~/.bashrc
+#	#echo '# added by xy: setup-caffe.sh-20180504-yuan' | tee -a $envfile
+#	#echo 'export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/:/usr/local/cuda/lib64' | tee -a $envfile
+#	#echo 'export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libopencv_core.so' | tee -a $envfile
+#	#echo '' | tee -a $envfile
+
+
+# new chapter
+myecho1task 'build Caffe'
+myecho2thing 'make'
+	prompt '[make]'
+	cd caffe/
+	make clean
+	make all -j16
+#	#make test -j16
+#	#make runtest -j16
+	cd -
+
+
+# new chapter
+#myecho1task 'MNIST dataset'
+#myecho2thing 'download MNIST data'
+#	#cd caffe/data/mnist
+#	#./get_mnist.sh
+#myecho2thing 'create MNIST leveldb'
+#	#cd caffe/examples/mnist 
+#	#./create_mnist.sh
+#
+# new chapter
+echo
+echo '==========================================================='
+echo 'End'

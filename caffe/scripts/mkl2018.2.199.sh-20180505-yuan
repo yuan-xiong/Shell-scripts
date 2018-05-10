@@ -12,7 +12,8 @@ function prompt()
 	read -p "$1 [YES/NO]: " input
 }
 
-function myechoh0()
+# script name
+function myecho0script()
 {
 	echo
 	echo '==========================================================='
@@ -20,7 +21,9 @@ function myechoh0()
 	echo '==========================================================='
 	echo
 }
-function myechoh1()
+
+# task title
+function myecho1task()
 {
 	echo
 	if [ "$1" ]; then
@@ -29,7 +32,9 @@ function myechoh1()
 	fi
 	i1=$[$i1+1]
 }
-function myechoh2()
+
+# things title
+function myecho2thing()
 {
 	echo
 	# 红色字
@@ -39,24 +44,31 @@ function myechoh2()
 	# 红底白字
 	#echo -e "\033[41;37m- $1\033[0m"
 }
-function myechoh3()
+
+# steps title
+function myecho3step()
 {
 	echo
-	echo -e "\t[ $1 ]"
-}
-function myechoh4()
-{
-	echo
-	echo -e "\t\t* $1"
+	echo -e " * $1"
 }
 
+# reference title
+function myecho4ref()
+{
+	#echo
+	echo -e "\t$1"
+}
+
+# highlight title
 function myechoy()
 {
+	echo
 	# 黄底黑字
-	echo -e "\t\t\033[43;30m$1\033[0m"
+	echo -e "\033[43;30m$1\033[0m"
 	#echo -e "\t\t$1"
 }
 
+# call outside script
 function mysource()
 {
 	(source $1 $i1)
@@ -64,19 +76,24 @@ function mysource()
 }
 
 
-myechoh1 'install Intel MKL 2018.2.199'
+myecho1task 'install Intel MKL 2018.2.199'
 
-myechoh2 'intel MKL'
-myechoh4 'l_mkl_2018.2.199.tgz'
-myechoh4 'https://registrationcenter.intel.com/en/products/postregistration/?sn=NVGW-F7967LCN&EmailID=yuan.xiong%40intel.com&Sequence=1765794&dnld=t'
-	#cd ~/tools/GPU/blas/l_mkl_2018.2.199
+myecho2thing 'intel MKL'
+myecho4ref 'l_mkl_2018.2.199.tgz'
+	#prompt '[Downlaod manually] https://registrationcenter.intel.com/en/products/postregistration/?sn=NVGW-F7967LCN&EmailID=yuan.xiong%40intel.com&Sequence=1765794&dnld=t'
+	#cd tools/
+	#tar zxvf l_mkl_2018.2.199.tgz
+	#cd -
+
+	#cd tools/l_mkl_2018.2.199
 	#sudo sh install_GUI.sh
 	#cd -
-	myechoy 'intel MKL'
+
+	echo 'intel MKL'
 	echo '/opt/intel/'
 
-myechoh2 'configurate for MKL and CUDA interaction'
-	myechoy 'intel MKL conf'
+myecho2thing 'configurate for MKL and CUDA interaction'
+	myecho3step 'intel MKL conf'
 
 	#echo '/opt/intel/lib/intel64' | sudo tee -a /etc/ld.so.conf.d/intel_mkl.conf
 	#echo '/opt/intel/mkl/lib/intel64' | sudo tee -a /etc/ld.so.conf.d/intel_mkl.conf
@@ -89,13 +106,16 @@ myechoh2 'configurate for MKL and CUDA interaction'
 	#cd -
 
 	#source /opt/intel/mkl/bin/mklvars.sh intel64
+	ldconfig -v | grep No
+	echo '----'
+	ldconfig -v | grep Can
 
 	# Verify mkl installation.
 	#cd /opt/intel/mkl/examples/examples_core_c/cblas
+	#source /opt/intel/mkl/bin/mklvars.sh intel64
 	#sudo make libintel64 compiler=gnu
 
 	#prompt 'set mkl to BLAS in Makefile.config'
 
-
-echo
+# new chapter
 echo 'End'
