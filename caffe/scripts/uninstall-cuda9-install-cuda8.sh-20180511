@@ -1,0 +1,116 @@
+#!/bin/bash
+
+# add variables
+i1=0
+if [ "$1" ]; then
+	i1=$1
+fi
+
+
+# add functions
+function prompt()
+{
+	read -p "$1 [YES/NO]: " input
+}
+
+# script name
+function myecho0script()
+{
+	echo
+	echo '==========================================================='
+	echo "$1"
+	echo '==========================================================='
+	echo
+}
+
+# task title
+function myecho1task()
+{
+	echo
+	if [ "$1" ]; then
+		# 蓝底白字
+		echo -e "\033[44;37m --> $i1. $1\033[0m"
+	fi
+	i1=$[$i1+1]
+}
+
+# things title
+function myecho2thing()
+{
+	echo
+	# 红色字
+	#echo -e "\033[31m - $1 \033[0m"
+	# 绿色字
+	echo -e "\033[32m - $1 \033[0m"
+	# 红底白字
+	#echo -e "\033[41;37m- $1\033[0m"
+}
+
+# steps title
+function myecho3step()
+{
+	echo
+	echo -e " * $1"
+}
+
+# reference title
+function myecho4ref()
+{
+	#echo
+	echo -e "\t$1"
+}
+
+# highlight title
+function myechoy()
+{
+	echo
+	# 黄底黑字
+	echo -e "\033[43;30m$1\033[0m"
+	#echo -e "\t\t$1"
+}
+
+# call outside script
+function mysource()
+{
+	(source $1 $i1)
+	i1=$[$i1+1]
+}
+
+
+# new chapter
+myecho1task 'Uninstall CUDA 9.1 and install CUDA 8.0 20180511'
+
+#-----------------------------------------------------------------
+myecho2thing 'CUDA 9.1'
+myecho3step 'uninstall'
+myecho4ref 'apt-get purge'
+	#sudo apt-get --purge remove 'cuda*'
+
+
+myecho2thing 'CUDA 8.0'
+myecho3step 'download'
+	#prompt '[Downloading...] https://developer.nvidia.com/cuda-80-ga2-download-archive'
+	
+myecho3step 'install'
+myecho4ref 'apt-get cuda'
+	cd tools/
+	#sudo dpkg -i cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64.deb
+	#sudo apt-get update
+	#sudo apt-get install cuda
+	cd -
+
+myecho2thing 'cuDNN'
+	#prompt '[Downloading...] https://developer.nvidia.com/rdp/cudnn-download'
+	cd tools/
+	#tar xzvf cudnn-8.0-linux-x64-v7.1.tgz
+	#sudo cp cuda/include/cudnn.h /usr/local/cuda/include
+	#sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
+	#sudo chmod a+r /usr/local/cuda/include/cudnn.h
+	cd -
+
+	#sudo ln -s /usr/local/cuda/lib64/libcudart.so.8.0.61 /usr/local/cuda/lib64/libcudart.so.7.5
+
+# new chapter
+echo
+#echo '==========================================================='
+echo 'End'

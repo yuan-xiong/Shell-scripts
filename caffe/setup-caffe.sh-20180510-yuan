@@ -129,12 +129,14 @@ envfile=~/.bashrc
 # new chapter
 myecho1task 'build Caffe'
 myecho2thing 'make'
-	prompt '[make]'
 	cd caffe/
+	prompt '[make]'
 	make clean
 	make all -j16
-#	#make test -j16
-#	#make runtest -j16
+
+	#prompt '[make runtest]'
+	make test -j16
+	make runtest -j16
 	cd -
 
 
