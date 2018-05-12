@@ -130,25 +130,35 @@ envfile=~/.bashrc
 myecho1task 'build Caffe'
 myecho2thing 'make'
 	cd caffe/
-	prompt '[make]'
-	make clean
-	make all -j16
+	#prompt '[make]'
+	#make clean
+	#make all -j16
 
 	#prompt '[make runtest]'
-	make test -j16
-	make runtest -j16
+	#make test -j16
+	#make runtest -j16
 	cd -
 
 
 # new chapter
-#myecho1task 'MNIST dataset'
-#myecho2thing 'download MNIST data'
-#	#cd caffe/data/mnist
-#	#./get_mnist.sh
-#myecho2thing 'create MNIST leveldb'
-#	#cd caffe/examples/mnist 
-#	#./create_mnist.sh
-#
+myecho1task 'MNIST dataset'
+myecho4ref 'https://blog.csdn.net/shiorioxy/article/details/52652831'
+
+	cd caffe/
+
+myecho2thing 'download MNIST data'
+	#source data/mnist/get_mnist.sh
+
+myecho2thing 'create MNIST leveldb'
+	#source examples/mnist/create_mnist.sh
+
+myecho2thing 'train lenet'
+	time source examples/mnist/train_lenet.sh
+
+	cd -
+
+
+
 # new chapter
 echo
 echo '==========================================================='
