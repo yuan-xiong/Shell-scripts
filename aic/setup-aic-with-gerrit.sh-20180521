@@ -1,0 +1,172 @@
+#!/bin/bash
+
+# add variables
+i1=0
+if [ "$1" ]; then
+	i1=$1
+fi
+
+
+# add functions
+function prompt()
+{
+	read -p "$1 [YES/NO]: " input
+}
+
+# script name
+function myecho0script()
+{
+	echo
+	echo '==========================================================='
+	echo "$1"
+	echo '==========================================================='
+	echo
+}
+
+# task title
+function myecho1task()
+{
+	echo
+	if [ "$1" ]; then
+		# 蓝底白字
+		echo -e "\033[44;37m --> $i1. $1\033[0m"
+	fi
+	i1=$[$i1+1]
+}
+
+# things title
+function myecho2thing()
+{
+	echo
+	# 红色字
+	#echo -e "\033[31m - $1 \033[0m"
+	# 绿色字
+	echo -e "\033[32m - $1 \033[0m"
+	# 红底白字
+	#echo -e "\033[41;37m- $1\033[0m"
+}
+
+# steps title
+function myecho3step()
+{
+	echo
+	echo -e " * $1"
+}
+
+# reference title
+function myecho4ref()
+{
+	#echo
+	echo -e "\t$1"
+}
+
+# highlight title
+function myechoy()
+{
+	echo
+	# 黄底黑字
+	echo -e "\033[43;30m$1\033[0m"
+	#echo -e "\t\t$1"
+}
+
+# call outside script
+function mysource()
+{
+	(source $1 $i1)
+	i1=$[$i1+1]
+}
+
+
+# new chapter
+myecho1task 'Setup AIC Android 20180518'
+myecho4ref 'https://jira01.devtools.intel.com/projects/ACP/summary'
+
+#-----------------------------------------------------------------
+myecho2thing 'Prerequisites'
+myecho3step 'apply access permissions in ags'
+	# Access permissions:
+myecho4ref 'DEVTOOLS - JIRA - ANDROID CONTAINER - SOFTWARE DEVELOPER'
+myecho4ref 'Code Android PDK L Developer'
+myecho4ref 'Android-IA - SCM - Branches - topic - gmin - aosp - Owner'
+myecho4ref 'GoogleEarlyAcces'
+	#prompt '[Access...] apply access permissions in AGS https://ags.intel.com/identityiq/dashboard.jsf'
+	# Huaqiang
+	#https://android.intel.com/#/admin/projects/manifests,branches?filter=android%252Fn%252Ftopic%252Faosp%252Fcontainer%252F7.1.2_r24 
+
+myecho3step 'generate ssh key and upload to gerrit website'
+myecho4ref 'https://android.intel.com/'
+myecho4ref 'https://android.intel.com/#/settings/'
+myecho4ref 'https://android.intel.com/#/settings/ssh-keys'
+	cd ~/.ssh/
+	#ssh-keygen -q -t rsa -f id_rsa -C "yuan.xiong@intel.com"
+	#chmod 600 id_rsa.pub
+	cd -
+	prompt '[Upload...] copy ~/.ssh/id_rsa.pub content to website https://android.intel.com/#/settings/ssh-keys'
+
+
+myecho3step 'git and gerrit configuration'
+	#$ cat ~/.ssh/config
+	#host android.intel.com
+	#		port 29418
+	#		user yuanxion
+	#		IdentitiesOnly yes
+
+	#host android-mirror-sh.devtools.intel.com
+	#		port 29418
+	#		user yuanxion
+	#		StrictHostKeyChecking no
+	#		IdentitiesOnly yes
+
+	##IdentityFile ~/.ssh/id_rsa
+
+	#$ cat ~/.gitconfig
+	#[review "https://android.intel.com"]
+	#		username = yuanxion
+	#[user]
+	#		name = yuanxion
+	#		email = yuan.xiong@intel.com
+	#[url "ssh://yuanxion@android-mirror-sh.devtools.intel.com:29418/"]
+	#		insteadOf=git://android.intel.com/
+	#		insteadOf=ssh://android.intel.com/
+	#		insteadOf=ssh://android.intel.com:29418/
+	#		insteadOf=git://android-mirror-sh.devtools.intel.com/
+	#		insteadOf=ssh://android-mirror-sh.devtools.intel.com/
+	#		insteadOf=git://android-mirror.devtools.intel.com/
+	#		insteadOf=ssh://android-mirror.devtools.intel.com/
+	#		insteadOf=ssh://android-mirror.devtools.intel.com:29418/
+	#		insteadOf=git://jfumg-gcrmirror.jf.intel.com/
+	#		insteadOf=ssh://jfumg-gcrmirror.jf.intel.com/
+	#		insteadOf=ssh://jfumg-gcrmirror.jf.intel.com:29418/
+	#[url "ssh://yuanxion@android.intel.com:29418/"]
+	#		pushInsteadOf=ssh://android.intel.com/
+	#		pushInsteadOf=ssh://android.intel.com:29418/
+	#		pushInsteadOf=ssh://jfumg-gcrmirror.jf.intel.com/
+	#		pushInsteadOf=ssh://jfumg-gcrmirror.jf.intel.com:29418/
+	#		pushInsteadOf=ssh://android-mirror.devtools.intel.com/
+	#		pushInsteadOf=ssh://android-mirror.devtools.intel.com:29418/
+	#		pushInsteadOf=ssh://android-mirror-sh.devtools.intel.com/
+	#		pushInsteadOf=ssh://android-mirror-sh.devtools.intel.com:29418/
+
+	#[color]
+	#		ui = auto
+
+	prompt '[Config...] create ~/.ssh/config and ~/.gitconfig'
+
+myecho3step 'install repo'
+	#mkdir -p $HOME/bin
+	export PATH=$PATH:~/bin/
+	#curl -k --noproxy android.intel.com https://android.intel.com/static/repo > $HOME/bin/repo
+	#chmod a+x $HOME/bin/repo
+
+
+#-----------------------------------------------------------------
+myecho2thing 'AIC Android'
+myecho3step 'repository'
+myecho4ref 'git'
+	#repo init -u ssh://android.intel.com/manifests -b android/n/topic/aosp/container/7.1.2_r24
+
+
+# new chapter
+echo
+#echo '==========================================================='
+echo 'End'
