@@ -1,0 +1,26 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import sys
+
+
+def removeComments(inputFileName, outputFileName, word):
+
+    input = open(inputFileName, "r")
+    output = open(outputFileName, "w")
+    output.write(input.readline())
+
+    print "remove word:", word
+
+    for line in input:
+        #if not line.lstrip().startswith("#"):
+        #if not line.lstrip().startswith(word):
+        #if word in line:
+        if word not in line:
+            output.write(line)
+
+    input.close()
+    output.close()
+
+print(sys.argv)
+removeComments(sys.argv[1], sys.argv[2], sys.argv[3])
