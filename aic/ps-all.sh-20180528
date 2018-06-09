@@ -1,0 +1,32 @@
+#! /bin/bash
+
+function printlog()
+{
+	echo
+	echo '----> grep container'
+	ps -A| grep container
+	
+	echo
+	echo '----> list running'
+	cd /home/binyang/work_412
+	./container_client list --running | tail -n 10
+	
+	echo
+	echo '----> grep system_server'
+	#ps -A| grep system_server
+	ps -A| grep system_server | wc -l
+	echo '----> grep tmgp'
+	#ps -A| grep tmgp 
+	ps -A| grep tmgp | wc -l
+}
+
+
+#printlog
+
+for i in $(seq 0 1000)
+#for i in $(seq 0 10)
+do
+	printlog | tee -a yuan.log
+	echo '----------------------------------------'
+	sleep 3 
+done
