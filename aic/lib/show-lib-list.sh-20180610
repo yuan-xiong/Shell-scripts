@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#cat libs.txt | awk '{print "vendor/intel/utils/container_modules/apps/chuangyuehuoxian/lib/armeabi-v7a/"$1":system/app/juediqiusheng/lib/arm/"$1" \\"}'
 
-ls -l lib/armeabi-v7a/ | awk '{print "vendor/intel/utils/container_modules/apps/chuanyuehuoxian/lib/armeabi-v7a/"$9":system/app/juediqiusheng/lib/arm/"$9" \\"}'
+#ls -l lib/armeabi-v7a/ | awk '{print PATH}' PATH=$1
+ls -l lib/armeabi-v7a/ | awk '{print "vendor/intel/utils/container_modules/apps/"PATH"/lib/armeabi-v7a/"$9":system/app/"PATH"/lib/arm/"$9" \\"}' PATH=$1
 
