@@ -1,0 +1,130 @@
+#!/bin/bash
+
+# add variables
+i1=0
+if [ "$1" ]; then
+	i1=$1
+fi
+
+# add functions
+function prompt()
+{
+	read -p "$1 [YES/NO]: " input
+}
+
+# script name
+function myecho0script()
+{
+	echo
+	echo '==========================================================='
+	echo "$1"
+	echo '==========================================================='
+	echo
+}
+
+# task title
+function myecho1task()
+{
+	echo
+	if [ "$1" ]; then
+		# 蓝底白字
+		echo -e "\033[44;37m --> $i1. $1\033[0m"
+	fi
+	i1=$[$i1+1]
+}
+
+# things title
+function myecho2thing()
+{
+	echo
+	# 红色字
+	#echo -e "\033[31m - $1 \033[0m"
+	# 绿色字
+	echo -e "\033[32m - $1 \033[0m"
+	# 红底白字
+	#echo -e "\033[41;37m- $1\033[0m"
+}
+
+# steps title
+function myecho3step()
+{
+	echo
+	echo -e " * $1"
+}
+
+# reference title
+function myecho4ref()
+{
+	echo
+	echo -e "\t$1"
+	echo
+}
+
+# highlight title
+function myechoy()
+{
+	echo
+	# 黄底黑字
+	echo -e "\033[43;30m$1\033[0m"
+	#echo -e "\t\t$1"
+}
+
+# call outside script
+function mysource()
+{
+	(source $1 $i1)
+	i1=$[$i1+1]
+}
+
+
+# new chapter
+myecho1task 'Setup Samba Service 20180622'
+
+myecho4ref 'https://blog.csdn.net/gaojinshan/article/details/78226357'
+
+#-----------------------------------------------------------------
+myecho2thing 'install'
+myecho3step 'apt-get install'
+	#sudo apt-get install samba
+
+
+myecho2thing 'configuration'
+myecho3step '/etc/samba/smb.con'
+	#prompt 'edit the smb.conf ?'
+	#sudo vim /etc/samba/smb.conf 
+	#[share]  
+	#	path = /home/xy2/workspace/git/aic/source 
+	#	valid users = sambaxy
+	#	available = yes  
+	#	browseable = yes  
+	#	writable = yes  
+	#	public = no
+
+
+myecho2thing 'create user'
+myecho3step 'add user sambaxy'
+	#sudo adduser sambaxy 
+	#sudo smbpasswd -a sambaxy
+
+
+myecho2thing 'restart samba'
+myecho3step 'service smbd restart'
+	#sudo service smbd restart
+myecho3step 'check smbd status'
+	systemctl status smbd
+
+myecho2thing 'test samba'
+myecho3step 'configure ip'
+	#在Ubuntu的Files底部的Network中选择Connect to Server, 
+	#然后在弹出来的对话框中深入smb://192.168.0.216/share(192.168.0.216为我的电脑ip地址)， 
+	#然后点击右下角的Connect按钮. 此时会提示输入密码(在第3步中创建)，输入密码后即可进入共享目录。
+
+
+myecho2thing 'use samba'
+myecho3step 'use in windows'
+	#在Windows电脑上，输入“\\192.168.0.216\share”，然后输入用户名（share）和密码后，既可以访问了
+
+# new chapter
+echo
+#echo '==========================================================='
+echo 'End'

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+VERSION=$1
+
 # add variables
 i1=0
 if [ "$1" ]; then
@@ -101,6 +103,13 @@ myecho3step 'check env.'
 	#sudo pip install Mako
 	prompt '[Checking...] env. ok'
 
+	#prompt 'remove out/target/product/system app & lib'
+	#rm -fr out/target/product/cloud/system/lib/
+	#rm -fr out/target/product/cloud/system/lib64/
+	#rm -fr out/target/product/cloud/system/app/tmgp/
+	#rm -fr out/target/product/cloud/system/app/com.kiloo.subwaysurf/
+	#rm -fr out/target/product/cloud/system/app/diwurenge/
+
 	source build/envsetup.sh 
 	# 19. multidroid_cloud-userdebug
 	# 20. multidroid_headless-userdebug
@@ -117,7 +126,9 @@ myecho3step 'make'
 	#prompt '[make clobber...] ok'
 	#make clobber
 
-	make multidroid -j16 2>&1 | tee mylog.cloud
+
+	make multidroid -j16 2>&1 | tee mylog-$VERSION.cloud
+	#make multidroid -j16 2>&1 | tee -a mylog-$VERSION.cloud
 	#make -j16 2>&1 | tee mylog.cloud
 	#make -j16 2>&1 | tee mylog.nuc
 
