@@ -81,6 +81,7 @@ function mysource()
 myecho1task 'Setup Samba Service 20180622'
 
 myecho4ref 'https://blog.csdn.net/gaojinshan/article/details/78226357'
+myecho4ref 'https://www.linuxidc.com/Linux/2017-11/148194.htm'
 
 #-----------------------------------------------------------------
 myecho2thing 'install'

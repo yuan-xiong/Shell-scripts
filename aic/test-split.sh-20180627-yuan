@@ -1,0 +1,5 @@
+#!/bin/bash
+
+time="12:34:56"
+out=`echo $time | awk '{split($0,a,":");print a[1],a[2],a[3]}'`
+echo $out
