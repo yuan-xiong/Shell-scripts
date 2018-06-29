@@ -93,11 +93,15 @@ myecho4ref 'GoogleEarlyAcces'
 	# Huaqiang
 	#https://android.intel.com/#/admin/projects/manifests,branches?filter=android%252Fn%252Ftopic%252Faosp%252Fcontainer%252F7.1.2_r24 
 
+#myecho3step 'git and gerrit configuration'
+#	sudo apt-get install -y dconf-tools ssh git-core openssh-server vim curl python-setuptools gdebi python-matplotlib ntp python-lxml python-psutil moreutils picocom byobu python-yaml uiautomator 
+
 myecho3step 'generate ssh key and upload to gerrit website'
 myecho4ref 'https://android.intel.com/'
 myecho4ref 'https://android.intel.com/#/settings/'
 myecho4ref 'https://android.intel.com/#/settings/ssh-keys'
 	cd ~/.ssh/
+	#ssh-keygen -q -t rsa -f id_rsa
 	#ssh-keygen -q -t rsa -f id_rsa -C "yuan.xiong@intel.com"
 	#chmod 600 id_rsa.pub
 	cd -
@@ -105,6 +109,8 @@ myecho4ref 'https://android.intel.com/#/settings/ssh-keys'
 
 
 myecho3step 'git and gerrit configuration'
+	prompt '[Config...] create ~/.gitconfig and ~/.ssh/config with mod 600'
+
 	#$ cat ~/.ssh/config
 	#host android.intel.com
 	#		port 29418
@@ -150,13 +156,18 @@ myecho3step 'git and gerrit configuration'
 	#[color]
 	#		ui = auto
 
-	prompt '[Config...] create ~/.ssh/config and ~/.gitconfig'
+
+	#chmod 600 ~/.ssh/config
 
 myecho3step 'install repo'
 	#mkdir -p $HOME/bin
 	export PATH=$PATH:~/bin/
+#	#curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
 	#curl -k --noproxy android.intel.com https://android.intel.com/static/repo > $HOME/bin/repo
 	#chmod a+x $HOME/bin/repo
+
+	#git config --global user.name "yuanxion"
+	#git config --global user.email "yuan.xiong@intel.com"
 
 
 #-----------------------------------------------------------------
@@ -165,6 +176,14 @@ myecho3step 'repository'
 myecho4ref 'git'
 	#repo init -u ssh://android.intel.com/manifests -b android/n/topic/aosp/container/7.1.2_r24
 
+
+myecho2thing 'FAQ'
+myecho3step 'https://wiki.ith.intel.com/display/CACTUS/2.14+-+Frequently+Asked+Questions#id-2.14-FrequentlyAskedQuestions-Howtodiagnose'
+myecho4ref 'gpg: Can't check signature: public key not found' 
+	prompt 'rm ~/.repoconfig/'
+
+
+	#make clobber
 
 # new chapter
 echo

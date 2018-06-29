@@ -1,0 +1,139 @@
+#!/bin/bash
+
+VERSION=$1
+
+# add variables
+i1=0
+if [ "$1" ]; then
+	i1=$1
+fi
+
+
+# add functions
+function prompt()
+{
+	read -p "$1 [YES/NO]: " input
+}
+
+# script name
+function myecho0script()
+{
+	echo
+	echo '==========================================================='
+	echo "$1"
+	echo '==========================================================='
+	echo
+}
+
+# task title
+function myecho1task()
+{
+	echo
+	if [ "$1" ]; then
+		# 蓝底白字
+		echo -e "\033[44;37m --> $i1. $1\033[0m"
+	fi
+	i1=$[$i1+1]
+}
+
+# things title
+function myecho2thing()
+{
+	echo
+	# 红色字
+	#echo -e "\033[31m - $1 \033[0m"
+	# 绿色字
+	echo -e "\033[32m - $1 \033[0m"
+	# 红底白字
+	#echo -e "\033[41;37m- $1\033[0m"
+}
+
+# steps title
+function myecho3step()
+{
+	echo
+	echo -e " * $1"
+}
+
+# reference title
+function myecho4ref()
+{
+	echo
+	echo -e "\t$1"
+	echo
+}
+
+# highlight title
+function myechoy()
+{
+	echo
+	# 黄底黑字
+	echo -e "\033[43;30m$1\033[0m"
+	#echo -e "\t\t$1"
+}
+
+# call outside script
+function mysource()
+{
+	(source $1 $i1)
+	i1=$[$i1+1]
+}
+
+
+# new chapter
+myecho1task 'Make AIC 20180522'
+
+myecho2thing 'Repo'
+myecho3step 'AIC with Hudini'
+	#repo init -u ssh://android.intel.com/manifests -b android/n/topic/aosp/container/7.1.2_r24 -m default_houdini.xml
+	#repo sync -cj4
+
+#-----------------------------------------------------------------
+myecho2thing 'Make'
+myecho3step 'check env.'
+	env | grep NINJA
+
+	python2.7 -m pip --version
+	#sudo apt remove python-pip
+	#prompt '[Install...] pip'
+	#curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+	#sudo python2.7 get-pip.py --force-reinstall
+
+	#prompt '[Checking...] python pip ok'
+	#sudo pip install Mako
+	prompt '[Checking...] env. ok'
+
+	#prompt 'remove out/target/product/system app & lib'
+	#rm -fr out/target/product/cloud/system/lib/
+	#rm -fr out/target/product/cloud/system/lib64/
+	#rm -fr out/target/product/cloud/system/app/tmgp/
+	#rm -fr out/target/product/cloud/system/app/com.kiloo.subwaysurf/
+	#rm -fr out/target/product/cloud/system/app/diwurenge/
+
+	source build/envsetup.sh 
+	# 19. multidroid_cloud-userdebug
+	# 20. multidroid_headless-userdebug
+	# 21. multidroid_nuc-userdebug
+
+	# lunch 
+	# cloud for tencent: to be tested
+	lunch 19
+	# nuc for jingdong: build ok
+	#lunch 21
+myecho3step 'make'
+	#prompt '[make clean...] ok'
+	#make clean
+	#prompt '[make clobber...] ok'
+	#make clobber
+
+
+	make multidroid -j16 2>&1 | tee mylog-$VERSION.cloud
+	#make multidroid -j16 2>&1 | tee -a mylog-$VERSION.cloud
+	#make -j16 2>&1 | tee mylog.cloud
+	#make -j16 2>&1 | tee mylog.nuc
+
+
+# new chapter
+echo
+#echo '==========================================================='
+echo 'End'

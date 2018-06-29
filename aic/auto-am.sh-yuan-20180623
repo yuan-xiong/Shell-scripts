@@ -1,0 +1,14 @@
+#!/bin/bash
+
+Number=$1
+echo -e 'Total Number\t:'$Number
+echo
+
+
+for i in $(seq 0 $[$Number-1])
+do
+	#echo v$i
+	echo 'v'$i'. am start'
+#	sleep 1
+	./container_client runcmd v$i "am start com.example.xy/com.example.xy.MainActivity"
+done

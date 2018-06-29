@@ -1,0 +1,33 @@
+#!/bin/bash
+
+
+
+# version 2
+
+#rm -fr imgs-scp
+#mkdir imgs-scp
+#cd imgs-scp
+#ln -s ../out/target/product/cloud/android.img android.img
+#ln -s ../out/target/product/cloud/system.img system.img
+#cd -
+#scp -r imgs-scp/* binyang@10.239.93.149:/home/binyang/work_412/yuan/imgcurrent/
+
+
+# version 3
+
+NEW_FOLDER=$1
+
+# error
+#PATH='../source-bak/out-bak/out-cloud-'$NEW_FOLDER'-am-log'
+
+#out-cloud-610-diwurenge1-am-log/
+# ok
+mkdir -p ../source-bak/out-bak/out-cloud-"$NEW_FOLDER"-am-log
+ls -l ../source-bak/out-bak/
+cp out/target/product/cloud/android.img ../source-bak/out-bak/out-cloud-"$NEW_FOLDER"-am-log
+cp out/target/product/cloud/system.img ../source-bak/out-bak/out-cloud-"$NEW_FOLDER"-am-log
+ls -l ../source-bak/out-bak/out-cloud-"$NEW_FOLDER"-am-log
+
+#scp -r ../source-bak/out-bak/out-cloud-"$NEW_FOLDER"-am-log/* binyang@10.239.93.160:/home/binyang/work_412/yuan/imgcurrent/ 
+scp -r ../source-bak/out-bak/out-cloud-"$NEW_FOLDER"-am-log/* binyang@aospdev-go:/home/binyang/work_412/yuan/imgcurrent/ 
+

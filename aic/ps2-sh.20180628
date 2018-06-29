@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo
+date
+echo 'system_server'
+ps -A | ag 'system_server' | wc -l
+echo 'example'
+ps -A | ag 'example' | wc -l

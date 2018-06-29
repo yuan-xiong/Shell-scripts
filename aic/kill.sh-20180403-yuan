@@ -1,0 +1,48 @@
+#!/bin/bash
+
+which=$1
+Order=$2
+
+echo
+echo 'before kill'
+ps aux | grep $which | wc -l
+ps aux | grep $which
+echo
+
+
+#Process=`ps aux | grep $which | awk '{print $2}'`
+#Process=`ps aux | grep $which | awk '{print $2}' | sort -nr`
+#STATE=`ps aux | grep $which | awk '{print $8}'`
+#echo $STATE
+
+if [[ $Order -gt 0 ]];then
+#	echo $Order
+	Process=`ps aux | grep $which | grep -vE 'grep' | awk '{print $2}'`
+	echo $Process
+else
+#	echo 'hah'
+	Process=`ps aux | grep $which | grep -vE 'grep' | awk '{print $2}' | sort -nr`
+	echo $Process
+fi
+
+# 1. kill in order
+#Process=`ps aux | grep $which | grep -vE 'grep' | awk '{print $2}'`
+# 2. kill in reverse order
+#Process=`ps aux | grep $which | grep -vE 'grep' | awk '{print $2}' | sort -nr`
+#echo $Process
+
+for i in $Process
+do
+	echo "Kill process [ $i ]"
+	#echo "Kill    [ $i ]"
+	kill -9 $i
+done
+
+
+echo
+echo 'after kill'
+ps aux | grep $which | wc -l
+ps aux | grep $which
+echo
+
+source ps-all.sh-20180528

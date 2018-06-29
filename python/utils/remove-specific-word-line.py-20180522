@@ -1,0 +1,12 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+s = '''ASFksdfasf a
+Oh sadfafas
+Yeasd: asdfaf
+Oh asdfaf'''
+for line in s.splitlines():
+	#if not line.startswith('Oh'):
+	if not line.startswith('Oh'):
+		print(line)
+

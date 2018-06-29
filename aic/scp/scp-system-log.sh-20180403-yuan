@@ -1,0 +1,23 @@
+#!/bin/bash
+
+number=$1
+echo 'SCP Number: '$1
+# data/containers/v1/data/system.log
+
+#pwd
+path=yuan-back525/crashlog/
+mkdir -p $path
+
+echo
+for i in $(seq 0 $[$number-1])
+	do
+		echo 'SCP '$i':'
+		#echo 'data/containers/v'$i'/data/system.log'
+		#ls -l 'data/containers/v'$i'/data/system.log'
+		cp 'data/containers/v'$i'/data/system.log' $path'/system.log-v'$i
+	done
+
+ls -l $path
+scp -r $path xy2@10.239.82.126:~/yuan/scp/ 
+
+echo

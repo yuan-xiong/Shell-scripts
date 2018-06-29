@@ -1,0 +1,36 @@
+#!/bin/bash
+
+Tag=$1
+echo '---->'$Tag
+echo
+
+
+# 1. save img
+
+#out-cloud-623-xy1-flag-img/
+
+Folder=out-cloud-"$Tag"-img
+echo -e 'New Folder\t\t:'$Folder
+mkdir -p $Folder
+ls -l $Folder
+
+mv imgcurrent/* $Folder
+
+# 2. link img
+unlink android.img
+unlink system.img
+
+andtmp=android"$Tag".img
+systmp=system"$Tag".img
+echo -e 'new temp android\t:'$andtmp
+echo -e 'new temp system\t\t:'$systmp
+
+#cp $Folder/android.img android"$Tag".img
+#cp $Folder/system.img system"$Tag".img
+
+cp $Folder/android.img $andtmp
+cp $Folder/system.img $systmp
+
+ln -s $andtmp android.img
+ln -s $systmp system.img
+

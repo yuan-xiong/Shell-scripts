@@ -1,0 +1,22 @@
+#!/bin/bash
+
+SN=$1
+State=$2
+
+Files=`ag 'yuan40' -i crashlog/ | ag 'example' | awk '{split($1,a,":");print a[1]}'`
+echo $Files
+
+echo
+for file in $Files
+do
+#	echo $file
+#	echo $file'-ok'
+	mv $file $file'-ok'
+done
+
+#echo 'mv file '$SN' '$State
+
+#mv system.log-v"$SN" system.log-v"$SN"-"$State"
+#ls -l system.log-v"$SN"*
+
+

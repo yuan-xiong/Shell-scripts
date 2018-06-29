@@ -1,0 +1,6 @@
+#!/bin/bash
+
+NUMBER=$1
+
+echo v$NUMBER
+./container_client console v$NUMBER

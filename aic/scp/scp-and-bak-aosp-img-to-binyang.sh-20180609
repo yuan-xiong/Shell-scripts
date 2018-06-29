@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# version 1
+
+#scp -r out/target/product/cloud/android.img binyang@10.239.93.149:/home/binyang/work_412/yuan/imgcurrent/
+#scp -r out/target/product/cloud/system.img binyang@10.239.93.149:/home/binyang/work_412/yuan/imgcurrent/
+
+
+# version 2
+
+#rm -fr imgs-scp
+#mkdir imgs-scp
+#cd imgs-scp
+#ln -s ../out/target/product/cloud/android.img android.img
+#ln -s ../out/target/product/cloud/system.img system.img
+#cd -
+#scp -r imgs-scp/* binyang@10.239.93.149:/home/binyang/work_412/yuan/imgcurrent/
+
+
+# version 3
+
+NEW_FOLDER=$1
+#out-cloud-608-5-tmgp-yuan-am-log/
+mkdir ../source-bak/out-bak/out-cloud-"$NEW_FOLDER"-tmgp-am-log/
+ll ../source-bak/out-bak/
+
+rm -fr imgs-scp
+mkdir imgs-scp
+cd imgs-scp
+ln -s ../out/target/product/cloud/android.img android.img
+ln -s ../out/target/product/cloud/system.img system.img
+cd -
+scp -r imgs-scp/* binyang@10.239.93.149:/home/binyang/work_412/yuan/imgcurrent/

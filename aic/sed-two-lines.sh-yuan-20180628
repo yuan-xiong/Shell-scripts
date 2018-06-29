@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sed -n '210,212'p boot-627-xy1-pkg-3-am-log-70-76-v68-ok.log >> test.log
+
