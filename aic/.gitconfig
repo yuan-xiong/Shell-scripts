@@ -1,0 +1,33 @@
+[review "https://android.intel.com"]
+	username = yuanxion
+[user]
+	name = yuanxion
+	email = yuan.xiong@intel.com
+[url "ssh://yuanxion@android-mirror-sh.devtools.intel.com:29418/"]
+	insteadOf=git://android.intel.com/
+	insteadOf=ssh://android.intel.com/
+	insteadOf=ssh://android.intel.com:29418/
+	insteadOf=git://android-mirror-sh.devtools.intel.com/
+	insteadOf=ssh://android-mirror-sh.devtools.intel.com/
+	insteadOf=git://android-mirror.devtools.intel.com/
+	insteadOf=ssh://android-mirror.devtools.intel.com/
+	insteadOf=ssh://android-mirror.devtools.intel.com:29418/
+	insteadOf=git://jfumg-gcrmirror.jf.intel.com/
+	insteadOf=ssh://jfumg-gcrmirror.jf.intel.com/
+	insteadOf=ssh://jfumg-gcrmirror.jf.intel.com:29418/
+[url "ssh://yuanxion@android.intel.com:29418/"]
+	pushInsteadOf=ssh://android.intel.com/
+	pushInsteadOf=ssh://android.intel.com:29418/
+	pushInsteadOf=ssh://jfumg-gcrmirror.jf.intel.com/
+	pushInsteadOf=ssh://jfumg-gcrmirror.jf.intel.com:29418/
+	pushInsteadOf=ssh://android-mirror.devtools.intel.com/
+	pushInsteadOf=ssh://android-mirror.devtools.intel.com:29418/
+	pushInsteadOf=ssh://android-mirror-sh.devtools.intel.com/
+	pushInsteadOf=ssh://android-mirror-sh.devtools.intel.com:29418/
+
+[color]
+	ui = auto
+[core]
+	editor=vim
+[credential]
+	helper=store
