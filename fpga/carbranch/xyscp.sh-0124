@@ -1,0 +1,14 @@
+#!/bin/sh
+command=$0
+name=$1
+
+echo "\n"
+echo "${command} ${name} ......"
+
+ls -l --color &&
+#scp -r yolo-avm-enqtask2-use-c2i-log-0124-ok xiongyuan@fpga-flex-workstation:~/yuan/scp/ &&
+scp -r ${name} xiongyuan@fpga-flex-workstation:~/yuan/scp/ &&
+ls -l --color
+
+echo "${command} ${name} Done!"
+echo "\n"

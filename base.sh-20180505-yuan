@@ -100,12 +100,16 @@ function mysource()
 # new chapter
 myecho1task 'task'
 
+date
+echo
+
 #-----------------------------------------------------------------
 myecho2thing 'things'
 myecho3step 'steps'
 myecho4ref 'reference'
 
 # new chapter
+time 
 echo
 #echo '==========================================================='
 echo 'End'

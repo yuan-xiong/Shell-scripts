@@ -1,0 +1,42 @@
+#!/bin/bash
+
+date
+
+# no need now
+#sudo mkdir /debug
+#sudo mount -t debugfs /debug
+#cd /debug/tracing/
+
+#sudo -s
+#cd /sys/kernel/debug/tracing/
+#cat -n available_filter_functions | ag copy_mnt_ns
+#cat -n available_filter_functions | ag do_mount
+
+
+# 1. function tracer
+
+#echo
+#echo function > /sys/kernel/debug/tracing/current_tracer
+#cat -n /sys/kernel/debug/tracing/current_tracer
+#
+#echo
+#sudo echo copy_mnt_ns do_mount > /sys/kernel/debug/tracing/set_ftrace_filter
+#cat -n /sys/kernel/debug/tracing/set_ftrace_filter
+
+#cat -n /sys/kernel/debug/tracing/trace
+
+
+#---
+
+# 2. function graph tracer
+
+# use root with sudo -s
+echo function_graph > /sys/kernel/debug/tracing/current_tracer
+cat -n /sys/kernel/debug/tracing/current_tracer
+
+echo
+echo copy_mnt_ns do_mount > /sys/kernel/debug/tracing/set_graph_function
+cat -n /sys/kernel/debug/tracing/set_graph_function
+
+#cat -n /sys/kernel/debug/tracing/trace
+
