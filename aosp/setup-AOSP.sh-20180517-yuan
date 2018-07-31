@@ -96,12 +96,27 @@ myecho3step 'apt-get install'
 	#sudo apt-get install -y libgl1-mesa-dev libxml2-utils xsltproc unzip m4
 	#sudo apt-get install -y lib32z-dev ccache
 
+myecho3step 'openjdk-8-jdk'
+	#sudo apt-get update
+	#sudo apt-get install openjdk-8-jdk
+myecho3step 'java alternatives'
+	#update-alternatives --config java
+	#update-alternatives --config javac
+
 
 #myecho2thing 'Repo'
 #myecho3step 'install'
+	# way 1. apt-get
 	#sudo apt-get install repo
 
-	
+	# way 2. google git repo
+	#mkdir ~/bin
+	export PATH=~/bin:$PATH
+	#curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+	#chmod a+x ~/bin/repo
+
+	#git config --global user.name "abby0100"
+	#git config --global user.email "yuan.xiong@intel.com"
 
 myecho2thing 'AOSP'
 myecho3step 'repository'

@@ -1,0 +1,127 @@
+#!/bin/bash
+
+# add variables
+i1=0
+if [ "$1" ]; then
+	i1=$1
+fi
+
+# add functions
+function prompt()
+{
+	read -p "$1 [YES/NO]: " input
+}
+
+# script name
+function myecho0script()
+{
+	echo
+	echo '==========================================================='
+	echo "$1"
+	echo '==========================================================='
+	echo
+}
+
+# task title
+function myecho1task()
+{
+	echo
+	if [ "$1" ]; then
+		# 蓝底白字
+		echo -e "\033[44;37m --> $i1. $1\033[0m"
+	fi
+	i1=$[$i1+1]
+}
+
+# things title
+function myecho2thing()
+{
+	echo
+	# 红色字
+	#echo -e "\033[31m - $1 \033[0m"
+	# 绿色字
+	echo -e "\033[32m - $1 \033[0m"
+	# 红底白字
+	#echo -e "\033[41;37m- $1\033[0m"
+}
+
+# steps title
+function myecho3step()
+{
+	echo
+	echo -e " * $1"
+}
+
+# reference title
+function myecho4ref()
+{
+	echo
+	echo -e "\t$1"
+	echo
+}
+
+# highlight title
+function myechoy()
+{
+	echo
+	# 黄底黑字
+	echo -e "\033[43;30m$1\033[0m"
+	#echo -e "\t\t$1"
+}
+
+# call outside script
+function mysource()
+{
+	(source $1 $i1)
+	i1=$[$i1+1]
+}
+
+
+# new chapter
+myecho1task 'setup for linux 20180717'
+
+myecho4ref 'https://blog.csdn.net/lingran07/article/details/7643957'
+date
+echo
+
+#-----------------------------------------------------------------
+myecho2thing 'linux'
+myecho3step 'source code'
+myecho4ref 'https://www.kernel.org'
+	#linux-4.18-rc6.tar.gz
+	#tar xzvf linux-4.18-rc6.tar.gz
+	cd linux-4.18-rc6/
+	#cp /boot/config-4.8.17 .config
+	#cp /boot/config-4.15.0-29-generic .config
+	#ls -hail | grep config
+ 
+myecho3step 'prerequsites'
+	#sudo apt-get install bison
+	#sudo apt-get install flex
+	#sudo apt-get install libncurses5-dev
+	#sudo apt-get install libelf-dev
+
+myecho3step 'make'
+	#time make -j10 && make modules && sudo make modules install && sudo make install
+	prompt '[make...] yes ?'
+	#make clean
+	#time make -j4
+
+myecho3step 'make modules'
+	#make modules
+
+myecho3step 'make install'
+	#sudo make modules_install
+	sudo make install
+
+myecho3step 'reboot'
+	prompt '[reboot...] yes ?'
+	sudo reboot
+
+
+	cd -	# cd linux-4.18-rc6/
+
+# new chapter
+echo
+#echo '==========================================================='
+echo 'End'
