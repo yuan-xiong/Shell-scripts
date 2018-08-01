@@ -1,0 +1,20 @@
+#!/bin/bash
+
+date
+
+index=$1
+
+if [[ $index -eq 1 ]];then
+	echo 'Clear 1'
+	sudo umount /mnt/proc0
+	sudo rm -r /mnt/proc0
+else
+	echo 'Clear all'
+	sudo umount /mnt/proc*
+	sudo rm -r /mnt/proc*
+fi
+
+sudo dmesg -c
+echo 'dmesg:'
+dmesg
+echo

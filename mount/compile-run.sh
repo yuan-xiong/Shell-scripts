@@ -1,18 +1,20 @@
 #!/bin/bash
 
 file=$1
-param=$2
+time=$2
+param=$3
+
 
 date
 echo "compile file: "${file}
 echo
 
-target=mount
+target=xy
 rm ${target}
 
 
 # 1. compile
-gcc ${file} -o $target
+gcc -pg ${file} -o $target
 #g++ ${file} -o $target
 
 
@@ -23,4 +25,4 @@ gcc ${file} -o $target
 #./umount-isos.sh
 echo "run param: "${param}
 echo
-time sudo ./${target} ${param}
+time sudo ./${target} ${time} ${param}
