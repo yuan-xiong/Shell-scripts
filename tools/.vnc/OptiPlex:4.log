@@ -1,0 +1,392 @@
+31/07/18 16:59:50 Xvnc version TightVNC-1.3.10
+31/07/18 16:59:50 Copyright (C) 2000-2009 TightVNC Group
+31/07/18 16:59:50 Copyright (C) 1999 AT&T Laboratories Cambridge
+31/07/18 16:59:50 All Rights Reserved.
+31/07/18 16:59:50 See http://www.tightvnc.com/ for information on TightVNC
+31/07/18 16:59:50 Desktop name 'X' (OptiPlex:4)
+31/07/18 16:59:50 Protocol versions supported: 3.3, 3.7, 3.8, 3.7t, 3.8t
+31/07/18 16:59:50 Listening for VNC connections on TCP port 5904
+Font directory '/usr/share/fonts/X11/75dpi/' not found - ignoring
+xrdb: No such file or directory
+xrdb: can't open file '/home/xy2/.Xresources'
+
+** (gnome-panel:3590): WARNING **: Failed to register client: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.gnome.SessionManager was not provided by any .service files
+
+(nautilus:3593): Gtk-WARNING **: Failed to register client: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.gnome.SessionManager was not provided by any .service files
+Window manager warning: Log level 32: could not find XKB extension.
+Window manager warning: Missing composite extension required for compositing
+
+(gnome-settings-daemon:3591): rfkill-plugin-WARNING **: Could not open RFKILL control device, please verify your installation
+
+(gnome-settings-daemon:3591): media-keys-plugin-WARNING **: Unable to inhibit keypresses: GDBus.Error:org.freedesktop.DBus.Error.AccessDenied: Permission denied
+
+** (gnome-settings-daemon:3591): WARNING **: Unable to register client: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.gnome.SessionManager was not provided by any .service files
+
+(gnome-settings-daemon:3591): color-plugin-WARNING **: failed to obtain org.freedesktop.color-manager.create-profile auth
+
+(gnome-settings-daemon:3591): color-plugin-WARNING **: failed to obtain org.freedesktop.color-manager.create-profile auth
+
+(gnome-settings-daemon:3591): color-plugin-WARNING **: failed to obtain org.freedesktop.color-manager.create-profile auth
+
+(gnome-settings-daemon:3591): color-plugin-WARNING **: failed to obtain org.freedesktop.color-manager.create-profile auth
+
+(gnome-settings-daemon:3591): color-plugin-WARNING **: failed to obtain org.freedesktop.color-manager.create-profile auth
+
+(gnome-panel:3590): Gtk-CRITICAL **: gtk_widget_get_preferred_height_for_width: assertion 'width >= 0' failed
+
+(gnome-panel:3590): Gtk-WARNING **: gtk_widget_size_allocate(): attempt to allocate widget with width -1 and height 24
+
+31/07/18 19:51:46 Got connection from client 10.249.171.143
+31/07/18 19:51:46 Using protocol version 3.8
+31/07/18 19:51:51 Full-control authentication passed by 10.249.171.143
+31/07/18 19:51:52 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+31/07/18 19:51:52 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+31/07/18 19:51:52 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+31/07/18 19:51:52 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+31/07/18 19:51:52 Using zlib encoding for client 10.249.171.143
+31/07/18 19:51:52 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+31/07/18 19:51:52 Enabling full-color cursor updates for client 10.249.171.143
+31/07/18 19:51:52 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+31/07/18 19:51:52 Pixel format for client 10.249.171.143:
+31/07/18 19:51:52   8 bpp, depth 8
+31/07/18 19:51:52   uses a colour map (not true colour).
+31/07/18 19:51:52 Using raw encoding for client 10.249.171.143
+31/07/18 19:51:52 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+31/07/18 19:51:52 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+31/07/18 19:51:52 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+31/07/18 19:51:52 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+31/07/18 19:51:52 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+31/07/18 19:51:52 Enabling full-color cursor updates for client 10.249.171.143
+31/07/18 19:51:52 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+31/07/18 19:51:52 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+31/07/18 19:51:52 Using hextile encoding for client 10.249.171.143
+31/07/18 19:51:52 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+31/07/18 19:51:52 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+31/07/18 19:51:52 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+31/07/18 19:51:52 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+31/07/18 19:51:52 Enabling full-color cursor updates for client 10.249.171.143
+31/07/18 19:51:52 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+31/07/18 19:51:52 Pixel format for client 10.249.171.143:
+31/07/18 19:51:52   32 bpp, depth 24, little endian
+31/07/18 19:51:52   true colour: max r 255 g 255 b 255, shift r 16 g 8 b 0
+31/07/18 19:51:52   no translation needed
+
+31/07/18 22:07:03 Got connection from client 10.249.171.143
+31/07/18 22:07:03   (other clients 10.249.171.143)
+31/07/18 22:07:03 Using protocol version 3.8
+31/07/18 22:07:03 Full-control authentication passed by 10.249.171.143
+31/07/18 22:07:03 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+31/07/18 22:07:03 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+31/07/18 22:07:03 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+31/07/18 22:07:03 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+31/07/18 22:07:03 Using zlib encoding for client 10.249.171.143
+31/07/18 22:07:03 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+31/07/18 22:07:03 Enabling full-color cursor updates for client 10.249.171.143
+31/07/18 22:07:03 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+31/07/18 22:07:03 Pixel format for client 10.249.171.143:
+31/07/18 22:07:03   8 bpp, depth 8
+31/07/18 22:07:03   uses a colour map (not true colour).
+31/07/18 22:39:02 Using raw encoding for client 10.249.171.143
+31/07/18 22:39:02 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+31/07/18 22:39:02 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+31/07/18 22:39:02 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+31/07/18 22:39:02 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+31/07/18 22:39:02 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+31/07/18 22:39:02 Enabling full-color cursor updates for client 10.249.171.143
+31/07/18 22:39:02 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+31/07/18 22:39:02 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+31/07/18 22:39:02 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+31/07/18 22:39:02 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+31/07/18 22:39:02 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+31/07/18 22:39:02 Using zlib encoding for client 10.249.171.143
+31/07/18 22:39:02 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+31/07/18 22:39:02 Enabling full-color cursor updates for client 10.249.171.143
+31/07/18 22:39:02 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+31/07/18 22:39:22 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+31/07/18 22:39:22 Using hextile encoding for client 10.249.171.143
+31/07/18 22:39:22 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+31/07/18 22:39:22 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+31/07/18 22:39:22 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+31/07/18 22:39:22 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+31/07/18 22:39:22 Enabling full-color cursor updates for client 10.249.171.143
+31/07/18 22:39:22 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+31/07/18 22:39:22 Pixel format for client 10.249.171.143:
+31/07/18 22:39:22   32 bpp, depth 24, little endian
+31/07/18 22:39:22   true colour: max r 255 g 255 b 255, shift r 16 g 8 b 0
+31/07/18 22:39:22   no translation needed
+31/07/18 22:39:47 KbdAddEvent: unknown KeySym 0xffe5 - allocating KeyCode 89
+31/07/18 22:44:13 KbdAddEvent: unknown KeySym 0xff63 - allocating KeyCode 90
+31/07/18 22:54:41 rfbProcessClientNormalMessage: read: Connection timed out
+31/07/18 22:54:41 Client 10.249.171.143 gone
+31/07/18 22:54:41 Statistics:
+31/07/18 22:54:41   key events received 0, pointer events 244
+31/07/18 22:54:41   framebuffer updates 38, rectangles 308, bytes 3596215
+31/07/18 22:54:41     cursor shape updates 9, bytes 5004
+31/07/18 22:54:41     raw rectangles 1, bytes 18012
+31/07/18 22:54:41     copyRect rectangles 3, bytes 48
+31/07/18 22:54:41     hextile rectangles 241, bytes 3549673
+31/07/18 22:54:41     zlib rectangles 54, bytes 23478
+31/07/18 22:54:41   raw bytes equivalent 34578684, compression ratio 9.628826
+01/08/18 00:33:22 rfbProcessClientNormalMessage: read: Connection timed out
+01/08/18 00:33:22 Client 10.249.171.143 gone
+01/08/18 00:33:22 Statistics:
+01/08/18 00:33:22   key events received 1232, pointer events 2343
+01/08/18 00:33:22   framebuffer updates 2053, rectangles 3002, bytes 100786363
+01/08/18 00:33:22     cursor shape updates 43, bytes 19588
+01/08/18 00:33:22     raw rectangles 1, bytes 18012
+01/08/18 00:33:22     hextile rectangles 2835, bytes 100724193
+01/08/18 00:33:22     zlib rectangles 123, bytes 24570
+01/08/18 00:33:22   raw bytes equivalent 1159505919, compression ratio 11.506828
+
+01/08/18 09:21:30 Got connection from client 10.239.201.25
+01/08/18 09:21:30 Using protocol version 3.8
+01/08/18 09:21:30 Full-control authentication passed by 10.239.201.25
+01/08/18 09:21:30 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+01/08/18 09:21:30 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+01/08/18 09:21:30 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+01/08/18 09:21:30 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+01/08/18 09:21:30 Using zlib encoding for client 10.239.201.25
+01/08/18 09:21:30 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+01/08/18 09:21:30 Enabling full-color cursor updates for client 10.239.201.25
+01/08/18 09:21:30 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+01/08/18 09:21:30 Pixel format for client 10.239.201.25:
+01/08/18 09:21:30   8 bpp, depth 8
+01/08/18 09:21:30   uses a colour map (not true colour).
+01/08/18 09:21:30 Using raw encoding for client 10.239.201.25
+01/08/18 09:21:30 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+01/08/18 09:21:30 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+01/08/18 09:21:30 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+01/08/18 09:21:30 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+01/08/18 09:21:30 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+01/08/18 09:21:30 Enabling full-color cursor updates for client 10.239.201.25
+01/08/18 09:21:30 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+01/08/18 09:21:30 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+01/08/18 09:21:30 Using hextile encoding for client 10.239.201.25
+01/08/18 09:21:30 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+01/08/18 09:21:30 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+01/08/18 09:21:30 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+01/08/18 09:21:30 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+01/08/18 09:21:30 Enabling full-color cursor updates for client 10.239.201.25
+01/08/18 09:21:30 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+01/08/18 09:21:30 Pixel format for client 10.239.201.25:
+01/08/18 09:21:30   32 bpp, depth 24, little endian
+01/08/18 09:21:30   true colour: max r 255 g 255 b 255, shift r 16 g 8 b 0
+01/08/18 09:21:30   no translation needed
+01/08/18 09:23:25 Client 10.239.201.25 gone
+01/08/18 09:23:25 Statistics:
+01/08/18 09:23:25   key events received 0, pointer events 97
+01/08/18 09:23:25   framebuffer updates 6, rectangles 64, bytes 921020
+01/08/18 09:23:25     cursor shape updates 5, bytes 2396
+01/08/18 09:23:25     raw rectangles 1, bytes 18012
+01/08/18 09:23:25     hextile rectangles 4, bytes 846513
+01/08/18 09:23:25     zlib rectangles 54, bytes 54099
+01/08/18 09:23:25   raw bytes equivalent 9093240, compression ratio 9.898762
+
+01/08/18 09:26:38 Got connection from client 10.239.201.25
+01/08/18 09:26:38 Using protocol version 3.8
+01/08/18 09:26:42 Full-control authentication passed by 10.239.201.25
+01/08/18 09:26:42 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+01/08/18 09:26:42 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+01/08/18 09:26:42 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+01/08/18 09:26:42 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+01/08/18 09:26:42 Using zlib encoding for client 10.239.201.25
+01/08/18 09:26:42 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+01/08/18 09:26:42 Enabling full-color cursor updates for client 10.239.201.25
+01/08/18 09:26:42 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+01/08/18 09:26:42 Pixel format for client 10.239.201.25:
+01/08/18 09:26:42   8 bpp, depth 8
+01/08/18 09:26:42   uses a colour map (not true colour).
+01/08/18 09:26:42 Using raw encoding for client 10.239.201.25
+01/08/18 09:26:42 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+01/08/18 09:26:42 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+01/08/18 09:26:42 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+01/08/18 09:26:42 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+01/08/18 09:26:42 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+01/08/18 09:26:42 Enabling full-color cursor updates for client 10.239.201.25
+01/08/18 09:26:42 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+01/08/18 09:26:42 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+01/08/18 09:26:42 Using hextile encoding for client 10.239.201.25
+01/08/18 09:26:42 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+01/08/18 09:26:42 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+01/08/18 09:26:42 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+01/08/18 09:26:42 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+01/08/18 09:26:42 Enabling full-color cursor updates for client 10.239.201.25
+01/08/18 09:26:42 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+01/08/18 09:26:42 Pixel format for client 10.239.201.25:
+01/08/18 09:26:42   32 bpp, depth 24, little endian
+01/08/18 09:26:42   true colour: max r 255 g 255 b 255, shift r 16 g 8 b 0
+01/08/18 09:26:42   no translation needed
+
+01/08/18 09:56:05 Got connection from client 10.239.201.25
+01/08/18 09:56:05   (other clients 10.239.201.25)
+01/08/18 09:56:05 Using protocol version 3.8
+01/08/18 09:56:05 Full-control authentication passed by 10.239.201.25
+01/08/18 09:56:05 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+01/08/18 09:56:05 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+01/08/18 09:56:05 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+01/08/18 09:56:05 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+01/08/18 09:56:05 Using zlib encoding for client 10.239.201.25
+01/08/18 09:56:05 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+01/08/18 09:56:05 Enabling full-color cursor updates for client 10.239.201.25
+01/08/18 09:56:05 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+01/08/18 09:56:05 Pixel format for client 10.239.201.25:
+01/08/18 09:56:05   8 bpp, depth 8
+01/08/18 09:56:05   uses a colour map (not true colour).
+01/08/18 09:56:05 Using raw encoding for client 10.239.201.25
+01/08/18 09:56:05 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+01/08/18 09:56:05 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+01/08/18 09:56:05 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+01/08/18 09:56:05 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+01/08/18 09:56:05 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+01/08/18 09:56:05 Enabling full-color cursor updates for client 10.239.201.25
+01/08/18 09:56:05 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+01/08/18 09:56:05 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+01/08/18 09:56:05 Using hextile encoding for client 10.239.201.25
+01/08/18 09:56:05 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+01/08/18 09:56:05 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+01/08/18 09:56:05 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+01/08/18 09:56:05 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+01/08/18 09:56:05 Enabling full-color cursor updates for client 10.239.201.25
+01/08/18 09:56:05 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+01/08/18 09:56:05 Pixel format for client 10.239.201.25:
+01/08/18 09:56:05   32 bpp, depth 24, little endian
+01/08/18 09:56:05   true colour: max r 255 g 255 b 255, shift r 16 g 8 b 0
+01/08/18 09:56:05   no translation needed
+
+01/08/18 09:58:33 Got connection from client 10.239.201.25
+01/08/18 09:58:33   (other clients 10.239.201.25 10.239.201.25)
+01/08/18 09:58:33 Using protocol version 3.8
+01/08/18 09:58:33 Full-control authentication passed by 10.239.201.25
+01/08/18 09:58:33 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+01/08/18 09:58:33 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+01/08/18 09:58:33 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+01/08/18 09:58:33 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+01/08/18 09:58:33 Using zlib encoding for client 10.239.201.25
+01/08/18 09:58:33 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+01/08/18 09:58:33 Enabling full-color cursor updates for client 10.239.201.25
+01/08/18 09:58:33 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+01/08/18 09:58:33 Pixel format for client 10.239.201.25:
+01/08/18 09:58:33   8 bpp, depth 8
+01/08/18 09:58:33   uses a colour map (not true colour).
+01/08/18 09:58:33 Using raw encoding for client 10.239.201.25
+01/08/18 09:58:33 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+01/08/18 09:58:33 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+01/08/18 09:58:33 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+01/08/18 09:58:33 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+01/08/18 09:58:33 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+01/08/18 09:58:33 Enabling full-color cursor updates for client 10.239.201.25
+01/08/18 09:58:33 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+01/08/18 09:58:33 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+01/08/18 09:58:33 Using hextile encoding for client 10.239.201.25
+01/08/18 09:58:33 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+01/08/18 09:58:33 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+01/08/18 09:58:33 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+01/08/18 09:58:33 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+01/08/18 09:58:33 Enabling full-color cursor updates for client 10.239.201.25
+01/08/18 09:58:33 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+01/08/18 09:58:33 Pixel format for client 10.239.201.25:
+01/08/18 09:58:33   32 bpp, depth 24, little endian
+01/08/18 09:58:33   true colour: max r 255 g 255 b 255, shift r 16 g 8 b 0
+01/08/18 09:58:33   no translation needed
+01/08/18 09:58:35 rfbProcessClientNormalMessage: read: Connection reset by peer
+01/08/18 09:58:35 Client 10.239.201.25 gone
+01/08/18 09:58:35 Statistics:
+01/08/18 09:58:35   framebuffer updates 4, rectangles 60, bytes 651901
+01/08/18 09:58:35     cursor shape updates 4, bytes 656
+01/08/18 09:58:35     raw rectangles 1, bytes 18012
+01/08/18 09:58:35     hextile rectangles 1, bytes 590455
+01/08/18 09:58:35     zlib rectangles 54, bytes 42778
+01/08/18 09:58:35   raw bytes equivalent 8658036, compression ratio 13.294591
+01/08/18 09:58:35 rfbProcessClientNormalMessage: read: Connection reset by peer
+01/08/18 09:58:35 Client 10.239.201.25 gone
+01/08/18 09:58:35 Statistics:
+01/08/18 09:58:35   key events received 904, pointer events 1652
+01/08/18 09:58:35   framebuffer updates 817, rectangles 1255, bytes 39023577
+01/08/18 09:58:35     cursor shape updates 37, bytes 19148
+01/08/18 09:58:35     raw rectangles 1, bytes 18012
+01/08/18 09:58:35     hextile rectangles 1163, bytes 38932318
+01/08/18 09:58:35     zlib rectangles 54, bytes 54099
+01/08/18 09:58:35   raw bytes equivalent 508808608, compression ratio 13.044893
+
+01/08/18 13:11:12 Got connection from client 10.239.201.25
+01/08/18 13:11:12   (other clients 10.239.201.25)
+01/08/18 13:11:12 Using protocol version 3.8
+01/08/18 13:11:12 Full-control authentication passed by 10.239.201.25
+01/08/18 13:11:12 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+01/08/18 13:11:12 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+01/08/18 13:11:12 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+01/08/18 13:11:12 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+01/08/18 13:11:12 Using zlib encoding for client 10.239.201.25
+01/08/18 13:11:12 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+01/08/18 13:11:12 Enabling full-color cursor updates for client 10.239.201.25
+01/08/18 13:11:12 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+01/08/18 13:11:13 Pixel format for client 10.239.201.25:
+01/08/18 13:11:13   8 bpp, depth 8
+01/08/18 13:11:13   uses a colour map (not true colour).
+01/08/18 13:48:45 Using raw encoding for client 10.239.201.25
+01/08/18 13:48:45 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+01/08/18 13:48:45 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+01/08/18 13:48:45 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+01/08/18 13:48:45 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+01/08/18 13:48:45 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+01/08/18 13:48:45 Enabling full-color cursor updates for client 10.239.201.25
+01/08/18 13:48:45 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+01/08/18 13:48:45 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+01/08/18 13:48:45 Using hextile encoding for client 10.239.201.25
+01/08/18 13:48:45 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+01/08/18 13:48:45 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+01/08/18 13:48:45 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+01/08/18 13:48:45 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+01/08/18 13:48:45 Enabling full-color cursor updates for client 10.239.201.25
+01/08/18 13:48:45 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+01/08/18 13:48:45 Pixel format for client 10.239.201.25:
+01/08/18 13:48:45   32 bpp, depth 24, little endian
+01/08/18 13:48:45   true colour: max r 255 g 255 b 255, shift r 16 g 8 b 0
+01/08/18 13:48:45   no translation needed
+01/08/18 14:40:22 rfbProcessClientNormalMessage: read: Connection reset by peer
+01/08/18 14:40:22 Client 10.239.201.25 gone
+01/08/18 14:40:22 Statistics:
+01/08/18 14:40:22   key events received 768, pointer events 726
+01/08/18 14:40:22   framebuffer updates 660, rectangles 985, bytes 38187386
+01/08/18 14:40:22     cursor shape updates 27, bytes 11652
+01/08/18 14:40:22     raw rectangles 1, bytes 18012
+01/08/18 14:40:22     hextile rectangles 903, bytes 38114944
+01/08/18 14:40:22     zlib rectangles 54, bytes 42778
+01/08/18 14:40:22   raw bytes equivalent 496365864, compression ratio 13.002130
+01/08/18 18:03:04 rfbProcessClientNormalMessage: read: Connection timed out
+01/08/18 18:03:04 Client 10.239.201.25 gone
+01/08/18 18:03:04 Statistics:
+01/08/18 18:03:04   key events received 976, pointer events 7373
+01/08/18 18:03:04   framebuffer updates 3769, rectangles 9584, bytes 1136871128
+01/08/18 18:03:04     cursor shape updates 127, bytes 68596
+01/08/18 18:03:04     raw rectangles 1, bytes 18012
+01/08/18 18:03:04     hextile rectangles 9402, bytes 1136729774
+01/08/18 18:03:04     zlib rectangles 54, bytes 54746
+01/08/18 18:03:04   raw bytes equivalent -1810425896, compression ratio -1.592560
+
+01/08/18 21:25:45 Got connection from client 10.249.169.218
+01/08/18 21:25:45 Using protocol version 3.8
+01/08/18 21:25:51 Full-control authentication passed by 10.249.169.218
+01/08/18 21:25:51 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+01/08/18 21:25:51 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+01/08/18 21:25:51 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+01/08/18 21:25:51 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+01/08/18 21:25:51 Using zlib encoding for client 10.249.169.218
+01/08/18 21:25:51 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+01/08/18 21:25:51 Enabling full-color cursor updates for client 10.249.169.218
+01/08/18 21:25:51 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+01/08/18 21:25:51 Pixel format for client 10.249.169.218:
+01/08/18 21:25:51   8 bpp, depth 8
+01/08/18 21:25:51   uses a colour map (not true colour).
+01/08/18 21:26:35 rfbProcessClientNormalMessage: ignoring unknown encoding 15
+01/08/18 21:26:35 Using hextile encoding for client 10.249.169.218
+01/08/18 21:26:35 rfbProcessClientNormalMessage: ignoring unknown encoding 22
+01/08/18 21:26:35 rfbProcessClientNormalMessage: ignoring unknown encoding 21
+01/08/18 21:26:35 rfbProcessClientNormalMessage: ignoring unknown encoding 16
+01/08/18 21:26:35 rfbProcessClientNormalMessage: ignoring unknown encoding -311
+01/08/18 21:26:35 Enabling full-color cursor updates for client 10.249.169.218
+01/08/18 21:26:35 rfbProcessClientNormalMessage: ignoring unknown encoding -223
+01/08/18 21:26:35 Pixel format for client 10.249.169.218:
+01/08/18 21:26:35   32 bpp, depth 24, little endian
+01/08/18 21:26:35   true colour: max r 255 g 255 b 255, shift r 16 g 8 b 0
+01/08/18 21:26:35   no translation needed
