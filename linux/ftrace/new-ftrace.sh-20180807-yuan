@@ -1,0 +1,45 @@
+#!/bin/bash
+
+set=$1
+
+echo
+if [ ! -z $set ];then
+	echo 'set'
+	echo 0 > /sys/kernel/debug/tracing/tracing_on
+fi
+cat /sys/kernel/debug/tracing/tracing_on | xargs echo -e '----> tracing_on\n'
+
+echo
+if [ ! -z $set ];then
+	echo 'set'
+	echo > /sys/kernel/debug/tracing/trace
+fi
+echo -e '----> trace\n'
+cat -n /sys/kernel/debug/tracing/trace
+
+echo
+if [ ! -z $set ];then
+	echo 'set'
+	echo function > /sys/kernel/debug/tracing/current_tracer
+fi
+cat /sys/kernel/debug/tracing/current_tracer | xargs echo -e '----> current_tracer\n'
+
+echo
+if [ ! -z $set ];then
+	echo 'set'
+	echo SyS_unshare SyS_mount > /sys/kernel/debug/tracing/set_ftrace_filter
+fi
+cat /sys/kernel/debug/tracing/set_ftrace_filter | xargs echo -e '----> set_ftrace_filter\n'
+
+echo
+if [ ! -z $set ];then
+	echo 'set'
+	echo 1 > /sys/kernel/debug/tracing/tracing_on
+fi
+cat /sys/kernel/debug/tracing/tracing_on | xargs echo -e '----> tracing_on\n'
+
+echo
+echo -e '----> trace\n'
+cat -n /sys/kernel/debug/tracing/trace
+
+echo
