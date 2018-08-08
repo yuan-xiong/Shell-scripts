@@ -1,0 +1,69 @@
+#!/bin/bash
+
+select=$1
+
+date
+echo 'Use function: '$select
+echo
+
+# use root with sudo -s
+#cd /sys/kernel/debug/tracing/
+#cat -n available_filter_functions | ag copy_mnt_ns
+#cat -n available_filter_functions | ag do_mount
+ 
+
+if [[ $select -eq 1 ]];then
+	# function 1. function tracer (not valified)
+	#echo
+	#sudo echo copy_mnt_ns do_mount > /sys/kernel/debug/tracing/set_ftrace_filter
+	#cat -n /sys/kernel/debug/tracing/set_ftrace_filter
+	#
+	echo
+	#echo function > /sys/kernel/debug/tracing/current_tracer
+	#cat -n /sys/kernel/debug/tracing/current_tracer
+elif [[ $select -eq 2 ]];then
+	# function 2. function graph tracer (valified)
+	echo function_graph > /sys/kernel/debug/tracing/current_tracer
+	cat -n /sys/kernel/debug/tracing/current_tracer | xargs echo -e 'current_tracer:\n'
+	echo
+	echo 2 > /sys/kernel/debug/tracing/max_graph_depth
+	cat -n /sys/kernel/debug/tracing/max_graph_depth | xargs echo -e 'max_graph_depth:\n'
+	echo
+	#echo do_mount copy_mnt_ns  > /sys/kernel/debug/tracing/set_graph_function
+	cat -n /sys/kernel/debug/tracing/set_graph_function | xargs echo -e 'set_graph_function:\n'
+	#cat -n /sys/kernel/debug/tracing/trace
+elif [[ $select -eq 3 ]];then
+	# function 3. wakeup
+	echo 0 > /sys/kernel/debug/tracing/options/function-trace
+	cat -n /sys/kernel/debug/tracing/options/function-trace
+	echo
+	echo wakeup > /sys/kernel/debug/tracing/current_tracer
+	cat -n /sys/kernel/debug/tracing/current_tracer
+	echo
+	echo 0 > /sys/kernel/debug/tracing/tracing_max_latency
+	#cat -n /sys/kernel/debug/tracing/tracing_max_latency
+	#cat -n /sys/kernel/debug/tracing/trace
+elif [[ $select -eq 4 ]];then
+	# function 4. sched_switch event
+	# https://blog.csdn.net/pwl999/article/details/80424891
+	#echo sched_switch > /sys/kernel/debug/tracing/set_event
+	#cat -n /sys/kernel/debug/tracing/set_event
+	#echo 1 > /sys/kernel/debug/tracing/events/sched/sched_switch/enable
+	#cat -n /sys/kernel/debug/tracing/events/sched/sched_switch/enable
+	echo 'sched:*' > /sys/kernel/debug/tracing/set_event
+	cat -n /sys/kernel/debug/tracing/set_event
+	echo 1 > /sys/kernel/debug/tracing/events/sched/enable
+	cat -n /sys/kernel/debug/tracing/events/sched/enable
+else
+	echo 'Unkown Function'
+fi
+
+
+echo
+
+# echo function > current_tracer
+# echo 1 > tracing_on
+# usleep 1
+# echo 0 > tracing_on
+# cat trace
+
