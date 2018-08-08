@@ -9,12 +9,12 @@ date
 echo "compile file: "${file}
 echo
 
-target=xy
+target=mytest
 rm ${target}
 
 
 # 1. compile
-gcc -pg ${file} -o $target
+gcc -pg ${file} -o $target -lpthread
 #g++ ${file} -o $target
 
 

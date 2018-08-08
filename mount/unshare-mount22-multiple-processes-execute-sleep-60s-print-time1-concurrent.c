@@ -18,7 +18,9 @@ char* const child_args[] = {
   NULL
 };
 
-int default_cpu = 1;
+int default_cpu = 0;
+
+int times = 0;
 
 long long get_time() {
 	struct timeb t;
@@ -72,8 +74,9 @@ int child_main(void* arg)
 	long long start = get_time();
 	printf("----> in child %d\n", idx);
 	//printf("----> [%5d] in child %d\n", getpid(), idx);
+	printf("child %d unshare at: %lld\n", idx, start);
 	
-	get_cpu_affinity();
+	//get_cpu_affinity();
 
 	int k;
 	if ( (k = unshare(CLONE_NEWNS)) == -1 ) {
@@ -102,10 +105,11 @@ int child_main(void* arg)
 	long long endm = get_time();
 	//printf("child %d mount time: %lld ms\n", idx, endm-start);
 	printf("child %d mount time: %lld ms\n", idx, endm-endus);
+	printf("child %d mount at: %lld\n", idx, endm);
 	fflush(stdout);
 
 	while (1) {
-		//sleep(1);
+		sleep(60);
 		//printf("child %d: i am alive!\n", idx);
 		//fflush(stdout);
 	}
@@ -137,15 +141,20 @@ int umount_one(void* arg)
 	printf("----> child %d umount %lld ms\n", idx, end-start);
 }
 
+void handle_child_pro(int child_idx, int not_umount)
+{
+		if (not_umount) {
+			child_main((void*) (&child_idx));
+		} else {
+			umount_one((void*) (&child_idx));
+		}
+		return;
+}
+
 
 int main(int argc, char* argv[])
 {
 
-	//printf("argv\t:%s\n", argv[1]);
-
-	int trace_fd = open("/sys/kernel/debug/tracing/tracing_on", O_WRONLY);
-	write(trace_fd, "1", 1);
-	
 	signal(SIGCHLD, SIG_IGN);
 	long long start = get_time();
 	
@@ -153,54 +162,33 @@ int main(int argc, char* argv[])
 	int child_idx;
 	pid_t fpid;
 
-	//printf("argv 1\t:%s\n", argv[1]);
-	int times = atoi(argv[1]);
+	times = atoi(argv[1]);
 	//printf("argv 1 atoi\t:%d\n", times);
 	
-	set_cpu_affinity();
 	
 	for(time=0; time<times;++time) {
 
-	  fpid = fork();
-	  if (fpid <= 0) {
-		  child_idx = time;
-		  break;
-	  } else {
-		  if (time == times-1) {
-			long long endfork = get_time();
-			printf("----> [%5d] parent fork time: %lld ms\n", getpid(), endfork-start);	
-			fflush(stdout);
-		  }
-	  }
+		fpid = fork();
+	  	if (fpid <= 0) {
+	  	    child_idx = time;
+	  	    break;
+	  	} else {
+	  	    if (time == times-1) {
+				long long endfork = get_time();
+	  	  		printf("----> [%5d] parent fork time: %lld ms\n", getpid(), endfork-start);	
+	  	  		fflush(stdout);
+	  	    }
+	  	}
 	}
 	
 	if (fpid < 0) {
-
 		printf("error in fork!");
 	} else if (fpid == 0) {
-
-		//int child_idx = time;
-		//if (argv[1] == NULL) {
-		if (argv[2] == NULL) {
-			child_main((void*) (&child_idx));
-			//printf("child %d\n", child_idx);
-		} else {
-			umount_one((void*) (&child_idx));
-		}
-		//return 0;
+		handle_child_pro(child_idx, (argv[2] == NULL));
 	} else {
 
-		//printf("----> last fpid %d\n", fpid);	
-		//sleep(4);
-
-		get_cpu_affinity();
-		
 		long long end = get_time();
 		printf("----> [%5d] parent time: %lld ms\n", getpid(), end-start);	
-		//int trace_fd = open(tracing_file("tracing_on"), O_WRONLY);
-		//int trace_fd = open("/sys/kernel/debug/tracing/tracing_on", O_WRONLY);
-		
-		write(trace_fd, "0", 1);
 		
 		wait(NULL);
 	}
