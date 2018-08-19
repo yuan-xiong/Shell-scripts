@@ -1,0 +1,32 @@
+#!/bin/bash
+
+myidx=$1
+
+#echo "Start sar-proc-mount-system-call test"
+
+
+		# proc mounts
+		echo -e '\n---->/proc/mounts'
+		sleep 1
+		cat -n /proc/mounts | wc -l
+
+		# syscalls
+		echo -e '\n---->syscalls'
+		sleep 1
+		perf stat -a -e raw_syscalls:sys_enter sleep 1 
+
+		# sar
+		echo -e '\n---->sar'
+		sleep 1
+		echo $myidx
+		./ftrace/run_sar.sh $myidx
+
+		# unshare + mount
+		echo -e '\n---->unshare + mount'
+		sleep 1
+		./ftrace/dmesg-clear.sh-20180727-yuan
+		./ftrace/compile-run.sh ftrace/unshare-mount22-single-process-ftrace.c 1
+
+		sleep 1
+
+ 

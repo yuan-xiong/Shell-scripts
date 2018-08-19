@@ -16,27 +16,26 @@ aictest=$2
 # set current_tracer
 	echo
 	# for function
-		#if [ ! -z $set ];then
-		#	echo function > /sys/kernel/debug/tracing/current_tracer
-		#	echo SyS_unshare SyS_mount > /sys/kernel/debug/tracing/set_ftrace_filter
-		#	#echo > /sys/kernel/debug/tracing/set_ftrace_filter
-		#fi
-		#cat /sys/kernel/debug/tracing/current_tracer | xargs echo -e '----> current_tracer\n'
-		#cat /sys/kernel/debug/tracing/set_ftrace_filter | xargs echo -e '----> set_ftrace_filter\n'
+		if [[ $set -eq 1 ]];then
+			echo function > /sys/kernel/debug/tracing/current_tracer
+			echo SyS_unshare SyS_mount > /sys/kernel/debug/tracing/set_ftrace_filter
+			#echo > /sys/kernel/debug/tracing/set_ftrace_filter
+			cat /sys/kernel/debug/tracing/current_tracer | xargs echo -e '----> current_tracer\n'
+			cat /sys/kernel/debug/tracing/set_ftrace_filter | xargs echo -e '----> set_ftrace_filter\n'
+		fi
 	# for function_graph
-		if [ ! -z $set ];then
+		if [[ $set -eq 2 ]];then
 			echo function_graph > /sys/kernel/debug/tracing/current_tracer
-			#echo > /sys/kernel/debug/tracing/set_graph_function
 			echo SyS_unshare SyS_mount > /sys/kernel/debug/tracing/set_graph_function
 			#echo create_new_namespaces attach_recursive_mnt > /sys/kernel/debug/tracing/set_graph_function
 			#echo copy_mnt_ns do_add_mount > /sys/kernel/debug/tracing/set_graph_function
 			#echo clone_mnt graft_tree > /sys/kernel/debug/tracing/set_graph_function
 			#echo __alloc_percpu propagate_mnt __lookup_mnt commit_tree> /sys/kernel/debug/tracing/set_graph_function
 			echo 2 > /sys/kernel/debug/tracing/max_graph_depth
+			cat /sys/kernel/debug/tracing/current_tracer	| xargs echo -e '----> current_tracer\n'
+			cat /sys/kernel/debug/tracing/set_graph_function| xargs echo -e '----> set_graph_function\n'
+			cat /sys/kernel/debug/tracing/max_graph_depth	| xargs echo -e '----> set max_graph_depth\n'
 		fi
-		cat /sys/kernel/debug/tracing/current_tracer	| xargs echo -e '----> current_tracer\n'
-		cat /sys/kernel/debug/tracing/set_graph_function| xargs echo -e '----> set_graph_function\n'
-		cat /sys/kernel/debug/tracing/max_graph_depth	| xargs echo -e '----> set max_graph_depth\n'
 
 
 # set sched event tracer

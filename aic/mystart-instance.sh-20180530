@@ -1,5 +1,28 @@
 #!/bin/bash
 
+
+# new start instance
+mystart=$1
+myend=$2
+myinterval=$3
+
+mytolerant=$4
+
+#time ./start_instances-yuan.sh $mystart $myend $myinterval | tee app-start-instance-ps.log
+time ./start_instances-yuan.sh $mystart $myend $myinterval $mytolerant | tee app-start-instance-ps.log
+
+
+
+#times=$1
+
+# start every 20min
+#time ./start_instances.sh 150 300 | tee app-start-instance.log
+
+# start after finished
+#time ./my-start-instance.sh-20180725-yuan $times | tee app-start-instance.log
+
+#echo
+
 # 0. test ok case
 #./start_instances.sh 10 10
 
@@ -47,7 +70,18 @@
 #./start_instances.sh 150 10	# 73/150
 #./start_instances.sh 150 10	# 129/150	# bg/fg
 
+##time ./start_instances.sh 400 10	# 
+
+#./start_instances.sh 50 10	# 
 #./start_instances.sh 100 10	# 79/100
+#./start_instances.sh 200 10	
+#./start_instances.sh 300 10	# 258/274
+#time ./start_instances.sh 300 30	
+
+##echo 'start instances finished'
+##echo
+
 #./start_instances.sh 100 20
-./start_instances.sh 100 30
+#./start_instances.sh 100 30
+#./start_instances.sh 200 30
 #./start_instances.sh 150 60
