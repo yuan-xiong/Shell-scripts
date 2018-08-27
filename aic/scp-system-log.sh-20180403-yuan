@@ -11,7 +11,7 @@ echo 'SCP Number: '$number
 # data/containers/v1/data/system.log
 
 #609-tmgp-export-true-yuan-am-log1-9-40/
-path=yuan-back525/"$SERIAL"-am-log-"$SUCC"-"$number"/
+path=yuan-back525/"$SERIAL"-log-"$SUCC"-"$number"/
 PATH_FULL=$path/crashlog/
 
 #mkdir -p $path
@@ -23,7 +23,10 @@ for i in $(seq 0 $[$number-1])
 		#echo 'data/containers/v'$i'/data/system.log'
 		#ls -l 'data/containers/v'$i'/data/system.log'
 		#scp 'data/containers/v'$i'/data/system.log' $path'/system.log-v'$i
-		cp 'data/containers/v'$i'/data/system.log' $PATH_FULL'/system.log-v'$i
+		#cp 'data/containers/v'$i'/data/system.log' $PATH_FULL'/system.log-v'$i
+
+		# cp v0-rw
+		cp 'data/containers/v'$i'-rw/data/system.log' $PATH_FULL'/system.log-v'$i
 		echo 'SCP '$i': done'
 	done
 

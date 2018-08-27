@@ -1,0 +1,18 @@
+#!/bin/bash
+
+date
+
+# container index
+idx=$1
+# container client action: 0-create, 1-start, 2-stop
+action=$2
+
+if [ $action -eq 0 ];then
+	./container_client create v$idx
+elif [ $action -eq 1 ];then
+	./container_client start v$idx
+elif [ $action -eq 2 ];then
+	./container_client stop v$idx
+else
+	echo 'unknown action for container client'
+fi

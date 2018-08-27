@@ -1,0 +1,16 @@
+#!/bin/bash
+
+file=$1
+recv=$2
+
+date
+
+if [ -z "$recv" ];then
+	# recv file
+	scp -r xy2@10.239.82.126:/home/xy2/yuan/$file .
+	#scp -r xy2@10.239.82.126:/home/xy2/yuan/new-ftrace.sh-20180807-yuan .
+else
+	# send file
+	scp -r $file xy2@10.239.82.126:~/yuan
+	#scp -r ftrace-unshare-mount22-single-process-sleep-60s-ftrace-function-graph.log-1child-1st-try xy2@10.239.82.126:~/yuan
+fi

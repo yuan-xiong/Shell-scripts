@@ -1,13 +1,12 @@
 #! /bin/bash
 
+interval=$1
+
 function printlog()
 {
-	date
-	echo
-	echo '----> grep container'
-	ps -A| grep container
+	#date
 	
-	echo
+#	echo
 #	echo '----> list running'
 	cd /home/binyang/work_412
 #	./container_client list --running
@@ -16,11 +15,11 @@ function printlog()
 	echo
 	ps -A| grep system_server | wc -l | xargs echo '----> grep system_server:'
 
-	#ps -A| grep tmgp | wc -l | xargs echo '----> grep tmgp:'
+	ps -A| grep tmgp | wc -l | xargs echo '----> grep tmgp:'
 	#ps -A| grep baidu | wc -l | xargs echo '----> grep baidu:'
 	#ps -A| grep subwaysurf | wc -l | xargs echo '----> grep subwaysurf:'
 
-	ps -A| grep example | wc -l | xargs echo '----> grep example:'
+	#ps -A| grep example | wc -l | xargs echo '----> grep example:'
 }
 
 
@@ -30,7 +29,11 @@ echo
 LOG_FILE=app-ps-yuan.log
 rm $LOG_FILE
 echo -e '\n================================== Start ====================================' >> $LOG_FILE
-date
+
+	date
+	echo
+	echo '----> grep container'
+	ps -A| grep container
 
 for i in $(seq 0 10000000)
 #for i in $(seq 0 10)
@@ -40,7 +43,7 @@ do
 	#printlog | tee -a /home/binyang/work_412/yuan-back525/yuan-ps-all.log
 	echo '----------------------------------------'
 	#sleep 2 
-	sleep 3 
+	sleep $interval
 done
 
 echo -e '\n================================== END =========================================' >> $LOG_FILE
