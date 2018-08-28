@@ -1,0 +1,142 @@
+#!/bin/bash
+
+# add variables
+i1=0
+if [ "$1" ]; then
+	i1=$1
+fi
+
+
+# add functions
+function prompt()
+{
+	read -p "$1 [YES/NO]: " input
+}
+
+# script name
+function myecho0script()
+{
+	echo
+	echo '==========================================================='
+	echo "$1"
+	echo '==========================================================='
+	echo
+}
+
+# task title
+function myecho1task()
+{
+	echo
+	if [ "$1" ]; then
+		# 蓝底白字
+		echo -e "\033[44;37m --> $i1. $1\033[0m"
+	fi
+	i1=$[$i1+1]
+}
+
+# things title
+function myecho2thing()
+{
+	echo
+	# 红色字
+	#echo -e "\033[31m - $1 \033[0m"
+	# 绿色字
+	echo -e "\033[32m - $1 \033[0m"
+	# 红底白字
+	#echo -e "\033[41;37m- $1\033[0m"
+}
+
+# steps title
+function myecho3step()
+{
+	echo
+	echo -e " * $1"
+}
+
+# reference title
+function myecho4ref()
+{
+	#echo
+	echo -e "\t$1"
+}
+
+# highlight title
+function myechoy()
+{
+	echo
+	# 黄底黑字
+	echo -e "\033[43;30m$1\033[0m"
+	#echo -e "\t\t$1"
+}
+
+# call outside script
+function mysource()
+{
+	(source $1 $i1)
+	i1=$[$i1+1]
+}
+
+
+# new chapter
+myecho1task 'Setup Docker 20180510'
+
+myecho4ref 'https://docs.docker.com/install/linux/docker-ce/ubuntu/'
+myecho4ref 'https://docs.docker.com/config/daemon/systemd/#httphttps-proxy'
+
+#-----------------------------------------------------------------
+myecho2thing 'repository'
+myecho3step 'apt'
+	#prompt '[update...] '
+
+	#sudo apt-get update
+	#sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+
+	#curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+	#sudo apt-key fingerprint 0EBFCD88
+
+	#sudo add-apt-repository \
+	#"deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+	#$(lsb_release -cs) stable"
+
+myecho3step 'install'
+	#sudo apt-get update
+	#apt-cache madison docker-ce
+	#sudo apt-get install -y docker-ce=18.03.0~ce-0~ubuntu
+
+	#sudo apt-get install -y docker-ce
+
+myecho2thing 'proxy'
+myecho3step 'new'
+	#sudo mkdir -p /etc/systemd/system/docker.service.d/
+
+	#sudo vim /etc/systemd/system/docker.service.d/http-proxy.conf
+	#sudo echo '[Service]' >> /etc/systemd/system/docker.service.d/http-proxy.conf
+	#sudo echo 'Environment="HTTP_PROXY=http://child-prc.intel.com:913/"' >> /etc/systemd/system/docker.service.d/http-proxy.conf
+
+	#sudo vim /etc/systemd/system/docker.service.d/https-proxy.conf
+	#sudo echo '[Service]' >> /etc/systemd/system/docker.service.d/https-proxy.conf
+	#sudo echo 'Environment="HTTPS_PROXY=http://child-prc.intel.com:913/"' >> /etc/systemd/system/docker.service.d/https-proxy.conf
+
+myecho3step 'verify proxy'
+	#systemctl show --property=Environment docker
+
+myecho3step 'restart'
+	#sudo systemctl daemon-reload
+	#sudo systemctl restart docker
+	#sudo systemctl status docker
+
+
+myecho2thing 'image'
+myecho3step 'verify'
+	#docker-machine restart default
+	#eval $(docker-machine env default)
+	sudo docker run hello-world
+
+
+
+
+
+# new chapter
+echo
+#echo '==========================================================='
+echo 'End'
