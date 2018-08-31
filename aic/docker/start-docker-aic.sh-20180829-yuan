@@ -1,0 +1,55 @@
+#!/bin/bash
+
+
+BEGIN_IDX=$1
+END_IDX=$2
+
+INTERVAL=$3
+TOLERANCE=$4
+
+
+log=app-ps-docker.log
+number=0
+
+function main()
+{
+	for i in $(seq $BEGIN_IDX $((END_IDX-1)))
+	{
+	
+		echo
+		echo '--------------------------------'
+	
+		echo -e 'aic start\t'$i
+		./aic start $i
+	
+		date
+		echo
+		echo -e ' ---> system_server\t'$ss
+		echo -e ' ---> subwaysurf\t'$number
+
+		while [[ $((number+TOLERANCE)) -le $i ]];do
+			sleep $INTERVAL
+	
+			ss=`ps -A| grep system_server | wc -l`
+			number=`ps -A| grep subwaysurf | wc -l`
+		done
+	
+
+		rest=$((i%10))
+		if [[ $rest = 9 ]];then
+			echo '[sleep 10s...]'
+			sleep 10
+		fi
+	
+		sleep $INTERVAL
+	}
+}
+
+
+
+date
+
+rm $log
+main | tee -a $log
+
+
