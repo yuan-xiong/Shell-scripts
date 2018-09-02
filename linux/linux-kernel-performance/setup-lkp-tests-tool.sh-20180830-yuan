@@ -1,0 +1,146 @@
+#!/bin/bash
+
+# add variables
+i1=0
+if [ "$1" ]; then
+	i1=$1
+fi
+
+# add functions
+function prompt()
+{
+	read -p "$1 [YES/NO]: " input
+}
+
+# script name
+function myecho0script()
+{
+	echo
+	echo '==========================================================='
+	echo "$1"
+	echo '==========================================================='
+	echo
+}
+
+# task title
+function myecho1task()
+{
+	echo
+	if [ "$1" ]; then
+		# 蓝底白字
+		echo -e "\033[44;37m --> $i1. $1\033[0m"
+	fi
+	i1=$[$i1+1]
+}
+
+# things title
+function myecho2thing()
+{
+	echo
+	# 红色字
+	#echo -e "\033[31m - $1 \033[0m"
+	# 绿色字
+	echo -e "\033[32m - $1 \033[0m"
+	# 红底白字
+	#echo -e "\033[41;37m- $1\033[0m"
+}
+
+# steps title
+function myecho3step()
+{
+	echo
+	echo -e " * $1"
+}
+
+# reference title
+function myecho4ref()
+{
+	echo
+	echo -e "\t$1"
+	echo
+}
+
+# highlight title
+function myechoy()
+{
+	echo
+	# 黄底黑字
+	echo -e "\033[43;30m$1\033[0m"
+	#echo -e "\t\t$1"
+}
+
+# call outside script
+function mysource()
+{
+	(source $1 $i1)
+	i1=$[$i1+1]
+}
+
+
+# new chapter
+date
+myecho1task 'setup lkp (linux kernel performance) tests tool - 20180830'
+
+myecho4ref 'https://01.org/blogs/jdu1/2017/lkp-tests-linux-kernel-performance-test-and-analysis-tool'
+
+#-----------------------------------------------------------------
+myecho2thing 'lkp'
+myecho3step 'environment'
+myecho4ref 'install'
+
+
+#	sudo apt-get install git
+#	git clone https://github.com/01org/lkp-tests.git
+
+#	sudo bash
+
+	cd lkp-tests/
+#	make install
+
+#	lkp install
+
+myecho3step 'usage'
+
+	# way 1: run full test
+#	lkp install jobs/ebizzy.yaml
+#	lkp run ebizzy.yaml
+
+	# way 2: run part test
+#	lkp split jobs/ebizzy.yaml
+		#jobs/ebizzy.yaml => ./ebizzy-200%-100x-10s.yaml
+		#mv ./ebizzy-200%-100x-10s.yaml jobs/
+
+#	lkp install jobs/ebizzy-200%-100x-10s.yaml
+#	lkp run jobs/ebizzy-200%-100x-10s.yaml
+
+	# check result under folder: /result/ebizzy/200%-100x-10s/kemi-desktop/ubuntu/x86_64-rhel-7.2/gcc-6/4.13.0-rc5
+
+myecho3step 'add new benchmark'
+	
+	# way 1: test yuan.yaml
+	#lkp install jobs/yuan.yaml
+	#apt install netperf
+	#cat jobs/yuan-cgroup2.yaml
+	#<< : jobs/cgroups.yaml
+	#<< : jobs/yuan.yaml
+
+	# way 2: test cgroup2 yuan.yaml
+	#lkp split jobs/yuan-cgroup2.yaml
+		#jobs/yuan-cgroup2.yaml => ./yuan-cgroup2-90%-50%-max-10000-200%-TCP_STREAM-10s-1024.yaml
+		#jobs/yuan-cgroup2.yaml => ./yuan-cgroup2-90%-50%-max-10000-200%-TCP_STREAM-10s-2048.yaml
+		#jobs/yuan-cgroup2.yaml => ./yuan-cgroup2-90%-50%-max-10000-200%-UDP_STREAM-10s-1024.yaml
+		#jobs/yuan-cgroup2.yaml => ./yuan-cgroup2-90%-50%-max-10000-200%-UDP_STREAM-10s-2048.yaml
+	lkp run yuan-cgroup2-90%-50%-max-10000-200%-TCP_STREAM-10s-1024.yaml
+
+#This is because port might be busy, because of netserver is already running.
+#You can check port status using command netstat -ant|grep 12865. / or just
+#run ps x|grep netserver to see that netserver is already running.
+#You want to run in any other port(49152) use the command netserver
+#"netserver -p 49152 -L 172.28.132.100"
+
+	cd -
+
+# new chapter
+echo
+#echo '==========================================================='
+echo 'End'
