@@ -1,0 +1,82 @@
+#!/bin/bash
+
+# set stats for new test
+set=$1
+# mytest for system call or aic tmgp test
+aictest=$2
+
+# close tracing_on
+	echo
+	if [ ! -z $set ];then
+		echo 0 > /sys/kernel/debug/tracing/tracing_on
+	fi
+	cat /sys/kernel/debug/tracing/tracing_on | xargs echo -e '----> tracing_on\n'
+
+
+# set current_tracer
+	echo
+	# for function
+		if [[ $set -eq 1 ]];then
+			echo function > /sys/kernel/debug/tracing/current_tracer
+			echo SyS_unshare SyS_mount > /sys/kernel/debug/tracing/set_ftrace_filter
+			#echo > /sys/kernel/debug/tracing/set_ftrace_filter
+			cat /sys/kernel/debug/tracing/current_tracer | xargs echo -e '----> current_tracer\n'
+			cat /sys/kernel/debug/tracing/set_ftrace_filter | xargs echo -e '----> set_ftrace_filter\n'
+		fi
+	# for function_graph
+		if [[ $set -eq 2 ]];then
+			echo function_graph > /sys/kernel/debug/tracing/current_tracer
+			echo SyS_unshare SyS_mount > /sys/kernel/debug/tracing/set_graph_function
+			#echo create_new_namespaces attach_recursive_mnt > /sys/kernel/debug/tracing/set_graph_function
+			#echo copy_mnt_ns do_add_mount > /sys/kernel/debug/tracing/set_graph_function
+			#echo clone_mnt graft_tree > /sys/kernel/debug/tracing/set_graph_function
+			#echo __alloc_percpu propagate_mnt __lookup_mnt commit_tree> /sys/kernel/debug/tracing/set_graph_function
+			echo 2 > /sys/kernel/debug/tracing/max_graph_depth
+			cat /sys/kernel/debug/tracing/current_tracer	| xargs echo -e '----> current_tracer\n'
+			cat /sys/kernel/debug/tracing/set_graph_function| xargs echo -e '----> set_graph_function\n'
+			cat /sys/kernel/debug/tracing/max_graph_depth	| xargs echo -e '----> set max_graph_depth\n'
+		fi
+
+
+# set sched event tracer
+	#echo
+	#if [ ! -z $set ];then
+	#	#echo 'sched:*' > /sys/kernel/debug/tracing/set_event
+	#	#echo 1 > /sys/kernel/debug/tracing/events/sched/enable
+	#	echo 0 > /sys/kernel/debug/tracing/events/sched/enable
+	#	echo > /sys/kernel/debug/tracing/set_event
+	#	echo '----> set sched event tracer'
+	#	cat -n /sys/kernel/debug/tracing/set_event
+	#	echo
+	#fi
+	#cat /sys/kernel/debug/tracing/events/sched/enable | xargs echo -e '----> set sched event enable\n'
+
+
+#notice that open tracing_on can be done in your test code
+# open tracing_on
+	echo
+	if [ ! -z $aictest ];then
+		echo 'set aic test tracing_on'
+		echo 1 > /sys/kernel/debug/tracing/tracing_on
+	else
+		echo 'close tracing_on'
+		echo 0 > /sys/kernel/debug/tracing/tracing_on
+	fi
+	cat /sys/kernel/debug/tracing/tracing_on | xargs echo -e '----> tracing_on\n'
+
+
+# clear trace
+	echo
+	if [ ! -z $set ];then
+		echo > /sys/kernel/debug/tracing/trace
+	fi
+	echo -e '----> clear trace\n'
+	cat -n /sys/kernel/debug/tracing/trace
+
+
+# check trace log
+	#echo
+	#echo -e '----> trace\n'
+	#cat -n /sys/kernel/debug/tracing/trace
+
+echo

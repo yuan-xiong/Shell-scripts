@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+index=$1
+
+strace ./aic start $index 2>&1 | tee strace$(date +%Y%m%d)-start$index
