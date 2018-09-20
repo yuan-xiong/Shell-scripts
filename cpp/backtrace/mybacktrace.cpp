@@ -6,7 +6,7 @@
 #include <dlfcn.h>
 #include <execinfo.h>
 
-#include "backtrace.h"
+#include "mybacktrace.h"
 
 void showBacktrace(int level)
 {

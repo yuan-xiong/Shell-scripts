@@ -1,5 +1,5 @@
 #include <iostream>
-#include "backtrace.h"
+#include "mybacktrace.h"
 
 
 int MyFunc_A()
