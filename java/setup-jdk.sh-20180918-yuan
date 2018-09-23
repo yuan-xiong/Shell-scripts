@@ -1,3 +1,6 @@
+
+
+
 #!/bin/bash
 
 # add variables
@@ -123,6 +126,16 @@ echo
 myecho2thing 'things'
 myecho3step 'steps'
 myecho4ref 'reference'
+
+
+#myecho3step 'openjdk-8-jdk for Android N'
+	prompt '[Install...] openjdk-8-jdk'
+	#sudo apt-get update
+	#sudo apt-get install openjdk-8-jdk
+
+#myecho3step 'java'
+	sudo update-alternatives --config java
+	#sudo update-alternatives --config javac
 
 # new chapter
 time 

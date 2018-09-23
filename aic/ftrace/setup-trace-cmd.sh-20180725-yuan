@@ -1,0 +1,18 @@
+#!/bin/bash
+
+date
+
+echo 'Setup trace-cmd 20180725'
+	#sudo apt-get install trace-cmd
+
+echo 'Show availabe trace-cmd list'
+	#sudo trace-cmd list -f
+	#sudo cat -n /sys/kernel/debug/tracing/available_events | grep sched
+	
+echo 'Show sched_switch event'
+	sudo trace-cmd record -e sched:sched_switch
+	#sudo trace-cmd record -p function -l copy_mnt_ns
+	#sudo trace-cmd record -p function -l copy_mnt_ns -l do_mount
+	sudo trace-cmd report
+
+

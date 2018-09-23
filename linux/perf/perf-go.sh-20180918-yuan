@@ -1,9 +1,11 @@
 #!/bin/bash
 
 # add variables
+func=$1
+
 i1=0
-if [ "$1" ]; then
-	i1=$1
+if [ "$2" ]; then
+	i1=$2
 fi
 
 #echo
@@ -112,17 +114,55 @@ function who {
 }
 
 
-# new chapter
-myecho1task 'task'
-
 who
 date
 echo
 
-#-----------------------------------------------------------------
-myecho2thing 'things'
-myecho3step 'steps'
-myecho4ref 'reference'
+# new chapter
+myecho1task 'perf setup 20180918'
+
+myecho4ref 'http://linuxperf.com/?p=36'
+function record {
+	echo 'perf record'
+#	perf record -a -e cycles -o cycle.perf -g sleep 10
+#	perf report -i cycle.perf | more
+}
+
+
+myecho4ref 'https://blog.csdn.net/zhangskd/article/details/37902159'
+function list {
+	echo 'perf list'
+	#perf list [hw | sw | cache | tracepoint | event_glob]
+	perf list
+}
+
+function top {
+	echo 'perf top'
+	perf top -g # 得到关系图
+	#perf top -e cycles:k
+}
+
+	
+function main {
+	echo 'main'
+	case $func in
+		record)
+			record
+			;;
+		list)
+			list
+			;;
+		top)
+			top
+			;;
+		*)
+			echo 'Unknown function'
+	esac
+}
+
+# sudo -s
+main
+
 
 # new chapter
 time 
