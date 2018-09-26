@@ -1,0 +1,129 @@
+#!/bin/bash
+
+# add variables
+func=$1
+index=$2
+CWD=$3
+
+
+function myecho () {
+	echo -e '\t'"$1"
+}
+
+
+function record {
+	echo 'perf record'
+#	perf record -a -e cycles -o cycle.perf -g sleep 10
+#	perf report -i cycle.perf | more
+}
+function list {
+	echo 'perf list'
+	#perf list [hw | sw | cache | tracepoint | event_glob]
+	#perf list
+}
+function top {
+	echo 'perf top'
+	perf top -g # 得到关系图
+	#perf top -e cycles:k
+}
+
+function myiostat {
+	echo 'iostat'
+	iostat -m 1 10 | tee iostat-${index}
+}
+
+function aic_start_instance_and_perf_record {
+	echo 'aic start instance and perf record'
+	perf record -ag -o ${index}_perf.data ./aic start $index 
+}
+	
+function perf_record {
+        echo 'perf record'
+        #perf record -ag -o 122_post_perf.data sleep 1
+        perf record -ag -o perf-${index}.data sleep 10
+
+}
+
+
+
+#--------------------------------------main------------------------------------#
+
+function init {
+	function when {
+		date
+	}
+	function where {
+		if [[ -z "$CWD" ]] || [[ ! -d "$CWD" ]]; then
+			echo 'use the current directory.'
+			nowdir=$(pwd)
+		else
+			echo 'cd new directory.'
+			nowdir=$(cd $CWD; pwd)
+		fi
+
+		myecho 'https://www.cnblogs.com/cnpirate/archive/2012/09/16/2687519.html'
+		myecho 'nowdir: '${nowdir}
+	}
+	function who {
+		case $USER in
+			root)
+				echo 'You are root, go on...'
+				;;
+			*)
+				echo 'You are '${USER}', please "sudo -s"'
+				exit
+				;;
+		esac
+	}
+
+	echo -e '\n[init 1]'
+        when && where && who
+	
+	echo -e '\n[init 2]'
+	echo 'config perf tool'
+	myecho 'http://linuxperf.com/?p=36'
+	myecho 'https://blog.csdn.net/zhangskd/article/details/37902159'
+
+	# default: 2
+	cat /proc/sys/kernel/kptr_restrict | xargs echo -e "\t[before]\t/proc/sys/kernel/kptr_restrict: "
+	echo 0 > /proc/sys/kernel/kptr_restrict
+	cat /proc/sys/kernel/kptr_restrict | xargs echo -e "\t[after]\t\t/proc/sys/kernel/kptr_restrict: "
+}
+
+function main {
+
+	# sudo -s
+	init
+
+	echo -e '\n[main]'
+	case $func in
+		record)
+			record
+			;;
+		list)
+			list
+			;;
+		top)
+			top
+			;;
+		aic)
+			aic_start_instance_and_perf_record
+			;;
+		perf)
+			myiostat
+			perf_record
+			;;
+		*)
+			myecho 'Unknown function'
+			;;
+	esac
+}
+
+main
+
+
+# new chapter
+#time 
+echo
+#echo '==========================================================='
+echo 'End'

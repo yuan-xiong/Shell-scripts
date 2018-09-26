@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# add variables
+CWD=$1
+
+
+function myecho () {
+	echo -e '\t'"$1"
+}
+
+#--------------------------------------main------------------------------------#
+
+function init {
+	function when {
+		date
+	}
+	function where {
+		if [[ -z "$CWD" ]] || [[ ! -d "$CWD" ]]; then
+			echo 'use the current directory.'
+			nowdir=$(pwd)
+		else
+			echo 'cd new directory.'
+			cd $CWD
+			nowdir=$(pwd)
+		fi
+
+		#myecho 'https://www.cnblogs.com/cnpirate/archive/2012/09/16/2687519.html'
+		myecho 'nowdir: '${nowdir}
+	}
+	function who {
+		case $USER in
+			root)
+				echo 'You are root, go on...'
+				;;
+			*)
+				echo 'You are '${USER}', please "sudo -s"'
+				exit
+				;;
+		esac
+	}
+
+	echo -e '\n[init 1]'
+        when && where && who
+}
+
+function main {
+
+	# sudo -s
+	init
+
+	echo -e '\n[main]'
+}
+
+main
+
+
+# new chapter
+#time 
+echo
+#echo '==========================================================='
+echo 'End'
