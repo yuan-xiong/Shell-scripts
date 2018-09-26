@@ -9,12 +9,10 @@ function who {
 		root)
 			myecho 'You are root, go on'
 			;;
-		xy4)
-			myecho 'You are xy4, please sudo -s'
+		*)
+			myecho 'You are '${USER}', please sudo -s'
 			exit
 			;;
-		*)
-			myecho 'Who are u, brother?'
 	esac
 }
 
