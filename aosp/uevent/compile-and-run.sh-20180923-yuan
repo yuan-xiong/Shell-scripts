@@ -1,0 +1,35 @@
+#!/bin/bash
+
+function myecho {
+	echo -e '\t'$1
+}
+
+function who {
+	case $USER in
+		root)
+			myecho 'You are root, go on'
+			;;
+		xy4)
+			myecho 'You are xy4, please sudo -s'
+			exit
+			;;
+		*)
+			myecho 'Who are u, brother?'
+	esac
+}
+
+echo
+echo [check]
+who
+
+
+echo
+echo [compile]
+target=test
+g++ main.cpp -o $target
+
+
+echo
+echo [run]
+./$target
+echo
