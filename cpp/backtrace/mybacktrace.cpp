@@ -4,7 +4,7 @@
 #include <signal.h>
 #include <ucontext.h>
 #include <dlfcn.h>
-#include <execinfo.h>
+//#include <execinfo.h>
 
 #include "mybacktrace.h"
 
@@ -77,7 +77,6 @@ void showBacktrace(int level)
 
 #ifdef __cplusplus
 	        Dl_info dlinfo;
-	        Dl_info dlinfo2;
 	
 	        void *ip = ret;
 	        if(!dladdr(ip, &dlinfo)) {
