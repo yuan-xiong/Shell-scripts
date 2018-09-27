@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # add variables
-CWD=$1
-
+started=$1
+CWD=$2
 
 function myecho () {
 	echo -e '\t'"$1"
@@ -49,13 +49,31 @@ function main {
 	init
 
 	echo -e '\n[main]'
+
+	echo -e '[End]\n'
 }
 
-main
+
+function main_and_log {
+	echo
+
+        if [[ -z "$started" ]]; then
+                echo '1st execution...'
+
+                #started=$(($started+1))
+		let started++
+                echo 'started: '$started
+
+		$0 $started | tee mylog$(date +%Y%m%d-%H%M%S)
+        else
+                echo '2nd execution...'
+                main
+        fi
+}
 
 
-# new chapter
-#time 
-echo
-#echo '==========================================================='
-echo 'End'
+# start from here
+
+	#main
+	main_and_log
+
