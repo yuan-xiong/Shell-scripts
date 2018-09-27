@@ -1,0 +1,106 @@
+#!/bin/bash
+
+# add variables
+started=$1
+CWD=$1
+
+
+function myecho () {
+	echo -e '\t'"$1"
+}
+function myread() {
+	read -p 'make '$1'? [Yes/No]' run
+}
+
+#--------------------------------------main------------------------------------#
+
+function init {
+	function when {
+		date
+	}
+	function where {
+		if [[ -z "$CWD" ]] || [[ ! -d "$CWD" ]]; then
+			echo 'use the current directory.'
+			nowdir=$(pwd)
+		else
+			echo 'cd new directory.'
+			cd $CWD
+			nowdir=$(pwd)
+		fi
+
+		#myecho 'https://www.cnblogs.com/cnpirate/archive/2012/09/16/2687519.html'
+		myecho 'nowdir: '${nowdir}
+	}
+	function who {
+		case $USER in
+			root)
+				echo 'You are root, go on...'
+				;;
+			*)
+				echo 'You are '${USER}', please "sudo -s"'
+				exit
+				;;
+		esac
+	}
+
+	echo -e '\n[init 1]'
+        when && where && who
+}
+
+function go {
+	echo '[clean]'
+	#myread 'clean'
+	make clean
+	
+	echo '[make]'
+	#myread ''
+	make -j16
+	
+	echo '[modules]'
+	#myread 'modules'
+	make modules
+	
+	echo '[modules_install]'
+	#myread 'modules_install'
+	sudo make modules_install
+	
+	echo '[install]'
+	#myread 'install'
+	sudo make install
+	
+	echo '[end]'
+}
+
+function main {
+
+	# sudo -s
+	init
+
+	echo -e '\n[main]'
+	go
+	
+	echo -e 'End\n'
+}
+
+function main_and_log {
+        echo
+
+        if [[ -z "$started" ]]; then
+                echo '1st execution...'
+
+                #started=$(($started+1))
+                let started++
+                echo 'started: '$started
+
+                $0 $started | tee mylog$(date +%Y%m%d-%H%M%S)
+        else
+                echo '2nd execution...'
+                main
+        fi
+}
+
+
+# start from here
+
+	main_and_log
+
