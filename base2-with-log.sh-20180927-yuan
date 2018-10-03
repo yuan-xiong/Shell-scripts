@@ -3,14 +3,14 @@
 
 # add variables
 CWD=$1
-
+wordlength=10
 
 
 #echo
 #echo -e "\033[30m 黑色字oldboy trainning \033[0m"
 #echo -e "\033[31m 红色字oldboy trainning \033[0m"
 #echo -e "\033[32m 绿色字oldboy trainning \033[0m"
-#echo -e "\033[33m ***字oldboy trainning \033[0m"
+#echo -e "\033[33m 黄色字oldboy trainning \033[0m"
 #echo -e "\033[34m 蓝色字oldboy trainning \033[0m"
 #echo -e "\033[35m 紫色字oldboy trainning \033[0m"
 #echo -e "\033[36m 天蓝字oldboy trainning \033[0m"
@@ -28,15 +28,18 @@ CWD=$1
 
 # add functions
 function myecho () {
-	echo -e '\t'"$1"
+	if [ "$1" ]; then
+		echo -e '\t'"$1"
+	fi
 }
 # highlight title
 function myhighlight()
 {
 	echo
-	# 黄底黑字
-	echo -e "\033[43;30m$1\033[0m"
-	#echo -e "\t\t$1"
+	if [ "$1" ]; then
+		# 黄底黑字
+		echo -e "\033[43;30m$1\033[0m"
+	fi
 }
 function myprompt()
 {
@@ -50,7 +53,8 @@ function myecho1task()
 	echo
 	if [ "$1" ]; then
 		# 蓝底白字
-		echo -e "\033[44;37m $1\033[0m"
+		#echo -e "\033[44;37m $1\033[0m"
+		printf "\033[44;37m %-${wordlength}s \n\033[0m" "$1"
 	fi
 }
 
@@ -58,27 +62,33 @@ function myecho1task()
 function myecho2thing()
 {
 	echo
-	# 红色字
-	#echo -e "\033[31m - $1 \033[0m"
-	# 绿色字
-	echo -e "\033[32m - $1 \033[0m"
-	# 红底白字
-	#echo -e "\033[41;37m- $1\033[0m"
+	if [ "$1" ]; then
+		# 黄底黑字
+		#echo -e "\033[43;30m ---> $1\033[0m"
+		# 绿底黑字
+		printf "\033[42;30m %-${wordlength}s \n\033[0m" "$1"
+	fi
 }
 
 # steps title
 function myecho3step()
 {
 	echo
-	echo -e " * $1"
+	if [ "$1" ]; then
+		# 绿色字
+		#echo -e "\033[32m - $1 \033[0m"
+		# 黄色字
+		echo -e "\033[33m - $1 \033[0m"
+	fi
 }
 
 # reference title
 function myecho4ref()
 {
-	echo
-	echo -e "\t$1"
-	echo
+	if [ "$1" ]; then
+		echo -e "$1"
+		echo
+	fi
 }
 
 
@@ -92,10 +102,10 @@ function init {
 	function where {
 		#myecho 'https://www.cnblogs.com/cnpirate/archive/2012/09/16/2687519.html'
 		if [[ -z "$CWD" ]] || [[ ! -d "$CWD" ]]; then
-			echo 'use the current directory.'
+			#echo 'use the current directory.'
 			nowdir=$(pwd)
 		else
-			echo 'cd new directory.'
+			#echo 'cd new directory.'
 			cd $CWD
 			nowdir=$(pwd)
 		fi
@@ -129,13 +139,14 @@ function go {
 function main {
 
 	# new chapter
-	myecho1task 'setup ...'
+	myecho1task 'setup react - 20181003'
+	myecho4ref 'https://www.jianshu.com/p/cf555f98e9b6'
 
 	init
 
 	go
 
-	myhighlight 'End'
+	myecho2thing 'End'
 }
 
 
