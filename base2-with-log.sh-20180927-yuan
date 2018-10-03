@@ -4,7 +4,7 @@
 # add variables
 CWD=$1
 wordlength=10
-
+wordblank='          '
 
 #echo
 #echo -e "\033[30m 黑色字oldboy trainning \033[0m"
@@ -53,8 +53,8 @@ function myecho1task()
 	echo
 	if [ "$1" ]; then
 		# 蓝底白字
-		#echo -e "\033[44;37m $1\033[0m"
-		printf "\033[44;37m %-${wordlength}s \n\033[0m" "$1"
+		echo -e "\033[44;37m ${1} \033[0m"
+		#printf "\033[44;37m %-${wordlength}s \n\033[0m" "$1"
 	fi
 }
 
@@ -63,10 +63,9 @@ function myecho2thing()
 {
 	echo
 	if [ "$1" ]; then
-		# 黄底黑字
-		#echo -e "\033[43;30m ---> $1\033[0m"
 		# 绿底黑字
-		printf "\033[42;30m %-${wordlength}s \n\033[0m" "$1"
+		words=${1}${wordblank}
+		echo -e "\033[42;30m ---> ${words:0:10} \033[0m"
 	fi
 }
 
@@ -75,8 +74,6 @@ function myecho3step()
 {
 	echo
 	if [ "$1" ]; then
-		# 绿色字
-		#echo -e "\033[32m - $1 \033[0m"
 		# 黄色字
 		echo -e "\033[33m - $1 \033[0m"
 	fi
@@ -132,8 +129,9 @@ function init {
 function go {
 	
 	myecho2thing 'go'
-	#myecho3step 'steps'
-	#myecho4ref 'reference'
+
+	#myecho3step 'nvm'
+	
 }
 
 function main {
@@ -143,9 +141,7 @@ function main {
 	myecho4ref 'https://www.jianshu.com/p/cf555f98e9b6'
 
 	init
-
 	go
-
 	myecho2thing 'End'
 }
 
