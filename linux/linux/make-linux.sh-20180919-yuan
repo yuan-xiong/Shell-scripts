@@ -68,7 +68,6 @@ function go {
 	#myread 'install'
 	sudo make install
 	
-	echo '[end]'
 }
 
 function main {
@@ -79,7 +78,7 @@ function main {
 	echo -e '\n[main]'
 	go
 	
-	echo -e 'End\n'
+	echo '[end]\n'
 }
 
 function main_and_log {

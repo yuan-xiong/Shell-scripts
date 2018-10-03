@@ -124,18 +124,8 @@ void coldboot(const char* path) {
 
 
 int main() {
-	cout << " ---> xy test write uevent" << endl;	
-
-			//write_file_uevent("/sys/devices/pci0000:00/0000:00:1f.2/ata2/host1/target1:0:0/1:0:0:0/block/sda/sda1/uevent");
-		//write_file_uevent("/sys/devices/pci0000:00/0000:00:1f.2/ata2/host1/target1:0:0/1:0:0:0/block/sda/uevent"); //snap(unshare)
-	//coldboot("/sys/devices/pci0000:00/0000:00:1f.2/ata3");	//snap
-
-	return 0;
-}
-
-/**
-int main() {
 	//mycompare();
+			//write_file_uevent("/sys/devices/pci0000:00/0000:00:1f.2/ata2/host1/target1:0:0/1:0:0:0/block/sda/sda1/uevent");
 
 	coldboot("/sys/block");
 	coldboot("/sys/class");
@@ -233,8 +223,24 @@ int main() {
 		coldboot("/sys/devices/uncore_cbox_3");
 		coldboot("/sys/devices/uncore_imc");
 		//coldboot("/sys/devices/virtual");
-			//coldboot("/sys/devices/virtual/tty");
+			coldboot("/sys/devices/virtual/bdi");
+			//coldboot("/sys/devices/virtual/block");
+				//coldboot("/sys/devices/virtual/block");
+			coldboot("/sys/devices/virtual/dmi");
+			coldboot("/sys/devices/virtual/graphics");
+			coldboot("/sys/devices/virtual/hwmon");
+			coldboot("/sys/devices/virtual/input");
+			coldboot("/sys/devices/virtual/mem");
+			coldboot("/sys/devices/virtual/misc");
+			coldboot("/sys/devices/virtual/net");
+			coldboot("/sys/devices/virtual/powercap");
+			coldboot("/sys/devices/virtual/ppp");
+			coldboot("/sys/devices/virtual/sound");
+			coldboot("/sys/devices/virtual/thermal");
+			coldboot("/sys/devices/virtual/tty");
+			coldboot("/sys/devices/virtual/vc");
+			coldboot("/sys/devices/virtual/vtconsole");
+			coldboot("/sys/devices/virtual/workqueue");
 
 }
-**/
 
