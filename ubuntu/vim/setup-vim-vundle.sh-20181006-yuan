@@ -1,0 +1,262 @@
+#!/bin/bash
+
+
+# add variables
+CWD=$1
+wordlength=10
+wordblank='          '
+
+#echo
+#echo -e "\033[30m 黑色字oldboy trainning \033[0m"
+#echo -e "\033[31m 红色字oldboy trainning \033[0m"
+#echo -e "\033[32m 绿色字oldboy trainning \033[0m"
+#echo -e "\033[33m 黄色字oldboy trainning \033[0m"
+#echo -e "\033[34m 蓝色字oldboy trainning \033[0m"
+#echo -e "\033[35m 紫色字oldboy trainning \033[0m"
+#echo -e "\033[36m 天蓝字oldboy trainning \033[0m"
+#echo -e "\033[37m 白色字oldboy trainning \033[0m"
+#echo
+#echo -e "\033[40;37m 黑底白字 welcome to old1boy\033[0m"
+#echo -e "\033[41;37m 红底白字 welcome to old2boy\033[0m"
+#echo -e "\033[42;37m 绿底白字 welcome to old3boy\033[0m"
+#echo -e "\033[43;37m 黄底白字 welcome to old4boy\033[0m"
+#echo -e "\033[44;37m 蓝底白字 welcome to old5boy\033[0m"
+#echo -e "\033[45;37m 紫底白字 welcome to old6boy\033[0m"
+#echo -e "\033[46;37m 天蓝白字 welcome to old7boy\033[0m"
+#echo -e "\033[47;30m 白底黑字 welcome to old8boy\033[0m"
+#echo
+
+# add functions
+function myecho () {
+	if [ "$1" ]; then
+		echo -e '\t'"$1"
+	fi
+}
+# highlight title
+function myhighlight()
+{
+	echo
+	if [ "$1" ]; then
+		# 黄底黑字
+		echo -e "\033[43;30m$1\033[0m"
+	fi
+}
+function myprompt()
+{
+	read -p "$1 [YES/NO]: " input
+}
+
+
+# task title
+function myecho1task()
+{
+	echo
+	if [ "$1" ]; then
+		# 蓝底白字
+		echo -e "\033[44;37m ${1} \033[0m"
+		#printf "\033[44;37m %-${wordlength}s \n\033[0m" "$1"
+	fi
+}
+
+# things title
+function myecho2thing()
+{
+	echo
+	if [ "$1" ]; then
+		# 绿底黑字
+		words=${1}${wordblank}
+		echo -e "\033[42;30m ---> ${words:0:10} \033[0m"
+	fi
+}
+
+# steps title
+function myecho3step()
+{
+	if [ "$1" ]; then
+		# 黄色字
+		echo -e "\033[33m - $1 \033[0m"
+	fi
+}
+
+# reference title
+function myecho4ref()
+{
+	if [ "$1" ]; then
+		echo -e "$1"
+	fi
+}
+
+
+
+#--------------------------------------main------------------------------------#
+
+function init {
+	function when {
+		date
+	}
+	function where {
+		#myecho 'https://www.cnblogs.com/cnpirate/archive/2012/09/16/2687519.html'
+		if [[ -z "$CWD" ]] || [[ ! -d "$CWD" ]]; then
+			#echo 'use the current directory.'
+			nowdir=$(pwd)
+		else
+			#echo 'cd new directory.'
+			cd $CWD
+			nowdir=$(pwd)
+		fi
+		echo 'nowdir: '${nowdir}
+	}
+	function who {
+		case $USER in
+			root)
+				echo 'You are root, go on...'
+				;;
+			*)
+				#echo 'You are '${USER}', please "sudo -s"'
+				#exit
+				echo 'You are '${USER}', go on...'
+				;;
+		esac
+	}
+
+	myecho2thing 'init'
+        when && where && who
+}
+
+
+function go {
+	
+	myecho2thing 'go'
+
+	myecho3step 'gvim'
+    sudo apt install vim-gtk
+
+	myecho3step 'vundle'
+	#git clone https://github.com/gmarik/vundle.git
+}
+
+function main {
+
+	# new chapter
+	myecho1task 'setup vundle for vim - 20181006'
+	myecho4ref ''
+
+	init
+	go
+	myecho2thing 'End'
+}
+
+
+# start from here
+
+	main
+
+##############################################################
+# xy .vimrc sample
+##############################################################
+# " Use vundle to manage plugin
+# filetype off
+# set nocompatible
+# set rtp+=~/.vim/bundle/vundle
+# call vundle#rc()
+# " Let vundle manage vundle,required
+# Bundle 'gmarik/vundle'
+# " My vundle here:
+# Bundle 'altercation/vim-colors-solarized'
+# "Brief help of vundle
+# 	":BundleList
+# 	":BundleInstall
+# 	":BundleSearch
+# 	":BundleClean
+# 	":help vundle
+# "End brief help
+# 
+# " Show line number, command, status line and so on...
+# set cmdheight=2
+# set history=1000
+# set laststatus=2
+# set number
+# set ruler
+# set scrolloff=3
+# set showcmd
+# set showmode
+# 
+# " Fill space between windows
+# "set fillchars=stl:\ ,stlnc:\ ,vert:\
+# 
+# " Turn off annoying error sound
+# set noerrorbells
+# set novisualbell
+# set t_vb=
+# 
+# " Turn off splash screen
+# "set shortmess=atI
+# 
+# " Syntax and theme
+# syntax on
+# "colorscheme desert
+# set background=dark
+# set cursorline
+# set cursorcolumn
+# 
+# " Configure backspace to be able to across two lines
+# set backspace=2
+# set whichwrap+=<,>,h,l
+# 
+# " Tab and indent
+# set expandtab
+# set smarttab
+# set shiftwidth=4
+# set tabstop=4
+# set autoindent
+# set cindent
+# 
+# " Files, backups and encoding
+# set nobackup
+# set noswapfile
+# set autoread
+# set autowrite
+# set autochdir
+# set fileencodings=utf-8
+# set fileformats=unix,dos,mac
+# filetype plugin on
+# filetype indent on
+# 
+# " Text search and replace
+# set showmatch
+# set matchtime=2
+# set hlsearch
+# set incsearch
+# set ignorecase
+# set smartcase
+# set magic
+# set lazyredraw
+# set nowrapscan
+# set iskeyword+=_,$,@,%,#,-,.
+# 
+# " Gvim config
+# if has("gui_running")
+#     colorscheme solarized
+# endif
+# set guifont=DejaVu\ Sans\ Mono\ 15
+# set guioptions=aegic
+# 
+# " xy
+# set completeopt=longest,menu
+# set wildmenu
+# 
+# " ctags
+# "set tags=/home/xiongyuan/workspace/git/autonomousdriving_flex-tinyyolo_with_avm/tags
+# set tags=/home/xy2/aic-all/source/frameworks/tags
+# " cscope
+# 
+# " Tlist
+# let Tlist_Show_One_File=1
+# let Tlist_Exit_OnlyWindow=1
+# " open taglist
+# let Tlist_Auto_Open	= 1
+# " close taglist
+# "let Tlist_Auto_Open	= 0
+# 
+# let Tlist_Ctags_Cmd='/usr/bin/ctags'
+# 
