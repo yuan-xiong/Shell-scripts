@@ -128,14 +128,14 @@ function go {
 	
 	myecho2thing 'go'
 
-	#myecho3step 'nvm'
+	myecho3step ''
 }
 
 function main {
 
 	# new chapter
-	myecho1task 'setup react - 20181003'
-	myecho4ref 'https://www.jianshu.com/p/cf555f98e9b6'
+	myecho1task 'setup - 20181003'
+	myecho4ref ''
 
 	init
 	go
