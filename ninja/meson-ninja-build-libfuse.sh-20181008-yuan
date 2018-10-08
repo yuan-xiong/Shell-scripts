@@ -1,0 +1,50 @@
+#!/bin/bash
+
+
+function build_libfuse {
+
+    # 使用开源框架libfuse时,参照README来编译libfuse一直没有成功;查了一些资料，最后总算是编译成功；以此记录，方便以后查看或者其他需要的朋友。
+    
+    # libfuse 
+#    git clone https://github.com/libfuse/libfuse
+    # meson 
+#    git clone https://github.com/mesonbuild/meson
+    # ninja 
+#    git clone https://github.com/ninja-build/ninja.git
+    # install re2c
+#    sudo apt-get install re2c
+
+    # 进入ninja目录 
+    cd ninja 
+#    git checkout release 
+#    ./configure.py --bootstrap 
+    # 当前目录下产生的ninja　拷贝到/usr/bin (方便下一步用)
+#    sudo cp ninja /usr/bin/
+    cd -
+
+    # 进入 meson目录 
+    mkdir libfuse/build
+    cd libfuse/build/
+    
+    # meson目录下有个可执行文件meson.py 
+    # meson 根据libfuse目录下的meson.build 在当前目录下生成 build.ninja 
+    # 在lib目录下生成libfuse3 
+    ../../meson/meson.py ../
+
+    # ninja根据build.ninja 生成fusermount3 
+#    ninja
+    
+    # 至此，编译libfuse完成　　meson目录下lib和util产生libfuse3和fusemount3.
+    cd -
+}
+
+function main {
+    
+    build_libfuse
+}
+
+
+
+# start from here
+    
+    main
