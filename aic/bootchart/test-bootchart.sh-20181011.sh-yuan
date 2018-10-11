@@ -1,0 +1,6 @@
+#!/bin/sh
+
+read -p ' please run this test under Windows display [Yes/No]' go
+
+bootchart bootchart-emulator-ok.tgz
+gnome-open bootchart.png
