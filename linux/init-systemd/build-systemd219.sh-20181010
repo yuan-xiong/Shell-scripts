@@ -1,0 +1,178 @@
+#g!/bin/bash
+
+
+# add variables
+CWD=$1
+wordlength=10
+wordblank='          '
+
+#echo
+#echo -e "\033[30m 黑色字oldboy trainning \033[0m"
+#echo -e "\033[31m 红色字oldboy trainning \033[0m"
+#echo -e "\033[32m 绿色字oldboy trainning \033[0m"
+#echo -e "\033[33m 黄色字oldboy trainning \033[0m"
+#echo -e "\033[34m 蓝色字oldboy trainning \033[0m"
+#echo -e "\033[35m 紫色字oldboy trainning \033[0m"
+#echo -e "\033[36m 天蓝字oldboy trainning \033[0m"
+#echo -e "\033[37m 白色字oldboy trainning \033[0m"
+#echo
+#echo -e "\033[40;37m 黑底白字 welcome to old1boy\033[0m"
+#echo -e "\033[41;37m 红底白字 welcome to old2boy\033[0m"
+#echo -e "\033[42;37m 绿底白字 welcome to old3boy\033[0m"
+#echo -e "\033[43;37m 黄底白字 welcome to old4boy\033[0m"
+#echo -e "\033[44;37m 蓝底白字 welcome to old5boy\033[0m"
+#echo -e "\033[45;37m 紫底白字 welcome to old6boy\033[0m"
+#echo -e "\033[46;37m 天蓝白字 welcome to old7boy\033[0m"
+#echo -e "\033[47;30m 白底黑字 welcome to old8boy\033[0m"
+#echo
+
+# add functions
+function myecho () {
+	if [ "$1" ]; then
+		echo -e '\t'"$1"
+	fi
+}
+# highlight title
+function myhighlight()
+{
+	echo
+	if [ "$1" ]; then
+		# 黄底黑字
+		echo -e "\033[43;30m$1\033[0m"
+	fi
+}
+function myprompt()
+{
+	read -p "$1 [YES/NO]: " input
+}
+
+
+# task title
+function myecho1task()
+{
+	echo
+	if [ "$1" ]; then
+		# 蓝底白字
+		echo -e "\033[44;37m ${1} \033[0m"
+		#printf "\033[44;37m %-${wordlength}s \n\033[0m" "$1"
+	fi
+}
+
+# things title
+function myecho2thing()
+{
+	echo
+	if [ "$1" ]; then
+		# 绿底黑字
+		words=${1}${wordblank}
+		echo -e "\033[42;30m ---> ${words:0:10} \033[0m"
+	fi
+}
+
+# steps title
+function myecho3step()
+{
+	if [ "$1" ]; then
+		# 黄色字
+		echo -e "\033[33m - $1 \033[0m"
+	fi
+}
+
+# reference title
+function myecho4ref()
+{
+	if [ "$1" ]; then
+		echo -e "$1"
+	fi
+}
+
+
+
+#--------------------------------------main------------------------------------#
+
+function init {
+	function when {
+		date
+	}
+	function where {
+		#myecho 'https://www.cnblogs.com/cnpirate/archive/2012/09/16/2687519.html'
+		if [[ -z "$CWD" ]] || [[ ! -d "$CWD" ]]; then
+			#echo 'use the current directory.'
+			nowdir=$(pwd)
+		else
+			#echo 'cd new directory.'
+			cd $CWD
+			nowdir=$(pwd)
+		fi
+		echo 'nowdir: '${nowdir}
+	}
+	function who {
+		case $USER in
+			root)
+				echo 'You are root, go on...'
+				;;
+			*)
+				echo 'You are '${USER}', please "sudo -s"'
+				exit
+				#echo 'You are '${USER}', go on...'
+				;;
+		esac
+	}
+
+	myecho2thing 'init'
+        when && where && who
+}
+
+
+
+function go {
+	
+	myecho2thing 'go'
+
+	myecho3step 'prerequisites'
+        cd systemd-219/
+
+        # 1.necessary
+        apt install -y glibc libcap libcap-dev libmount libmount-dev libgcrypt20-dev gtk-doc-tools libcurl4-openssl-dev pkg-config
+        # for build from git
+#        apt install -y gtkdocize python python-lxml sphinx 
+
+        # 2.optional
+#        apt install -y util-linux dbus dracut PolicyKit  
+#        apt install -y libseccomp libblkid libkmod PAM libcryptsetup libaudit libacl libselinux liblzma 
+#        apt install -y liblz4 libgcrypt libqrencode libmicrohttpd libpython libidn gobject-introspection elfutils 
+        # for build from git
+#        apt install -y docbook-xsl xsltproc automake autoconf libtool intltool gperf 
+
+        
+	myecho3step 'make'
+#        ./autogen.sh
+#        ./configure CFLAGS='-g -O0 -ftrapv' --enable-compat-libs --enable-kdbus --sysconfdir=/etc --localstatedir=/var --libdir=/usr/lib  --with-rootprefix= --with-rootlibdir=/lib
+
+#       add header file in ystemd-219/src/udev/mtd_probe/mtd_probe.h
+        #include <stdint.h>
+
+        make
+        #make install
+}
+
+function main {
+
+	# new chapter
+	myecho1task 'build systemd for init - 20181010'
+	myecho4ref 'https://github.com/systemd/systemd/releases/tag/v219'
+
+	init
+	go
+
+	myecho2thing 'End'
+}
+
+
+# start from here
+
+	main
+
+#!/bin/bash
+
+
