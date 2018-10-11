@@ -1,0 +1,205 @@
+#!/bin/bash
+
+# add variables
+i1=0
+if [ "$1" ]; then
+	i1=$1
+fi
+
+
+# add functions
+function prompt()
+{
+	read -p "$1 [YES/NO]: " input
+}
+
+# script name
+function myecho0script()
+{
+	echo
+	echo '==========================================================='
+	echo "$1"
+	echo '==========================================================='
+	echo
+}
+
+# task title
+function myecho1task()
+{
+	echo
+	if [ "$1" ]; then
+		# 蓝底白字
+		echo -e "\033[44;37m --> $i1. $1\033[0m"
+	fi
+	i1=$[$i1+1]
+}
+
+# things title
+function myecho2thing()
+{
+	echo
+	# 红色字
+	#echo -e "\033[31m - $1 \033[0m"
+	# 绿色字
+	echo -e "\033[32m - $1 \033[0m"
+	# 红底白字
+	#echo -e "\033[41;37m- $1\033[0m"
+}
+
+# steps title
+function myecho3step()
+{
+	echo
+	echo -e " * $1"
+}
+
+# reference title
+function myecho4ref()
+{
+	echo
+	echo -e "\t$1"
+	echo
+}
+
+# highlight title
+function myechoy()
+{
+	echo
+	# 黄底黑字
+	echo -e "\033[43;30m$1\033[0m"
+	#echo -e "\t\t$1"
+}
+
+# call outside script
+function mysource()
+{
+	(source $1 $i1)
+	i1=$[$i1+1]
+}
+
+
+# new chapter
+myecho1task 'Build AOSP 20180712 - Android M'
+myecho3step 'https://www.jianshu.com/p/367f0886e62b'
+
+#-----------------------------------------------------------------
+myecho2thing 'Prerequisites'
+myecho3step 'apt-get install'
+	#sudo apt-get install -y libx11-dev:i386 libreadline6-dev:i386 libgl1-mesa-dev g++-multilib 
+	#sudo apt-get install -y git flex bison gperf build-essential libncurses5-dev:i386 
+	#sudo apt-get install -y tofrodos python-markdown libxml2-utils xsltproc zlib1g-dev:i386 
+	#sudo apt-get install -y dpkg-dev libsdl1.2-dev libesd0-dev
+	#sudo apt-get install -y git-core gnupg flex bison gperf build-essential  
+	#sudo apt-get install -y zip curl zlib1g-dev gcc-multilib g++-multilib 
+	#sudo apt-get install -y libc6-dev-i386 
+	#sudo apt-get install -y lib32ncurses5-dev x11proto-core-dev libx11-dev 
+	#sudo apt-get install -y libgl1-mesa-dev libxml2-utils xsltproc unzip m4
+	#sudo apt-get install -y lib32z-dev ccache
+
+
+#myecho2thing 'Repo'
+#myecho3step 'install'
+	#sudo apt-get install repo
+
+	
+
+myecho2thing 'AOSP'
+myecho3step 'repository'
+	# Google
+	#repo init -u https://android.googlesource.com/platform/manifest
+	#repo init -u https://android.googlesource.com/platform/manifest -b android-6.0.1_r81
+
+	# tsinghua University
+	#repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest
+	#repo init -u git://aosp.tuna.tsinghua.edu.cn/aosp/platform/manifest
+
+myecho4ref 'check my branch'
+	prompt '[branch...] checkout branch ?'
+
+	# how to check repo branch
+	# https://blog.csdn.net/fengxingzhe001/article/details/64921578
+	#1，repo forall -c git reset --hard
+	#2，repo init -u https://android.googlesource.com/platform/manifest -b android-7.0.0_r1
+	#3，repo sync
+
+	repo init -u https://android.googlesource.com/platform/manifest -b android-7.0.0_r1
+	#repo init -u https://android.googlesource.com/platform/manifest -b android-7.1.1_r6
+	#repo init -u https://android.googlesource.com/platform/manifest -b android-8.1.0_r9
+	#repo init -b android-7.1.1_r6
+
+#	cd .repo/manifests/
+#	git branch
+#	git log -1
+#	#git branch -a | cut -d / -f 3
+#	#git branch -a | cut -d / -f 3 | grep android-7.0.0_r1
+#	#git branch -a | grep android-7.1.1_r6
+#	#git branch -a | cut -d / -f 3 | grep android-7.1.1_r6
+#	cd -
+
+#myecho3step 'sync'
+	#prompt '[branch...] sync branch ?'
+	repo sync -cj4
+	#repo sync
+
+myecho2thing 'JDK'
+#myecho3step 'openjdk-7-jdk for Android M'
+
+myecho3step 'openjdk-8-jdk for Android N/O'
+	#prompt '[Install...] openjdk-8-jdk'
+	#sudo apt-get update
+	#sudo apt-get install openjdk-8-jdk
+myecho3step 'java'
+	#sudo update-alternatives --config java
+	#sudo update-alternatives --config javac
+
+myecho3step '.bashrc'
+	# change JAVA_HOME in .bashrc
+
+	# for Android M
+	#export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+
+	# for Android N
+	##export JAVA_HOME=/usr/local/java/jdk1.8.0_77
+
+	#export JRE_HOME=${JAVA_HOME}/jre
+	#export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
+
+
+#-----------------------------------------------------------------
+myecho2thing 'Make'
+myecho3step 'env.'
+	source build/envsetup.sh
+
+myecho3step 'target'
+
+	# For AOSP
+	#lunch
+	lunch aosp_arm64-eng
+
+myecho3step 'make'
+	#prompt '[make...] make clean ?'
+	#make clean
+
+	#prompt '[make...] make clobber ?'
+	make clobber
+	
+	#prompt '[make...] start ?'
+	time make -j10
+
+#	prompt '#### build completed successfully (02:19:04 (hh:mm:ss)) ####'
+
+
+#-----------------------------------------------------------------
+myecho2thing 'Launch Emulator'
+myecho3step 'env.'
+	# not available
+	#source build/envsetup.sh
+	#lunch aosp_arm64-eng
+	#emulator
+	#emulator -gpu off
+
+
+# new chapter
+echo
+#echo '==========================================================='
+echo 'End'
