@@ -129,38 +129,55 @@ function go {
 	
 	myecho2thing 'go'
 
+		myecho4ref 'https://github.com/systemd/systemd/releases/tag/v219'
+		myecho4ref 'https://lists.freedesktop.org/archives/systemd-devel/2013-May/010885.html'
+
 	myecho3step 'prerequisites'
-        cd systemd-219/
 
         # 1.necessary
-        apt install -y glibc libcap libcap-dev libmount libmount-dev libgcrypt20-dev gtk-doc-tools libcurl4-openssl-dev pkg-config
+#	    apt update
+#	    apt install -y libcap-dev libmount-dev libgcrypt20-dev gtk-doc-tools libcurl4-openssl-dev pkg-config bfgminer git build-essential libglib2.0-dev
         # for build from git
-#        apt install -y gtkdocize python python-lxml sphinx 
+#       apt install -y python python-lxml docbook-xsl xsltproc automake autoconf libtool intltool gperf 
 
         # 2.optional
-#        apt install -y util-linux dbus dracut PolicyKit  
-#        apt install -y libseccomp libblkid libkmod PAM libcryptsetup libaudit libacl libselinux liblzma 
-#        apt install -y liblz4 libgcrypt libqrencode libmicrohttpd libpython libidn gobject-introspection elfutils 
-        # for build from git
-#        apt install -y docbook-xsl xsltproc automake autoconf libtool intltool gperf 
+        #apt install -y util-linux dbus dracut PolicyKit  
+        #apt install -y libseccomp libblkid libkmod PAM libcryptsetup libaudit libacl libselinux liblzma 
+        #apt install -y liblz4 libgcrypt libqrencode libmicrohttpd libpython libidn gobject-introspection elfutils 
 
-        
+	myecho3step 'github repository'
+#       myprompt '[download manually] https://github.com/systemd/systemd/releases/tag/v219'
+#       tar xzvf systemd-219.tar.gz
+        cd systemd-219/
+
 	myecho3step 'make'
 #        ./autogen.sh
-#        ./configure CFLAGS='-g -O0 -ftrapv' --enable-compat-libs --enable-kdbus --sysconfdir=/etc --localstatedir=/var --libdir=/usr/lib  --with-rootprefix= --with-rootlibdir=/lib
+	    # xy2
+        #./configure CFLAGS='-g -O0 -ftrapv' --enable-compat-libs --enable-kdbus --sysconfdir=/etc --localstatedir=/var --libdir=/usr/lib  --with-rootprefix= --with-rootlibdir=/lib
+	    # xy7 vmware
+#	    ./configure CFLAGS='-g -O0 -ftrapv' --enable-compat-libs --enable-kdbus --sysconfdir=/etc --localstatedir=/var --libdir=/usr/lib --enable-gtk-doc --with-rootprefix= --with-rootlibdir=/lib
 
 #       add header file in ystemd-219/src/udev/mtd_probe/mtd_probe.h
         #include <stdint.h>
 
-        make
-        #make install
+#       make
+#	    echo $? | xargs echo -e 'make successfully? $?='
+
+	myecho3step 'make install'
+		systemctl --version
+		myprompt 'install new systemd'
+
+       	make install
+		echo $? | xargs echo -e 'make install successfully? $?='
+		systemctl --version
 }
 
 function main {
 
 	# new chapter
 	myecho1task 'build systemd for init - 20181010'
-	myecho4ref 'https://github.com/systemd/systemd/releases/tag/v219'
+	myecho3step 'https://linoxide.com/linux-how-to/install-systemd-centos-redhat/'
+	myecho3step 'http://www.freedesktop.org/software/systemd/'
 
 	init
 	go
@@ -173,6 +190,5 @@ function main {
 
 	main
 
-#!/bin/bash
 
 
