@@ -1,0 +1,371 @@
+#!/bin/bash
+
+
+# add variables
+#CWD=$1
+command=$1
+target=$2
+wordlength=10
+wordblank='          '
+
+#echo
+#echo -e "\033[30m 黑色字oldboy trainning \033[0m"
+#echo -e "\033[31m 红色字oldboy trainning \033[0m"
+#echo -e "\033[32m 绿色字oldboy trainning \033[0m"
+#echo -e "\033[33m 黄色字oldboy trainning \033[0m"
+#echo -e "\033[34m 蓝色字oldboy trainning \033[0m"
+#echo -e "\033[35m 紫色字oldboy trainning \033[0m"
+#echo -e "\033[36m 天蓝字oldboy trainning \033[0m"
+#echo -e "\033[37m 白色字oldboy trainning \033[0m"
+#echo
+#echo -e "\033[40;37m 黑底白字 welcome to old1boy\033[0m"
+#echo -e "\033[41;37m 红底白字 welcome to old2boy\033[0m"
+#echo -e "\033[42;37m 绿底白字 welcome to old3boy\033[0m"
+#echo -e "\033[43;37m 黄底白字 welcome to old4boy\033[0m"
+#echo -e "\033[44;37m 蓝底白字 welcome to old5boy\033[0m"
+#echo -e "\033[45;37m 紫底白字 welcome to old6boy\033[0m"
+#echo -e "\033[46;37m 天蓝白字 welcome to old7boy\033[0m"
+#echo -e "\033[47;30m 白底黑字 welcome to old8boy\033[0m"
+#echo
+
+# add functions
+function myecho () {
+	if [ "$1" ]; then
+		echo -e '\t'"$1"
+	fi
+}
+# highlight title
+function myhighlight()
+{
+	echo
+	if [ "$1" ]; then
+		# 黄底黑字
+		echo -e "\033[43;30m$1\033[0m"
+	fi
+}
+function myprompt()
+{
+	read -p "$1 [YES/NO]: " input
+}
+
+
+# task title
+function myecho1task()
+{
+	echo
+	if [ "$1" ]; then
+		# 蓝底白字
+		echo -e "\033[44;37m ${1} \033[0m"
+		#printf "\033[44;37m %-${wordlength}s \n\033[0m" "$1"
+	fi
+}
+
+# things title
+function myecho2thing()
+{
+	echo
+	if [ "$1" ]; then
+		# 绿底黑字
+		words=${1}${wordblank}
+		echo -e "\033[42;30m ---> ${words:0:10} \033[0m"
+	fi
+}
+
+# steps title
+function myecho3step()
+{
+	if [ "$1" ]; then
+		# 黄色字
+		echo -e "\033[33m - $1 \033[0m"
+	fi
+}
+
+# reference title
+function myecho4ref()
+{
+	if [ "$1" ]; then
+		echo -e "$1"
+	fi
+}
+
+
+
+#--------------------------------------main------------------------------------#
+
+function init {
+	function when {
+		date
+	}
+	function where {
+		#myecho 'https://www.cnblogs.com/cnpirate/archive/2012/09/16/2687519.html'
+		if [[ -z "$CWD" ]] || [[ ! -d "$CWD" ]]; then
+			#echo 'use the current directory.'
+			nowdir=$(pwd)
+		else
+			#echo 'cd new directory.'
+			cd $CWD
+			nowdir=$(pwd)
+		fi
+		echo 'nowdir: '${nowdir}
+	}
+	function who {
+		case $USER in
+			root)
+				echo 'You are root, go on...'
+				;;
+			*)
+				echo 'You are '${USER}', please "sudo -s"'
+				exit
+				#echo 'You are '${USER}', go on...'
+				;;
+		esac
+	}
+
+	myecho2thing 'init'
+        when && where && who
+}
+
+function myboot {
+	myecho2thing 'boot'
+
+	myecho3step 'boot phase'
+		myecho4ref 'https://blog.csdn.net/u010164190/article/details/72868049'
+
+		echo '1 Phase0	创建四大引导服务:'
+		echo '
+		ActivityManagerService
+		PowerManagerService
+		LightsService
+		DisplayManagerService'
+
+		echo
+		echo '2 Phase100	进入阶段PHASE_WAIT_FOR_DEFAULT_DISPLAY=100回调服务DisplayManagerService'
+		echo '
+		PackageManagerService
+		WindowManagerService
+		InputManagerService
+		NetworkManagerService
+		DropBoxManagerService
+		FingerprintService
+		LauncherAppsService
+		…'
+
+		echo
+		echo '3 Phase480	进入阶段PHASE_LOCK_SETTINGS_READY=480回调服务DevicePolicyManagerService'
+		echo '
+		阶段480后马上就进入阶段500'
+
+		echo
+		echo '4 Phase500	进入阶段PHASE_SYSTEM_SERVICES_READY=500服务，能安全地调用核心系统服务'
+		echo '
+		AlarmManagerService
+		JobSchedulerService
+		NotificationManagerService
+		BackupManagerService
+		UsageStatsService
+		DeviceIdleController
+		TrustManagerService
+		UiModeManagerService
+
+		BluetoothService
+		BluetoothManagerService
+		EthernetService
+		WifiP2pService
+		WifiScanningService
+		WifiService
+		RttService
+
+		各大服务执行systemReady():
+		WindowManagerService.systemReady():
+		PowerManagerService.systemReady():
+		PackageManagerService.systemReady():
+		DisplayManagerService.systemReady():
+
+		接下来就绪AMS.systemReady方法.'
+
+		echo
+		echo '5 Phase550	AMS.mSystemReady=true, 已准备就绪,进入阶段PHASE_ACTIVITY_MANAGER_READY=550服务能广播Intent;但是system_server主线程并没有就绪.'
+		echo '
+		MountService
+		TelecomLoaderService
+		UsbService
+		WebViewUpdateService
+		DockObserver
+		BatteryService
+
+		接下来执行: (AMS启动native crash监控, 加载WebView，启动SystemUi等),如下
+		mActivityManagerService.startObservingNativeCrashes();
+		WebViewFactory.prepareWebViewInSystemServer();
+		startSystemUi(context);
+
+		networkScoreF.systemReady();
+		networkManagementF.systemReady();
+		networkStatsF.systemReady();
+		networkPolicyF.systemReady();
+		connectivityF.systemReady();
+		audioServiceF.systemReady();
+		Watchdog.getInstance().start();'
+
+		echo
+		echo '6 Phase600	PHASE_THIRD_PARTY_APPS_CAN_START=600'
+		echo '
+		JobSchedulerService
+		NotificationManagerService
+		BackupManagerService
+		AppWidgetService
+		GestureLauncherService
+		DreamManagerService
+		TrustManagerService
+		VoiceInteractionManagerService
+
+		接下来,各种服务的systemRunning过程:
+		WallpaperManagerService
+		InputMethodManagerService
+		LocationManagerService
+		CountryDetectorService
+		NetworkTimeUpdateService
+		CommonTimeManagementService
+		TextServicesManagerService
+		AssetAtlasService
+		InputManagerService
+		TelephonyRegistry
+		MediaRouterService
+		MmsServiceBroker
+
+		这些服务依次执行其systemRunning()方法。'
+
+		echo
+		echo '6 Phase600	PHASE_THIRD_PARTY_APPS_CAN_START=600'
+
+		echo
+		echo '7 Phase1000	在经过一系列流程，再调用AMS.finishBooting()时，则进入阶段Phase1000'
+
+		echo
+		echo '到此，系统服务启动阶段完成就绪，system_server进程启动完成则进入Looper.loop()状态，随时待命，等待消息队列MessageQueue中的消息到来，则马上进入执行状态。'
+
+	myecho3step 'boot trace'
+		ag 'SystemServiceManager: Starting phase' -i $target
+
+	myecho3step 'boot progress'
+		ag 'boot_progress_' -i $target
+}
+
+function go {
+	
+	myecho2thing 'go'
+
+	myecho3step 'init'
+		ag 'init    : is_first_stage argv\[2\]' -i $target
+
+	myecho3step 'ueventd'
+		ag 'ueventd : ueventd started' -i $target
+		echo
+		ag 'ueventd : Linking partition' -i $target | wc -l | xargs echo -e 'ueventd : Linking partition'
+		ag 'kvm     : disabled by bios' -i $target  | wc -l | xargs echo -e 'kvm     : disabled by bios '
+		echo
+		ag 'ueventd : Coldboot took' -i $target
+
+	myecho3step 'binder_module'
+#		ag 'binder_module' -i $target
+
+	myecho3step 'logd'
+		ag 'logd.auditd' -i $target
+		ag 'logd.daemon' -i $target
+
+	myecho3step 'healthd'
+		ag 'healthd : No battery devices found' -i $target
+
+	myecho3step 'display-daemon'
+		ag 'display-daemon' -i $target
+
+	myecho3step 'surfaceflinger'
+		ag 'surfaceflinger\[' -i $target
+		ag 'SurfaceFlinger: SurfaceFlinger is' -i $target
+
+	myecho3step 'vold'
+		ag 'vold    : Vold' -i $target
+
+	myecho3step 'Netd'
+		ag 'Netd    : Netd' -i $target
+
+	myecho3step 'perfprofd'
+		ag 'perfprofd: starting Android Wide' -i $target
+
+	myecho3step 'gatekeeperd'
+		ag 'gatekeeperd: Starting gatekeeperd' -i $target
+
+	myecho3step 'keystore'
+		ag 'keystore: Found keymaster0 module' -i $target
+
+	myecho3step 'mediaserver'
+		ag 'mediaserver: ServiceManager' -i $target
+		ag 'mediacodec: @@@ mediacodecservice' -i $target
+
+	myecho3step 'MDnsDS'
+		ag 'MDnsDS  : MDnsSdListener starting' -i $target
+
+	myecho3step 'cameraserver'
+		ag 'cameraserver: ServiceManager' -i $target
+		ag 'CameraService: CameraService' -i $target
+
+	myecho3step 'audioserver'
+		ag 'audioserver: ServiceManager' -i $target
+
+	myecho3step 'mediaserver'
+		ag 'mediaserver: ServiceManager' -i $target
+
+	myecho3step 'RadioService'
+		ag 'RadioService: RadioService' -i $target
+
+	myecho3step 'boot_progress'
+		myboot
+
+	myecho3step 'zygote'
+		ag 'AndroidRuntime: >>>>>> START' -i $target
+		ag 'Zygote  : ...preloaded' -i $target
+		ag 'Zygote  : end preload' -i $target
+		ag 'Zygote  : Process: zygote socket' -i $target
+
+	myecho3step 'system server'
+		ag 'Zygote  : System server process' -i $target
+		ag 'SystemServer: Entered the' -i $target
+		ag 'SystemServiceManager: Starting' -i $target
+		
+	myecho3step ''
+		ag '' -i $target
+
+}
+
+
+
+function main {
+
+	# new chapter
+	myecho1task 'get android status - 20181011'
+	myecho4ref ''
+
+	init
+
+	case $command in
+		help)
+			echo -e '\nCommands: help, go, boot'
+			;;
+		go)
+			go
+			;;
+		boot)
+			myboot
+			;;
+		*)
+			echo -e '\nSorry, unknown command, exit...'
+			;;
+	esac
+
+	myecho2thing 'End'
+}
+
+
+# start from here
+
+	main
+
