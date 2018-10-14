@@ -5,8 +5,8 @@
 #CWD=$1
 command=$1
 target=$2
-wordlength=10
-wordblank='          '
+wordlength=20
+wordblank='                    '
 
 #echo
 #echo -e "\033[30m 黑色字oldboy trainning \033[0m"
@@ -67,7 +67,8 @@ function myecho2thing()
 	if [ "$1" ]; then
 		# 绿底黑字
 		words=${1}${wordblank}
-		echo -e "\033[42;30m ---> ${words:0:10} \033[0m"
+		#echo -e "\033[42;30m ---> ${words:0:10} \033[0m"
+		echo -e "\033[42;30m ---> ${words:0:$wordlength} \033[0m"
 	fi
 }
 
@@ -125,8 +126,54 @@ function init {
         when && where && who
 }
 
+function myservice {
+	myecho2thing 'Android Services'
+	myecho4ref 'https://blog.csdn.net/u010164190/article/details/72868049'
+
+	echo
+	myecho3step '服务类别'
+	echo 'system_server进程，从源码角度划分为引导服务、核心服务、其他服务3类。 以下这些系统服务的注册过程, 见Android系统服务的注册方式
+
+	引导服务(7个)：ActivityManagerService、PowerManagerService、LightsService、DisplayManagerService、PackageManagerService、UserManagerService、SensorService；
+	核心服务(3个)：BatteryService、UsageStatsService、WebViewUpdateService；
+	其他服务(70个+)：AlarmManagerService、VibratorService等。'
+
+	myecho3step '合计总大约80个系统服务'
+	echo '
+	ActivityManagerService	PackageManagerService	WindowManagerService
+	PowerManagerService	BatteryService	BatteryStatsService
+	DreamManagerService	DropBoxManagerService	SamplingProfilerService
+	UsageStatsService	DiskStatsService	DeviceStorageMonitorService
+	SchedulingPolicyService	AlarmManagerService	DeviceIdleController
+	ThermalObserver	JobSchedulerService	AccessibilityManagerService
+	DisplayManagerService	LightsService	GraphicsStatsService
+	StatusBarManagerService	NotificationManagerService	WallpaperManagerService
+	UiModeManagerService	AppWidgetService	LauncherAppsService
+	TextServicesManagerService	ContentService	LockSettingsService
+	InputMethodManagerService	InputManagerService	MountService
+	FingerprintService	TvInputManagerService	DockObserver
+	NetworkManagementService	NetworkScoreService	NetworkStatsService
+	NetworkPolicyManagerService	ConnectivityService	BluetoothService
+	WifiP2pService	WifiService	WifiScanningService
+	AudioService	MediaRouterService	VoiceInteractionManagerService
+	MediaProjectionManagerService	MediaSessionService	 
+	DevicePolicyManagerService	PrintManagerService	BackupManagerService
+	UserManagerService	AccountManagerService	TrustManagerService
+	SensorService	LocationManagerService	VibratorService
+	CountryDetectorService	GestureLauncherService	PersistentDataBlockService
+	EthernetService	WebViewUpdateService	ClipboardService
+	TelephonyRegistry	TelecomLoaderService	NsdService
+	UpdateLockService	SerialService	SearchManagerService
+	CommonTimeManagementService	AssetAtlasService	ConsumerIrService
+	MidiServiceCameraService	TwilightService	RestrictionsManagerService
+	MmsServiceBroker	RttService	UsbService'
+
+	echo '
+Service类别众多，其中表中加粗项是指博主挑选的较重要或者较常见的Service，并且在本博客中已经展开或者计划展开讲解的Service，当然如果有精力会讲解更多service，后续再更新。'
+}
+
 function myboot {
-	myecho2thing 'boot'
+	myecho2thing 'Android Boot'
 
 	myecho3step 'boot phase'
 		myecho4ref 'https://blog.csdn.net/u010164190/article/details/72868049'
@@ -355,6 +402,9 @@ function main {
 			;;
 		boot)
 			myboot
+			;;
+		service)
+			myservice
 			;;
 		*)
 			echo -e '\nSorry, unknown command, exit...'

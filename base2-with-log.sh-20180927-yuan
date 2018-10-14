@@ -3,8 +3,8 @@
 
 # add variables
 CWD=$1
-wordlength=10
-wordblank='          '
+wordlength=20
+wordblank='                    '
 
 #echo
 #echo -e "\033[30m 黑色字oldboy trainning \033[0m"
@@ -65,7 +65,7 @@ function myecho2thing()
 	if [ "$1" ]; then
 		# 绿底黑字
 		words=${1}${wordblank}
-		echo -e "\033[42;30m ---> ${words:0:10} \033[0m"
+		echo -e "\033[42;30m ---> ${words:0:$wordlength} \033[0m"
 	fi
 }
 
