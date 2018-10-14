@@ -126,50 +126,90 @@ function init {
         when && where && who
 }
 
+function check_am {
+	myecho3step 'am_proc'
+		#ag 'am_' -i $target | grep -ivE 'stream|CAM_DisableCamRcver|CAM_Profiler' | ag 'am_'
+
+#		ag 'am_|wm_task' -i $target | grep -ivE 'stream|CAM_DisableCamRcver|CAM_Profiler' | ag 'am_|wm_task'
+		#ag 'am_|wm_task|sysui_' -i $target | grep -ivE 'stream|CAM_DisableCamRcver|CAM_Profiler' | ag 'am_|wm_task|sysui_'
+		ag 'am_|wm_task|sysui_|ActivityManager: START' -i $target | grep -ivE 'stream|CAM_DisableCamRcver|CAM_Profiler' | ag 'am_|wm_task|sysui_|ActivityManager: START'
+}
+function check_binder_module {
+	myecho3step 'binder_module'
+		ag 'binder_module' -i $target
+}
+function check_error {
+	myecho3step 'error check'
+		ag -s ' E ' -i $target
+}
+function check_package_manager {
+	myecho3step 'package manager'
+		ag 'PackageManager: ' -i $target
+}
+function check_system_service {
+	myecho3step 'system service'
+		ag 'SystemServiceManager: Starting phase' -i $target
+		echo
+		ag 'SystemServiceManager: Starting' -i $target
+}
+function check_sysui {
+	myecho3step 'sysui_histogram'
+		ag 'sysui_' -i $target
+}
+function check_vold {
+	myecho3step 'vold'
+		ag 'VoldConnector: ' -i $target
+}
+
+
 function myservice {
 	myecho2thing 'Android Services'
 	myecho4ref 'https://blog.csdn.net/u010164190/article/details/72868049'
 
 	echo
 	myecho3step '服务类别'
-	echo 'system_server进程，从源码角度划分为引导服务、核心服务、其他服务3类。 以下这些系统服务的注册过程, 见Android系统服务的注册方式
+		echo '
+	system_server进程，从源码角度划分为引导服务、核心服务、其他服务3类。 以下这些系统服务的注册过程, 见Android系统服务的注册方式
 
-	引导服务(7个)：ActivityManagerService、PowerManagerService、LightsService、DisplayManagerService、PackageManagerService、UserManagerService、SensorService；
-	核心服务(3个)：BatteryService、UsageStatsService、WebViewUpdateService；
-	其他服务(70个+)：AlarmManagerService、VibratorService等。'
-
+		引导服务(7个)：ActivityManagerService、PowerManagerService、LightsService、DisplayManagerService、PackageManagerService、UserManagerService、SensorService；
+		核心服务(3个)：BatteryService、UsageStatsService、WebViewUpdateService；
+		其他服务(70个+)：AlarmManagerService、VibratorService等。'
+	
 	myecho3step '合计总大约80个系统服务'
-	echo '
-	ActivityManagerService	PackageManagerService	WindowManagerService
-	PowerManagerService	BatteryService	BatteryStatsService
-	DreamManagerService	DropBoxManagerService	SamplingProfilerService
-	UsageStatsService	DiskStatsService	DeviceStorageMonitorService
-	SchedulingPolicyService	AlarmManagerService	DeviceIdleController
-	ThermalObserver	JobSchedulerService	AccessibilityManagerService
-	DisplayManagerService	LightsService	GraphicsStatsService
-	StatusBarManagerService	NotificationManagerService	WallpaperManagerService
-	UiModeManagerService	AppWidgetService	LauncherAppsService
-	TextServicesManagerService	ContentService	LockSettingsService
-	InputMethodManagerService	InputManagerService	MountService
-	FingerprintService	TvInputManagerService	DockObserver
-	NetworkManagementService	NetworkScoreService	NetworkStatsService
-	NetworkPolicyManagerService	ConnectivityService	BluetoothService
-	WifiP2pService	WifiService	WifiScanningService
-	AudioService	MediaRouterService	VoiceInteractionManagerService
-	MediaProjectionManagerService	MediaSessionService	 
-	DevicePolicyManagerService	PrintManagerService	BackupManagerService
-	UserManagerService	AccountManagerService	TrustManagerService
-	SensorService	LocationManagerService	VibratorService
-	CountryDetectorService	GestureLauncherService	PersistentDataBlockService
-	EthernetService	WebViewUpdateService	ClipboardService
-	TelephonyRegistry	TelecomLoaderService	NsdService
-	UpdateLockService	SerialService	SearchManagerService
-	CommonTimeManagementService	AssetAtlasService	ConsumerIrService
-	MidiServiceCameraService	TwilightService	RestrictionsManagerService
-	MmsServiceBroker	RttService	UsbService'
+		echo '
+		ActivityManagerService		PackageManagerService		WindowManagerService
+		PowerManagerService		BatteryService			BatteryStatsService
+		DreamManagerService		DropBoxManagerService		SamplingProfilerService
+		UsageStatsService		DiskStatsService		DeviceStorageMonitorService
+		SchedulingPolicyService		AlarmManagerService		DeviceIdleController
+		ThermalObserver			JobSchedulerService		AccessibilityManagerService
+		DisplayManagerService		LightsService			GraphicsStatsService
+		StatusBarManagerService		NotificationManagerService	WallpaperManagerService
+		UiModeManagerService		AppWidgetService		LauncherAppsService
+		TextServicesManagerService	ContentService			LockSettingsService
+		InputMethodManagerService	InputManagerService		MountService
+		FingerprintService		TvInputManagerService		DockObserver
+		NetworkManagementService	NetworkScoreService		NetworkStatsService
+		NetworkPolicyManagerService	ConnectivityService		BluetoothService
+		WifiP2pService			WifiService			WifiScanningService
+		AudioService			MediaRouterService		VoiceInteractionManagerService
+		MediaProjectionManagerService	MediaSessionService	 
+		DevicePolicyManagerService	PrintManagerService		BackupManagerService
+		UserManagerService		AccountManagerService		TrustManagerService
+		SensorService			LocationManagerService		VibratorService
+		CountryDetectorService		GestureLauncherService		PersistentDataBlockService
+		EthernetService			WebViewUpdateService		ClipboardService
+		TelephonyRegistry		TelecomLoaderService		NsdService
+		UpdateLockService		SerialService			SearchManagerService
+		CommonTimeManagementService	AssetAtlasService		ConsumerIrService
+		MidiServiceCameraService	TwilightService			RestrictionsManagerService
+		MmsServiceBroker		RttService			UsbService'
+	
+		echo '
+	Service类别众多，其中表中加粗项是指博主挑选的较重要或者较常见的Service，并且在本博客中已经展开或者计划展开讲解的Service，当然如果有精力会讲解更多service，后续再更新。'
 
-	echo '
-Service类别众多，其中表中加粗项是指博主挑选的较重要或者较常见的Service，并且在本博客中已经展开或者计划展开讲解的Service，当然如果有精力会讲解更多service，后续再更新。'
+		echo
+		ag 'SystemServiceManager: Starting' -i $target
 }
 
 function myboot {
@@ -282,19 +322,17 @@ function myboot {
 		这些服务依次执行其systemRunning()方法。'
 
 		echo
-		echo '6 Phase600	PHASE_THIRD_PARTY_APPS_CAN_START=600'
-
-		echo
 		echo '7 Phase1000	在经过一系列流程，再调用AMS.finishBooting()时，则进入阶段Phase1000'
 
 		echo
 		echo '到此，系统服务启动阶段完成就绪，system_server进程启动完成则进入Looper.loop()状态，随时待命，等待消息队列MessageQueue中的消息到来，则马上进入执行状态。'
 
-	myecho3step 'boot trace'
-		ag 'SystemServiceManager: Starting phase' -i $target
-
 	myecho3step 'boot progress'
-		ag 'boot_progress_' -i $target
+		echo
+		ag 'BootAnimation: boot animation' -i $target
+		echo
+		ag 'boot_progress_|SystemServiceManager: Starting phase|bootstat:' -i $target
+
 }
 
 function go {
@@ -312,8 +350,7 @@ function go {
 		echo
 		ag 'ueventd : Coldboot took' -i $target
 
-	myecho3step 'binder_module'
-#		ag 'binder_module' -i $target
+#	check_binder_module
 
 	myecho3step 'logd'
 		ag 'logd.auditd' -i $target
@@ -364,22 +401,77 @@ function go {
 	myecho3step 'RadioService'
 		ag 'RadioService: RadioService' -i $target
 
-	myecho3step 'boot_progress'
-		myboot
-
 	myecho3step 'zygote'
 		ag 'AndroidRuntime: >>>>>> START' -i $target
+		#ag "AndroidRuntime: >>>>>> START|AndroidRuntime:" -i $target
+
+	myecho3step 'boot'
+		ag 'boot_progress_start' -i $target
+		ag 'boot_progress_preload_start' -i $target
 		ag 'Zygote  : ...preloaded' -i $target
 		ag 'Zygote  : end preload' -i $target
-		ag 'Zygote  : Process: zygote socket' -i $target
+		ag 'boot_progress_preload_end' -i $target
 
 	myecho3step 'system server'
+		echo 'frameworks/base/services/java/com/android/server/SystemServer.java'
+		echo
 		ag 'Zygote  : System server process' -i $target
+		ag 'Zygote  : Process: zygote socket' -i $target
 		ag 'SystemServer: Entered the' -i $target
-		ag 'SystemServiceManager: Starting' -i $target
-		
-	myecho3step ''
-		ag '' -i $target
+		ag 'boot_progress_system_run' -i $target
+
+	myecho3step 'startBootstrapServices'
+		ag 'SystemServiceManager: Starting com.android.server.pm.Installer' -i $target
+
+	myecho3step 'boot phase'
+		grep -nr 'SystemServiceManager: Starting phase 100' -i $target | grep -v '1000' | ag 'SystemServiceManager: Starting phase 100'
+		ag 'DisplayManagerService: Display device' -i $target
+		ag 'SystemServer: StartPackageManagerService' -i $target
+		ag 'boot_progress_pms_start' -i $target
+		ag 'boot_progress_pms_system_scan_start' -i $target
+		ag 'boot_progress_pms_data_scan_start' -i $target
+		ag 'boot_progress_pms_scan_end' -i $target
+		ag 'PackageManager: Time to scan packages' -i $target
+		ag 'PackageManager: reconcileAppsData finished' -i $target
+		ag 'boot_progress_pms_ready' -i $target
+		ag 'SystemServer: StartUserManagerService' -i $target
+
+	myecho3step 'startCoreServices'
+		ag 'SystemServiceManager: Starting com.android.server.BatteryService' -i $target
+		ag 'SystemServiceManager: Starting com.android.server.webkit.WebViewUpdateService' -i $target
+	myecho3step 'startOtherServices'
+		ag 'SystemServer: Reading configuration' -i $target
+
+	myecho3step 'make services ready'
+		echo 'It is now time to start up the app processes'
+		echo
+		ag 'SystemServiceManager: Starting phase 480' -i $target
+		ag 'SystemServiceManager: Starting phase 500' -i $target
+		ag 'ConnectivityMetricsLoggerService: onBootPhase' -i $target
+
+	myecho3step 'ActivityManagerService'
+		ag 'ActivityManager: System now ready' -i $target
+		ag 'boot_progress_ams_ready' -i $target
+		ag 'SystemServer: Making services ready' -i $target
+		ag 'SystemServiceManager: Starting phase 550' -i $target
+
+		echo
+		ag 'SystemUIService: Starting SystemUI services' -i $target
+		ag 'SystemServiceManager: Starting phase 600' -i $target
+
+
+		ag 'boot_progress_enable_screen' -i $target
+		ag 'SystemServiceManager: Starting phase 1000' -i $target
+		ag 'ActivityManager: Finishing user' -i $target
+
+	myecho3step 'Activities'
+		ag 'FallbackHome:' -i $target
+		echo
+		ag 'SchedPolicy: Failed to find subsys cpu' -i $target | wc -l | xargs echo 'SchedPolicy: Failed to find subsys cpu'
+		ag 'MediaProvider: Missing volume' -i $target          | wc -l | xargs echo 'MediaProvider: Missing volume'
+
+
+#	check_system_service
 
 }
 
@@ -395,16 +487,34 @@ function main {
 
 	case $command in
 		help)
-			echo -e '\nCommands: help, go, boot'
+			echo -e '\nCommands: help, go, am, binder, boot, error, pm, service, vold'
 			;;
 		go)
 			go
 			;;
+		am)
+			check_am
+			;;
+		binder)
+			check_binder_module
+			;;
 		boot)
 			myboot
 			;;
+		error)
+			check_error
+			;;
+		pm)
+			check_package_manager
+			;;
 		service)
 			myservice
+			;;
+		sysui)
+			check_sysui
+			;;
+		vold)
+			check_vold
 			;;
 		*)
 			echo -e '\nSorry, unknown command, exit...'

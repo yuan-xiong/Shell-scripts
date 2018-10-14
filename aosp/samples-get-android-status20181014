@@ -1,0 +1,25 @@
+
+[samples record - 20181014]
+
+	./get-android-status.sh-20181011-yuan	help	system.log30-normal-dmesg
+	./get-android-status.sh-20181011-yuan	go	system.log30-normal-dmesg
+
+	./get-android-status.sh-20181011-yuan	am	system.log30-normal-dmesg
+	./get-android-status.sh-20181011-yuan	binder	system.log30-normal-dmesg
+	./get-android-status.sh-20181011-yuan	boot	system.log30-normal-dmesg
+	./get-android-status.sh-20181011-yuan	pm	system.log30-normal-dmesg
+	./get-android-status.sh-20181011-yuan	service	system.log30-normal-dmesg
+	./get-android-status.sh-20181011-yuan	sysui	system.log30-normal-dmesg
+	./get-android-status.sh-20181011-yuan	vold	system.log30-normal-dmesg
+
+- analyze
+
+	./get-android-status.sh-20181011-yuan	am	system.log30-normal-dmesg | ag 'am_create'
+	./get-android-status.sh-20181011-yuan	am	system.log30-normal-dmesg | ag 'am_finish_activity'
+	./get-android-status.sh-20181011-yuan	am	system.log30-normal-dmesg | ag 'am_on_stop_called'
+	./get-android-status.sh-20181011-yuan	am	system.log30-normal-dmesg | ag 'am_pause_activity'
+	./get-android-status.sh-20181011-yuan	am	system.log30-normal-dmesg | ag 'am_restart_activity'
+
+	./get-android-status.sh-20181011-yuan	error	system.log30-normal-dmesg | ag 'ActivityThread:'
+
+
