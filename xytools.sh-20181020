@@ -273,6 +273,7 @@ function go {
 
 function main {
 
+	echo '------------------------------------main------------------------------------------'
 	myecho1task 'xy tools - 20181020'
 	myecho4ref ''
     echo 'main:' $@
@@ -302,18 +303,18 @@ function main {
     		mytar $@
     		;;
     	*)
-            echo
-            echo 'Unknown command, exiting...'
-            echo
-     		echo 'Usage:
-            '$0 'command param1 param2 ...'
+#            echo
+#            echo 'Unknown command, exiting...'
+#            echo
+#     		echo 'Usage:
+#            '$0 'command param1 param2 ...'
 
             echo '
             commands --->
-            build-linux, link, reboot, rm, save, scp,'
+            build-linux, help, link, reboot, rm, save, scp,'
 
-            echo 'Example:
-            '$0 'scp src:<path>/<file> dst'
+#            echo 'Example:
+#            '$0 'scp src:<path>/<file> dst'
             echo
     		exit
     esac
@@ -326,5 +327,5 @@ function main {
 
 # start from here
 
-	main $@
+	main $@ | tee -a mylog-tools.txt
 
