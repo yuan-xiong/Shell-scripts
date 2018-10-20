@@ -2,9 +2,10 @@
 
 
 # add variables
-CWD=$1
+#CWD=$1
 wordlength=20
 wordblank='                    '
+command=$1
 
 #echo
 #echo -e "\033[30m 黑色字oldboy trainning \033[0m"
@@ -91,10 +92,69 @@ function myecho4ref()
 
 #--------------------------------------my func---------------------------------#
 
+function mylink {
+
+	ln -s $dir/aic .
+	ln -s $dir/aic-manager.tar.gz .
+	ln -s $dir/android.tar.gz .
+}
+function myreboot {
+	top
+	myprompt 'Do you really want to reboot?'
+	sudo reboot
+}
+function mysave {
+	newdir=bak-source/$dir
+	echo 'newdir '$newdir
+	mkdir $newdir
+	sudo mv aic aic-manager.tar.gz android.tar.gz workdir $newdir
+}
+function myscp {
+	myecho2thing 'scp'
+    echo 'myscp:' $@
+    echo
+
+    #scp -r yuan.tar.gz xy4@10.239.76.28:~/yuan
+
+    target=$1
+    where=$2
+    echo 'where:' $2
+
+    case $where in
+        xy2)
+            dst=xy2@10.239.82.126:~/yuan/scp/
+            ;;
+        xy4)
+            #dst=xy4@10.239.76.28:~/yuan/scp/
+            #echo 'dst:' $dst
+            dst='xy4@10.239.76.28:~/yuan/scp/'
+            ;;
+        go)
+            dst=binyang@10.239.93.166:~/yuan/scp/
+            ;;
+        hop)
+            dst=binyang@10.239.93.163:~/yuan/scp/
+            ;;
+        *)
+            echo
+            echo 'where to scp?'
+            echo
+            echo 'where: xy2, xy4, go, hop'
+            echo
+            exit
+    esac
+
+    echo 'target:' $1
+    echo 'dst:' $dst
+    echo
+    scp -r $target $dst
+}
 
 #--------------------------------------main------------------------------------#
 
 function init {
+	myecho2thing 'init'
+
 	function when {
 		date
 	}
@@ -123,8 +183,7 @@ function init {
 		esac
 	}
 
-	myecho2thing 'init'
-        when && where && who
+    when && where && who
 }
 
 
@@ -137,17 +196,50 @@ function go {
 
 function main {
 
-	# new chapter
-	myecho1task 'setup - 20181003'
+	myecho1task 'xy tools - 20181020'
 	myecho4ref ''
+    echo 'main:' $@
 
 	init
-	go
+
+    case $command in
+    	link)
+    		mylink
+    		;;
+    	save)
+    		mysave
+    		;;
+    	scp)
+            shift
+    		myscp $@
+    		;;
+    	reboot)
+    		myreboot
+    		;;
+    	*)
+            echo
+            echo 'Unknown command, exiting...'
+            echo
+     		echo 'Usage:
+            '$0 'command param1 param2 ...'
+
+            echo '
+            commands --->
+            link, save, scp, reboot'
+
+            echo 'Example:
+            '$0 'scp src:<path>/<file> dst'
+            echo
+    		exit
+    esac
+
+
+	#go
 	myecho2thing 'End'
 }
 
 
 # start from here
 
-	main
+	main $@
 

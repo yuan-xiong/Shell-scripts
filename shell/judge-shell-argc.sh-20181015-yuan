@@ -26,8 +26,6 @@ wordblank='                    '
 #echo -e "\033[47;30m 白底黑字 welcome to old8boy\033[0m"
 #echo
 
-#--------------------------------------head------------------------------------#
-
 # add functions
 function myecho () {
 	if [ "$1" ]; then
@@ -74,7 +72,6 @@ function myecho2thing()
 # steps title
 function myecho3step()
 {
-    echo
 	if [ "$1" ]; then
 		# 黄色字
 		echo -e "\033[33m - $1 \033[0m"
@@ -89,7 +86,6 @@ function myecho4ref()
 	fi
 }
 
-#--------------------------------------my func---------------------------------#
 
 
 #--------------------------------------main------------------------------------#
@@ -133,12 +129,13 @@ function go {
 	myecho2thing 'go'
 
 	myecho3step ''
+
 }
 
 function main {
 
 	# new chapter
-	myecho1task 'setup - 20181003'
+	myecho1task 'judge shell argc - 20181003'
 	myecho4ref ''
 
 	init
@@ -149,5 +146,12 @@ function main {
 
 # start from here
 
+    if [[ $# -gt 0 ]]; then
+        echo "参数个数为$#个"
+    else
+        echo "没有参数"
+    fi
+
 	main
+
 

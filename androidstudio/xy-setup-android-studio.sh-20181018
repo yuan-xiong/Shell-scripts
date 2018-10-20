@@ -26,8 +26,6 @@ wordblank='                    '
 #echo -e "\033[47;30m 白底黑字 welcome to old8boy\033[0m"
 #echo
 
-#--------------------------------------head------------------------------------#
-
 # add functions
 function myecho () {
 	if [ "$1" ]; then
@@ -74,7 +72,7 @@ function myecho2thing()
 # steps title
 function myecho3step()
 {
-    echo
+	echo
 	if [ "$1" ]; then
 		# 黄色字
 		echo -e "\033[33m - $1 \033[0m"
@@ -89,7 +87,6 @@ function myecho4ref()
 	fi
 }
 
-#--------------------------------------my func---------------------------------#
 
 
 #--------------------------------------main------------------------------------#
@@ -130,16 +127,57 @@ function init {
 
 function go {
 	
-	myecho2thing 'go'
+	myecho2thing 'Android Studio'
 
-	myecho3step ''
+	myecho3step 'software'
+        echo "download windows x64 software"
+
+	myecho3step 'proxy'
+        echo "set proxy for AS:"
+        myecho "child-prc.intel.com:913/"
+
+	myecho3step 'sdk'
+        echo "download in AS:" 
+        myecho "C:\Users\yuanxion\AppData\Local\Android\Sdk"
+
+	myecho3step 'env. path'
+        echo "set System variables in Environment Variables"
+
+	myecho3step 'adb'
+        echo "new Path for adb:"
+        myecho "C:\Users\yuanxion\AppData\Local\Android\Sdk\platform-tools"
+
+	myecho3step 'cellphone'
+        echo "open developer option"
+        echo "open USB debug"
+    
+	myecho3step 'device manager'
+        echo "download google usb driver"
+
+	myecho3step 'Google USB Driver'
+        echo "download google usb driver in:"
+        myecho "Android SDK Manager >> SDK tools"
+        myecho4ref 'https://developer.android.com/studio/run/win-usb#'
+
+	myecho3step 'adb wifi'
+    myecho4ref 'https://blog.csdn.net/c1063891514/article/details/79039384'
+        echo "connect cellphone and host with USB cable"
+        echo "[optional] make sure cellphone connected to host: adb devices"
+        echo "[optional] make cellphone listen to TCP/IP at port 5555:  adb tcpip 5555"
+        echo
+        echo "adb connect 192.168.1.3"
+        echo "failed to connect to 192.168.1.3:5555"
+        echo "adb connect 192.168.1.3"
+        echo "already connected to 192.168.1.3:5555"
+        echo "adb devices"
+        echo "192.168.1.3:5555  offline"
 }
 
 function main {
 
 	# new chapter
-	myecho1task 'setup - 20181003'
-	myecho4ref ''
+	myecho1task 'setup Andriod Studio - 20181018'
+	myecho4ref 'https://www.crifan.com/adt_avd_manager_can_not_find_android_device_samsung_pad_gt_p3110/'
 
 	init
 	go
