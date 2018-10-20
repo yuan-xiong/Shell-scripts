@@ -103,6 +103,14 @@ function myreboot {
 	myprompt 'Do you really want to reboot?'
 	sudo reboot
 }
+function myrm {
+    target=$2
+    echo 'target' $target
+    echo
+
+    myprompt "rm ${target}"
+    rm -fr $target
+}
 function mysave {
 	newdir=bak-source/$dir
 	echo 'newdir '$newdir
@@ -116,9 +124,9 @@ function myscp {
 
     #scp -r yuan.tar.gz xy4@10.239.76.28:~/yuan
 
-    target=$1
-    where=$2
-    echo 'where:' $2
+    target=$2
+    where=$3
+    echo 'where:' $where
 
     case $where in
         xy2)
@@ -144,12 +152,20 @@ function myscp {
             exit
     esac
 
-    echo 'target:' $1
+    echo 'target:' $target
     echo 'dst:' $dst
     echo
     scp -r $target $dst
 }
+function mytar {
+	myecho2thing 'tar'
+    echo 'mytar:' $@
+    echo
 
+    target=$2
+    echo 'target' $target
+    tar cvzf ${target}.tar.gz ${target}
+}
 #--------------------------------------main------------------------------------#
 
 function init {
@@ -206,15 +222,20 @@ function main {
     	link)
     		mylink
     		;;
+    	reboot)
+    		myreboot
+    		;;
+    	rm)
+    		myrm $@
+    		;;
     	save)
     		mysave
     		;;
     	scp)
-            shift
     		myscp $@
     		;;
-    	reboot)
-    		myreboot
+    	tar)
+    		mytar $@
     		;;
     	*)
             echo
@@ -225,7 +246,7 @@ function main {
 
             echo '
             commands --->
-            link, save, scp, reboot'
+            link, reboot, rm, save, scp,'
 
             echo 'Example:
             '$0 'scp src:<path>/<file> dst'
