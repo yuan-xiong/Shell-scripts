@@ -1,0 +1,15 @@
+
+
+# xytool
+    xytools.sh-20181020 rm Android.tar.gz 
+    xytools.sh-20181020 scp AndroidStudioProjects.tar.gz xy4
+    xytools.sh-20181020 tar AndroidStudioProjects
+
+# ftrace
+	xy-ftrace.sh-20181018-yuan count
+	xy-ftrace.sh-20181018-yuan new
+
+
+# perf
+	xy-perf.sh-20181018-yuan syscall
+
