@@ -207,25 +207,37 @@ function build-linux {
 function mygit {
 	myecho2thing 'simple git operation'
 
-    myprompt 'git status'
-    git status
-
-    myprompt 'git commit'
-    git commit
-
-    myprompt 'git log'
-    git log
-
-    myprompt 'git pull'
-    git pull origin master
-
-    myprompt 'git push'
-    git push origin master
-
-    myprompt 'git branch'
-    git branch -av
+        echo
+        myprompt 'git status'
+        git status
+    
+        echo
+        myprompt 'git commit'
+        git commit
+    
+        echo
+        myprompt 'git log'
+        git log
+    
+        echo
+        myprompt 'git pull'
+        git pull origin master
+    
+        echo
+        myprompt 'git log'
+        git log
+    
+        echo
+        myprompt 'git push'
+        git push origin master
+    
+        echo
+        myprompt 'git branch'
+        git branch -av
 }
-function mylink {
+function link-aic {
+	myecho2thing 'link aic'
+	dir=$1
 
 	ln -s $dir/aic .
 	ln -s $dir/aic-manager.tar.gz .
@@ -244,8 +256,10 @@ function myrm {
     myprompt "rm ${target}"
     rm -fr $target
 }
-function mysave {
-	newdir=bak-source/$dir
+function save-aic {
+	myecho2thing 'save aic'
+
+	newdir=$1
 	echo 'newdir '$newdir
 	mkdir $newdir
 	sudo mv aic aic-manager.tar.gz android.tar.gz workdir $newdir
@@ -383,6 +397,7 @@ function go {
 
 function main {
 
+	echo '------------------------------------main------------------------------------------'
 	myecho1task 'xy tools - 20181020'
 	myecho4ref ''
     echo 'main:' $@
@@ -399,8 +414,8 @@ function main {
     	git)
     		mygit
     		;;
-    	link)
-    		mylink
+    	link-aic)
+    		link-aic
     		;;
     	reboot)
     		myreboot
@@ -408,8 +423,8 @@ function main {
     	rm)
     		myrm $@
     		;;
-    	save)
-    		mysave
+    	save-aic)
+    		save-aic
     		;;
     	scp)
     		myscp $@
@@ -421,18 +436,18 @@ function main {
     		mytar $@
     		;;
     	*)
-            echo
-            echo 'Unknown command, exiting...'
-            echo
-     		echo 'Usage:
-            '$0 'command param1 param2 ...'
+#            echo
+#            echo 'Unknown command, exiting...'
+#            echo
+#     		echo 'Usage:
+#            '$0 'command param1 param2 ...'
 
             echo '
             commands --->
-            build-aic, build-linux, git, link, reboot, rm, save, scp, scp-aic'
+            build-aic, build-linux, help, git, link-aic, reboot, rm, save-aic, scp, scp-aic'
 
-            echo 'Example:
-            '$0 'scp src:<path>/<file> dst'
+#            echo 'Example:
+#            '$0 'scp src:<path>/<file> dst'
             echo
     		exit
     esac
