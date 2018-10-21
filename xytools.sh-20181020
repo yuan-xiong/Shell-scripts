@@ -107,6 +107,48 @@ function myecho4ref()
 #--------------------------------------my func---------------------------------#
 
 function build-linux {
+	myecho2thing 'build aic'
+
+    myecho3step 'AIC repo with Hudini'
+    #	prompt '[repository...] sync'
+    	#repo init -u ssh://android.intel.com/manifests -b android/n/topic/aosp/container/7.1.2_r24 -m default_houdini.xml
+    #	repo sync -cj5 -d
+    
+    myecho3step 'check env.'
+    	env | grep NINJA
+    
+    	python2.7 -m pip --version
+    	#sudo apt remove python-pip
+    	#prompt '[Install...] pip'
+    	#curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+    	#sudo python2.7 get-pip.py --force-reinstall
+    
+    	#prompt '[Checking...] python pip ok'
+    	#sudo pip install Mako
+    #	prompt '[Checking...] env. ok'
+    
+    	#prompt 'remove out/target/product/system app & lib'
+    	#rm -fr out/target/product/cloud/system/lib/
+    	#rm -fr out/target/product/cloud/system/lib64/
+    	#rm -fr out/target/product/cloud/system/app/tmgp/
+    
+    	source build/envsetup.sh 
+    	# lunch 
+    	# 19. multidroid_cloud-userdebug
+    	lunch 19
+
+    myecho3step 'make'
+    	#prompt '[make clean...] ok'
+    	#make clean
+    	#prompt '[make clobber...] ok'
+    	#make clobber
+    
+    	#prompt '[make...] start make ?'
+        make multidroid -j16 && aic-build
+    	#make multidroid -j16 2>&1 | tee mylog-$VERSION.cloud
+        #make multidroid -j16 && aic-build 2>&1 | tee mylog-$VERSION.cloud
+}
+function build-linux {
 	myecho2thing 'build linux'
     myecho4ref 'https://blog.csdn.net/lingran07/article/details/7643957'
 
@@ -162,6 +204,27 @@ function build-linux {
     	#sudo update-grub
 		sudo reboot
 }
+function mygit {
+	myecho2thing 'simple git operation'
+
+    myprompt 'git status'
+    git status
+
+    myprompt 'git commit'
+    git commit
+
+    myprompt 'git log'
+    git log
+
+    myprompt 'git pull'
+    git pull origin master
+
+    myprompt 'git push'
+    git push origin master
+
+    myprompt 'git branch'
+    git branch -av
+}
 function mylink {
 
 	ln -s $dir/aic .
@@ -186,6 +249,53 @@ function mysave {
 	echo 'newdir '$newdir
 	mkdir $newdir
 	sudo mv aic aic-manager.tar.gz android.tar.gz workdir $newdir
+}
+function scp-aic {
+	myecho2thing 'scp aic images'
+
+    dir=$2
+    where=$3
+    echo 'where:' $where
+    tag=$4
+
+    cd ${dir}
+
+    case $where in
+        xy2)
+            dst='xy2@10.239.82.126:~/yuan/current/'
+            ;;
+        xy4)
+            dst='xy4@10.239.76.28:~/yuan/current/'
+            ;;
+        go)
+            dst='binyang@10.239.93.166:~/yuan/current/'
+            ;;
+        hop)
+            dst='binyang@10.239.93.163:~/yuan/current/'
+            ;;
+        backup)
+            dst='xy2@10.239.82.126:/home/xy2/aic-all/source-bak/out-bak/'
+            ;;
+        *)
+            echo
+            echo 'where to scp?'
+            echo
+            echo 'where: xy2, xy4, go, hop'
+            echo
+            exit
+    esac
+
+    echo
+    mkdir -p ${tag}
+    mv aic aic-manager.tar.gz android.tar.gz ${tag}
+
+    echo 'src:' ${tag}/
+    echo 'dst:' $dst
+
+    scp -r ${tag} $dst 2>&1
+    #scp -r out/target/product/cloud/source1-1021-no-uevent-patch-show-netlink-pid/ xy4@10.239.76.28:~/yuan/scp/
+
+    cd -
 }
 function myscp {
 	myecho2thing 'scp'
@@ -280,8 +390,14 @@ function main {
 	init
 
     case $command in
+    	build-aic)
+    		build-linux $@
+    		;;
     	build-linux)
     		build-linux $@
+    		;;
+    	git)
+    		mygit
     		;;
     	link)
     		mylink
@@ -298,6 +414,9 @@ function main {
     	scp)
     		myscp $@
     		;;
+    	scp-aic)
+    		scp-aic $@
+    		;;
     	tar)
     		mytar $@
     		;;
@@ -310,7 +429,7 @@ function main {
 
             echo '
             commands --->
-            build-linux, link, reboot, rm, save, scp,'
+            build-aic, build-linux, git, link, reboot, rm, save, scp, scp-aic'
 
             echo 'Example:
             '$0 'scp src:<path>/<file> dst'
@@ -326,5 +445,5 @@ function main {
 
 # start from here
 
-	main $@
+	main $@ | tee -a mylog-tools.txt
 
