@@ -162,7 +162,9 @@ function build-linux {
     	#sudo update-grub
 		sudo reboot
 }
-function mylink {
+function link-aic {
+	myecho2thing 'link aic'
+	dir=$1
 
 	ln -s $dir/aic .
 	ln -s $dir/aic-manager.tar.gz .
@@ -181,8 +183,10 @@ function myrm {
     myprompt "rm ${target}"
     rm -fr $target
 }
-function mysave {
-	newdir=bak-source/$dir
+function save-aic {
+	myecho2thing 'save aic'
+
+	newdir=$1
 	echo 'newdir '$newdir
 	mkdir $newdir
 	sudo mv aic aic-manager.tar.gz android.tar.gz workdir $newdir
