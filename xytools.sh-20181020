@@ -282,6 +282,23 @@ function link-aic {
 	ln -s $dir/aic-manager.tar.gz .
 	ln -s $dir/android.tar.gz .
 }
+function myperf {
+	myecho2thing 'perf'
+	myecho3step ''
+
+	subcommand=$2
+	echo 'subcommand:' $subcommand
+
+    echo
+	case $subcommand in
+		callstack)
+            perf report --no-children --header -U -g 0.5,callee --sort=dso,symbol
+            ;;
+        *)
+            echo 'unknown perf subcommand, exiting...'
+            exit
+    esac    
+}
 function myreboot {
 	top
 	myprompt 'Do you really want to reboot?'
@@ -289,7 +306,7 @@ function myreboot {
 }
 function myrm {
     target=$2
-    echo 'target' $target
+    echo 'target:' $target
     echo
 
     myprompt "rm ${target}"
@@ -390,6 +407,12 @@ function myscp {
     echo
     scp -r $target $dst
 }
+function mystrace {
+	myecho2thing 'strace'
+	myecho3step ''
+
+    strace -e trace=open,read
+}
 function mytar {
 	myecho2thing 'tar'
     echo 'mytar:' $@
@@ -459,6 +482,9 @@ function main {
     	link-aic)
     		link-aic $@
     		;;
+    	perf)
+    		myperf
+    		;;
     	reboot)
     		myreboot
     		;;
@@ -486,7 +512,7 @@ function main {
 
             echo '
             commands --->
-            build-aic, build-linux, help, git, link-aic, reboot, rm, save-aic, scp, scp-aic'
+            aic, build-aic, build-linux, help, git, link-aic, perf, reboot, rm, save-aic, scp, scp-aic'
 
 #            echo 'Example:
 #            '$0 'scp src:<path>/<file> dst'
@@ -502,5 +528,5 @@ function main {
 
 # start from here
 
-	main $@ | tee -a mylog-tools.txt
+main $@ | tee -a mylog-tools-$(date +%Y%m%d-%H%M%S).txt
 
