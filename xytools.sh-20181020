@@ -139,6 +139,21 @@ function myaic {
 			sudo dmesg -c
 			sudo dmesg -c
 			;;
+        rm)
+			echo 'aic rm'
+            target=$3
+            startidx=$4
+            endidx=$5
+            echo 'target:' $target
+            echo 'startidx:' $startidx
+            echo 'endidx:' $endidx
+
+            myprompt "aic rm ${target}${startidx} - ${target}${endidx}"
+            for i in $(seq $startidx $endidx)
+            do
+                sudo rm -fr ${target}${i}
+            done
+            ;;
 		*)
 			echo 'unkown aic command, exiting...'
 			exit
@@ -399,7 +414,7 @@ function myscp {
 
     case $where in
         xy2)
-            dst=xy2@10.239.82.126:~/yuan/scp/
+            dst='xy2@10.239.82.126:~/yuan/scp/'
             ;;
         xy4)
             #dst=xy4@10.239.76.28:~/yuan/scp/
@@ -407,10 +422,10 @@ function myscp {
             dst='xy4@10.239.76.28:~/yuan/scp/'
             ;;
         go)
-            dst=binyang@10.239.93.166:~/yuan/scp/
+            dst='binyang@10.239.93.166:~/yuan/scp/'
             ;;
         hop)
-            dst=binyang@10.239.93.163:~/yuan/scp/
+            dst='binyang@10.239.93.163:~/yuan/scp/'
             ;;
         *)
             echo
@@ -486,9 +501,9 @@ function main {
 	init
 
     case $command in
-	aic)
-		myaic $@
-		;;
+        aic)
+		    myaic $@
+		    ;;
     	build-aic)
     		build-linux $@
     		;;
