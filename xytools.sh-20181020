@@ -250,11 +250,6 @@ function mylinux {
 
 	echo
 	case $subcommand in
-		chown)
-			target=$3
-			echo 'target:' $target
-			sudo chown -R $USER:$USER $target
-			;;
 		build)
 			myecho2thing 'build linux'
 			myecho4ref 'https://blog.csdn.net/lingran07/article/details/7643957'
@@ -311,6 +306,19 @@ function mylinux {
 		    	#sudo update-grub
 				sudo reboot
 			;;
+		chown)
+			target=$3
+			echo 'target:' $target
+			sudo chown -R $USER:$USER $target
+			;;
+        rm)
+            target=$3
+            echo 'target:' $target
+            echo
+            
+            myprompt "rm ${target}"
+            rm -fr $target
+            ;;
 		*)
 			echo 'unknown linux command, exiting...'
 			exit
@@ -337,14 +345,6 @@ function myreboot {
 	top
 	myprompt 'Do you really want to reboot?'
 	sudo reboot
-}
-function myrm {
-    target=$2
-    echo 'target:' $target
-    echo
-
-    myprompt "rm ${target}"
-    rm -fr $target
 }
 function save-aic {
 	myecho2thing 'save aic'
@@ -522,9 +522,6 @@ function main {
     	reboot)
     		myreboot
     		;;
-    	rm)
-    		myrm $@
-    		;;
     	save-aic)
     		save-aic $@
     		;;
@@ -549,7 +546,7 @@ function main {
 
             echo '
             commands --->
-            aic, build-aic, git, help, link-aic, linux, perf, reboot, rm, save-aic, scp, scp-aic, strace, tar'
+            aic, build-aic, git, help, link-aic, linux, perf, reboot, save-aic, scp, scp-aic, strace, tar'
 
 #            echo 'Example:
 #            '$0 'scp src:<path>/<file> dst'

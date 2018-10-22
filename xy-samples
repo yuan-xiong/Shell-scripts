@@ -1,4 +1,6 @@
 
+# aic rm
+    xytools.sh-20181020 aic rm workdir/data 150 199
 
 # xytool
     xytools.sh-20181020 rm Android.tar.gz 
@@ -12,4 +14,36 @@
 
 # perf
 	xy-perf.sh-20181018-yuan syscall
+
+    ./get-start-instance-and-perf-record.sh-20180918-yuan perf 303
+
+
+# strace
+    # not ok
+    #strace -f -e trace=open,read ./aic start 154 -o mystrace
+
+
+# samples record - 20181014
+
+	./get-android-status.sh-20181011-yuan	help	system.log30-normal-dmesg
+	./get-android-status.sh-20181011-yuan	go      system.log30-normal-dmesg
+
+	./get-android-status.sh-20181011-yuan	am      system.log30-normal-dmesg
+	./get-android-status.sh-20181011-yuan	binder	system.log30-normal-dmesg
+	./get-android-status.sh-20181011-yuan	boot	system.log30-normal-dmesg
+	./get-android-status.sh-20181011-yuan	pm      system.log30-normal-dmesg
+	./get-android-status.sh-20181011-yuan	service	system.log30-normal-dmesg
+	./get-android-status.sh-20181011-yuan	sysui	system.log30-normal-dmesg
+	./get-android-status.sh-20181011-yuan	vold	system.log30-normal-dmesg
+
+- analyze
+
+	./get-android-status.sh-20181011-yuan	am	    system.log30-normal-dmesg | ag 'am_create'
+	./get-android-status.sh-20181011-yuan	am	    system.log30-normal-dmesg | ag 'am_finish_activity'
+	./get-android-status.sh-20181011-yuan	am	    system.log30-normal-dmesg | ag 'am_on_stop_called'
+	./get-android-status.sh-20181011-yuan	am	    system.log30-normal-dmesg | ag 'am_pause_activity'
+	./get-android-status.sh-20181011-yuan	am	    system.log30-normal-dmesg | ag 'am_restart_activity'
+
+	./get-android-status.sh-20181011-yuan	error	system.log30-normal-dmesg | ag 'ActivityThread:'
+
 
