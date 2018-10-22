@@ -109,14 +109,14 @@ function myecho4ref()
 #--------------------------------------my func---------------------------------#
 function myaic {
 	myecho2thing 'run aic command'
-
 	myecho3step ''
-	subcommand=$2
-	echo 'subcommand:' $subcommand
 
+		subcommand=$2
+		echo 'subcommand:' $subcommand
+
+	echo
 	case $subcommand in
 		new)
-			echo
 			myprompt 'aic uninstall'
 			./aic uninstall
 			./aic uninstall
@@ -140,8 +140,8 @@ function myaic {
 			sudo dmesg -c
 			;;
 		*)
-			echo
-			echo 'unkown aic command'
+			echo 'unkown aic command, exiting...'
+			exit
 	esac
 }
 function build-aic {
@@ -186,62 +186,6 @@ function build-aic {
     	#make multidroid -j16 2>&1 | tee mylog-$VERSION.cloud
         #make multidroid -j16 && aic-build 2>&1 | tee mylog-$VERSION.cloud
 }
-function build-linux {
-	myecho2thing 'build linux'
-    myecho4ref 'https://blog.csdn.net/lingran07/article/details/7643957'
-
-    check-permission
-    dir=$2
-    cd $dir
-    pwd
-
-    myecho3step 'source code'
-    myecho4ref 'https://www.kernel.org'
-    	#tar xzvf linux-4.18-rc7.tar.gz
-    	#cd linux-4.18-rc7/
-#		cp /boot/config-4.4.0-131-generic .config
-#		make menuconfig
-#		# disable LOCKDEP_SUPPORT: change 'def_bool y' to 'bool' in vim arch/x86/Kconfig
-#		make oldconfig
-
-    myecho3step 'prerequsites'
-    	#sudo apt-get update
-    	#sudo apt-get install -y bison
-    	#sudo apt-get install -y flex
-    	#sudo apt-get install -y libncurses5-dev
-    	#sudo apt-get install -y libelf-dev
-    	#sudo apt-get install -y libssl-dev
-    	myecho3step '.config'
-    
-    myecho3step 'for boot firmware'
-    	#sudo apt install intel-microcode
-    	# [Download...] https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linu-firmware.git/tree/i915
-    	#sudo cp ../linux-4.18-rc7-missing-firmware-libs/* /lib/firmware/i915/	
-
-	myecho3step 'make'
-		make clean
-		make -j16
-#		make modules
-
-	myecho3step 'make install'
-		make modules_install
-		make install
-
-	myecho3step 'update grub'
-		update-grub
-
-    cd -
-
-	myecho3step 'reboot'
-		myprompt 'reboot'
-#    	#GRUB_HIDDEN_TIMEOUT=0
-#    	#GRUB_HIDDEN_TIMEOUT_QUIET=true
-#    	GRUB_HIDDEN_TIMEOUT=8
-#    	GRUB_HIDDEN_TIMEOUT_QUIET=false
-
-    	#sudo update-grub
-		sudo reboot
-}
 function mygit {
 	myecho2thing 'simple git operation'
 
@@ -281,6 +225,81 @@ function link-aic {
 	ln -s $dir/aic .
 	ln -s $dir/aic-manager.tar.gz .
 	ln -s $dir/android.tar.gz .
+}
+function mylinux {
+	myecho2thing 'linux command'
+	myecho3step ''
+
+		subcommand=$2
+		echo 'subcommand:' $subcommand
+
+	echo
+	case $subcommand in
+		chown)
+			target=$3
+			echo 'target:' $target
+			sudo chown -R $USER:$USER $target
+			;;
+		build)
+			myecho2thing 'build linux'
+			myecho4ref 'https://blog.csdn.net/lingran07/article/details/7643957'
+
+		    check-permission
+		    dir=$3
+		    cd $dir
+		    pwd
+		
+		    myecho3step 'source code'
+		    myecho4ref 'https://www.kernel.org'
+		    	#tar xzvf linux-4.18-rc7.tar.gz
+		    	#cd linux-4.18-rc7/
+#				cp /boot/config-4.4.0-131-generic .config
+#				make menuconfig
+#				# disable LOCKDEP_SUPPORT: change 'def_bool y' to 'bool' in vim arch/x86/Kconfig
+#				make oldconfig
+		
+		    myecho3step 'prerequsites'
+		    	#sudo apt-get update
+		    	#sudo apt-get install -y bison
+		    	#sudo apt-get install -y flex
+		    	#sudo apt-get install -y libncurses5-dev
+		    	#sudo apt-get install -y libelf-dev
+		    	#sudo apt-get install -y libssl-dev
+		    	myecho3step '.config'
+		    
+		    myecho3step 'for boot firmware'
+		    	#sudo apt install intel-microcode
+		    	# [Download...] https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linu-firmware.git/tree/i915
+		    	#sudo cp ../linux-4.18-rc7-missing-firmware-libs/* /lib/firmware/i915/	
+		
+			myecho3step 'make'
+				make clean
+				make -j16
+#				make modules
+		
+			myecho3step 'make install'
+				make modules_install
+				make install
+		
+			myecho3step 'update grub'
+				update-grub
+		
+		    cd -
+		
+			myecho3step 'reboot'
+				myprompt 'reboot'
+#		    	#GRUB_HIDDEN_TIMEOUT=0
+#		    	#GRUB_HIDDEN_TIMEOUT_QUIET=true
+#		    	GRUB_HIDDEN_TIMEOUT=8
+#		    	GRUB_HIDDEN_TIMEOUT_QUIET=false
+		
+		    	#sudo update-grub
+				sudo reboot
+			;;
+		*)
+			echo 'unknown linux command, exiting...'
+			exit
+	esac
 }
 function myperf {
 	myecho2thing 'perf'
@@ -473,9 +492,6 @@ function main {
     	build-aic)
     		build-linux $@
     		;;
-    	build-linux)
-    		build-linux $@
-    		;;
     	git)
     		mygit
     		;;
@@ -484,6 +500,9 @@ function main {
     		;;
     	perf)
     		myperf
+            ;;
+    	linux)
+    		mylinux $@
     		;;
     	reboot)
     		myreboot
@@ -500,6 +519,9 @@ function main {
     	scp-aic)
     		scp-aic $@
     		;;
+        strace)
+        	mystrace $@
+    		;;
     	tar)
     		mytar $@
     		;;
@@ -512,7 +534,7 @@ function main {
 
             echo '
             commands --->
-            aic, build-aic, build-linux, help, git, link-aic, perf, reboot, rm, save-aic, scp, scp-aic'
+            aic, build-aic, git, help, link-aic, linux, perf, reboot, rm, save-aic, scp, scp-aic, strace, tar'
 
 #            echo 'Example:
 #            '$0 'scp src:<path>/<file> dst'
