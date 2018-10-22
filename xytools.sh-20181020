@@ -5,7 +5,9 @@
 #CWD=$1
 wordlength=20
 wordblank='                    '
+
 command=$1
+readinput=0
 
 #echo
 #echo -e "\033[30m 黑色字oldboy trainning \033[0m"
@@ -60,7 +62,7 @@ function myhighlight()
 }
 function myprompt()
 {
-	read -p "$1 [YES/NO]: " input
+	read -p "$1 [YES/NO]: " readinput
 }
 
 
@@ -105,8 +107,44 @@ function myecho4ref()
 }
 
 #--------------------------------------my func---------------------------------#
+function myaic {
+	myecho2thing 'run aic command'
 
-function build-linux {
+	myecho3step ''
+	subcommand=$2
+	echo 'subcommand:' $subcommand
+
+	case $subcommand in
+		new)
+			echo
+			myprompt 'aic uninstall'
+			./aic uninstall
+			./aic uninstall
+			echo
+			myprompt 'aic install, read number:'
+			echo 'readinput:' $readinput
+			./aic install -n $readinput 
+			echo
+			myprompt 'clear dmesg'
+			sudo dmesg -c
+			sudo dmesg -c
+			echo
+			myprompt 'aic aic-manager'
+			sudo docker start aic-manager
+			echo
+			myprompt 'check binder nodes'
+			sleep 1
+			ls /dev/binder*
+			myprompt 'clear dmesg'
+			sudo dmesg -c
+			sudo dmesg -c
+			;;
+		*)
+			echo
+			echo 'unkown aic command'
+	esac
+}
+function build-aic {
 	myecho2thing 'build aic'
 
     myecho3step 'AIC repo with Hudini'
@@ -237,7 +275,8 @@ function mygit {
 }
 function link-aic {
 	myecho2thing 'link aic'
-	dir=$1
+	dir=$2
+	echo 'dir:' $dir
 
 	ln -s $dir/aic .
 	ln -s $dir/aic-manager.tar.gz .
@@ -405,6 +444,9 @@ function main {
 	init
 
     case $command in
+	aic)
+		myaic $@
+		;;
     	build-aic)
     		build-linux $@
     		;;
@@ -415,7 +457,7 @@ function main {
     		mygit
     		;;
     	link-aic)
-    		link-aic
+    		link-aic $@
     		;;
     	reboot)
     		myreboot
@@ -424,7 +466,7 @@ function main {
     		myrm $@
     		;;
     	save-aic)
-    		save-aic
+    		save-aic $@
     		;;
     	scp)
     		myscp $@
