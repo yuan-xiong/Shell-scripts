@@ -116,17 +116,27 @@ function myaic {
 
 	echo
 	case $subcommand in
+        link)
+	        dir=$3
+	        echo 'dir:' $dir
+
+	        ln -s $dir/aic .
+	        ln -s $dir/aic-manager.tar.gz .
+	        ln -s $dir/android.tar.gz .
+            ;;
 		new)
 			myprompt 'aic uninstall'
 			./aic uninstall
 			./aic uninstall
 			echo
+			myprompt 'rm workdir'
+            sudo rm -fr workdir/
+            echo
 			myprompt 'aic install, read number:'
 			echo 'readinput:' $readinput
 			./aic install -n $readinput 
 			echo
 			myprompt 'clear dmesg'
-			sudo dmesg -c
 			sudo dmesg -c
 			echo
 			myprompt 'aic aic-manager'
@@ -134,10 +144,10 @@ function myaic {
 			echo
 			myprompt 'check binder nodes'
 			sleep 1
-			ls /dev/binder*
-			myprompt 'clear dmesg'
-			sudo dmesg -c
-			sudo dmesg -c
+			ls /dev/ | grep binder
+			#myprompt 'clear dmesg'
+			#sudo dmesg -c
+			#sudo dmesg -c
 			;;
 		*)
 			echo 'unkown aic command, exiting...'
@@ -199,7 +209,7 @@ function mygit {
     
         echo
         myprompt 'git log'
-        git log
+        git log | more
     
         echo
         myprompt 'git pull'
@@ -207,7 +217,7 @@ function mygit {
     
         echo
         myprompt 'git log'
-        git log
+        git log | more
     
         echo
         myprompt 'git push'
@@ -216,15 +226,6 @@ function mygit {
         echo
         myprompt 'git branch'
         git branch -av
-}
-function link-aic {
-	myecho2thing 'link aic'
-	dir=$2
-	echo 'dir:' $dir
-
-	ln -s $dir/aic .
-	ln -s $dir/aic-manager.tar.gz .
-	ln -s $dir/android.tar.gz .
 }
 function mylinux {
 	myecho2thing 'linux command'
@@ -430,7 +431,7 @@ function mystrace {
 	myecho2thing 'strace'
 	myecho3step ''
 
-    strace -e trace=open,read
+    strace -o mystrace-$(data +%Y%m%d-%H%M%S) -e trace=open,read
 }
 function mytar {
 	myecho2thing 'tar'
