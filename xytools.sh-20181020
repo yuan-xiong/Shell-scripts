@@ -116,6 +116,51 @@ function myaic {
 
 	echo
 	case $subcommand in
+		build)
+            dir=$3
+            cd $dir
+
+            myecho3step 'AIC repo with Hudini'
+#            	prompt '[repository...] sync'
+            	#repo init -u ssh://android.intel.com/manifests -b android/n/topic/aosp/container/7.1.2_r24 -m default_houdini.xml
+#            	repo sync -cj5 -d
+            
+            myecho3step 'check env.'
+            	env | grep NINJA
+            
+            	python2.7 -m pip --version
+            	#sudo apt remove python-pip
+            	#prompt '[Install...] pip'
+            	#curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+            	#sudo python2.7 get-pip.py --force-reinstall
+            
+            	#prompt '[Checking...] python pip ok'
+            	#sudo pip install Mako
+#            	prompt '[Checking...] env. ok'
+            
+            	#prompt 'remove out/target/product/system app & lib'
+            	#rm -fr out/target/product/cloud/system/lib/
+            	#rm -fr out/target/product/cloud/system/lib64/
+            	#rm -fr out/target/product/cloud/system/app/tmgp/
+            
+            	source build/envsetup.sh 
+            	# lunch 
+            	# 19. multidroid_cloud-userdebug
+            	lunch 19
+
+            myecho3step 'make'
+            	#prompt '[make clean...] ok'
+            	#make clean
+            	#prompt '[make clobber...] ok'
+            	#make clobber
+            
+            	#prompt '[make...] start make ?'
+                make multidroid -j16 && aic-build
+            	#make multidroid -j16 2>&1 | tee mylog-$VERSION.cloud
+                #make multidroid -j16 && aic-build 2>&1 | tee mylog-$VERSION.cloud
+
+            cd -
+            ;;
 		new)
 			myprompt 'aic uninstall'
 			./aic uninstall
@@ -134,7 +179,7 @@ function myaic {
 			echo
 			myprompt 'check binder nodes'
 			sleep 1
-			ls /dev/binder*
+			ls /dev/ | grep binder
 			myprompt 'clear dmesg'
 			sudo dmesg -c
 			sudo dmesg -c
@@ -154,52 +199,56 @@ function myaic {
                 sudo rm -fr ${target}${i}
             done
             ;;
+        scp)
+        	echo 'aic scp'
+        
+            dir=$3
+            where=$4
+            echo 'where:' $where
+            tag=$5
+        
+            cd ${dir}
+        
+            case $where in
+                xy2)
+                    dst='xy2@10.239.82.126:~/yuan/current/'
+                    ;;
+                xy4)
+                    dst='xy4@10.239.76.28:~/yuan/current/'
+                    ;;
+                go)
+                    dst='binyang@10.239.93.166:~/yuan/current/'
+                    ;;
+                hop)
+                    dst='binyang@10.239.93.163:~/yuan/current/'
+                    ;;
+                backup)
+                    dst='xy2@10.239.82.126:/home/xy2/aic-all/source-bak/out-bak/'
+                    ;;
+                *)
+                    echo
+                    echo 'where to scp?'
+                    echo
+                    echo 'where: xy2, xy4, go, hop'
+                    echo
+                    exit
+            esac
+        
+            echo
+            mkdir -p ${tag}
+            mv aic aic-manager.tar.gz android.tar.gz ${tag}
+            echo 'src:' ${tag}/
+            echo 'dst:' $dst
+        
+            scp -r ${tag} $dst 2>&1
+            #scp -r out/target/product/cloud/source1-1021-no-uevent-patch-show-netlink-pid/ xy4@10.239.76.28:~/yuan/scp/
+        
+            cd -
+            ;;
 		*)
 			echo 'unkown aic command, exiting...'
 			exit
 	esac
-}
-function build-aic {
-	myecho2thing 'build aic'
-
-    myecho3step 'AIC repo with Hudini'
-    #	prompt '[repository...] sync'
-    	#repo init -u ssh://android.intel.com/manifests -b android/n/topic/aosp/container/7.1.2_r24 -m default_houdini.xml
-    #	repo sync -cj5 -d
-    
-    myecho3step 'check env.'
-    	env | grep NINJA
-    
-    	python2.7 -m pip --version
-    	#sudo apt remove python-pip
-    	#prompt '[Install...] pip'
-    	#curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-    	#sudo python2.7 get-pip.py --force-reinstall
-    
-    	#prompt '[Checking...] python pip ok'
-    	#sudo pip install Mako
-    #	prompt '[Checking...] env. ok'
-    
-    	#prompt 'remove out/target/product/system app & lib'
-    	#rm -fr out/target/product/cloud/system/lib/
-    	#rm -fr out/target/product/cloud/system/lib64/
-    	#rm -fr out/target/product/cloud/system/app/tmgp/
-    
-    	source build/envsetup.sh 
-    	# lunch 
-    	# 19. multidroid_cloud-userdebug
-    	lunch 19
-
-    myecho3step 'make'
-    	#prompt '[make clean...] ok'
-    	#make clean
-    	#prompt '[make clobber...] ok'
-    	#make clobber
-    
-    	#prompt '[make...] start make ?'
-        make multidroid -j16 && aic-build
-    	#make multidroid -j16 2>&1 | tee mylog-$VERSION.cloud
-        #make multidroid -j16 && aic-build 2>&1 | tee mylog-$VERSION.cloud
 }
 function mygit {
 	myecho2thing 'simple git operation'
@@ -214,7 +263,7 @@ function mygit {
     
         echo
         myprompt 'git log'
-        git log
+        git log | more
     
         echo
         myprompt 'git pull'
@@ -222,7 +271,7 @@ function mygit {
     
         echo
         myprompt 'git log'
-        git log
+        git log | more
     
         echo
         myprompt 'git push'
@@ -283,8 +332,11 @@ function mylinux {
 		    	#sudo cp ../linux-4.18-rc7-missing-firmware-libs/* /lib/firmware/i915/	
 		
 			myecho3step 'make'
+                processors=$(cat /proc/cpuinfo | grep 'processor' | wc -l)
+                echo 'cpu processors:' $processors
 				make clean
-				make -j16
+				#make -j16
+				make -j${processors}
 #				make modules
 		
 			myecho3step 'make install'
@@ -318,6 +370,42 @@ function mylinux {
             
             myprompt "rm ${target}"
             rm -fr $target
+            ;;
+        scp)
+            #scp -r yuan.tar.gz xy4@10.239.76.28:~/yuan
+
+            target=$3
+            where=$4
+            echo 'where:' $where
+
+            case $where in
+                xy2)
+                    dst='xy2@10.239.82.126:~/yuan/scp/'
+                    ;;
+                xy4)
+                    #dst=xy4@10.239.76.28:~/yuan/scp/
+                    #echo 'dst:' $dst
+                    dst='xy4@10.239.76.28:~/yuan/scp/'
+                    ;;
+                go)
+                    dst='binyang@10.239.93.166:~/yuan/scp/'
+                    ;;
+                hop)
+                    dst='binyang@10.239.93.163:~/yuan/scp/'
+                    ;;
+                *)
+                    echo
+                    echo 'where to scp?'
+                    echo
+                    echo 'where: xy2, xy4, go, hop'
+                    echo
+                    exit
+            esac
+
+            echo 'target:' $target
+            echo 'dst:' $dst
+            echo
+            scp -r $target $dst
             ;;
 		*)
 			echo 'unknown linux command, exiting...'
@@ -353,93 +441,6 @@ function save-aic {
 	echo 'newdir '$newdir
 	mkdir $newdir
 	sudo mv aic aic-manager.tar.gz android.tar.gz workdir $newdir
-}
-function scp-aic {
-	myecho2thing 'scp aic images'
-
-    dir=$2
-    where=$3
-    echo 'where:' $where
-    tag=$4
-
-    cd ${dir}
-
-    case $where in
-        xy2)
-            dst='xy2@10.239.82.126:~/yuan/current/'
-            ;;
-        xy4)
-            dst='xy4@10.239.76.28:~/yuan/current/'
-            ;;
-        go)
-            dst='binyang@10.239.93.166:~/yuan/current/'
-            ;;
-        hop)
-            dst='binyang@10.239.93.163:~/yuan/current/'
-            ;;
-        backup)
-            dst='xy2@10.239.82.126:/home/xy2/aic-all/source-bak/out-bak/'
-            ;;
-        *)
-            echo
-            echo 'where to scp?'
-            echo
-            echo 'where: xy2, xy4, go, hop'
-            echo
-            exit
-    esac
-
-    echo
-    mkdir -p ${tag}
-    mv aic aic-manager.tar.gz android.tar.gz ${tag}
-
-    echo 'src:' ${tag}/
-    echo 'dst:' $dst
-
-    scp -r ${tag} $dst 2>&1
-    #scp -r out/target/product/cloud/source1-1021-no-uevent-patch-show-netlink-pid/ xy4@10.239.76.28:~/yuan/scp/
-
-    cd -
-}
-function myscp {
-	myecho2thing 'scp'
-    echo 'myscp:' $@
-    echo
-
-    #scp -r yuan.tar.gz xy4@10.239.76.28:~/yuan
-
-    target=$2
-    where=$3
-    echo 'where:' $where
-
-    case $where in
-        xy2)
-            dst='xy2@10.239.82.126:~/yuan/scp/'
-            ;;
-        xy4)
-            #dst=xy4@10.239.76.28:~/yuan/scp/
-            #echo 'dst:' $dst
-            dst='xy4@10.239.76.28:~/yuan/scp/'
-            ;;
-        go)
-            dst='binyang@10.239.93.166:~/yuan/scp/'
-            ;;
-        hop)
-            dst='binyang@10.239.93.163:~/yuan/scp/'
-            ;;
-        *)
-            echo
-            echo 'where to scp?'
-            echo
-            echo 'where: xy2, xy4, go, hop'
-            echo
-            exit
-    esac
-
-    echo 'target:' $target
-    echo 'dst:' $dst
-    echo
-    scp -r $target $dst
 }
 function mystrace {
 	myecho2thing 'strace'
@@ -504,9 +505,6 @@ function main {
         aic)
 		    myaic $@
 		    ;;
-    	build-aic)
-    		build-linux $@
-    		;;
     	git)
     		mygit
     		;;
@@ -525,12 +523,6 @@ function main {
     	save-aic)
     		save-aic $@
     		;;
-    	scp)
-    		myscp $@
-    		;;
-    	scp-aic)
-    		scp-aic $@
-    		;;
         strace)
         	mystrace $@
     		;;
@@ -546,7 +538,7 @@ function main {
 
             echo '
             commands --->
-            aic, build-aic, git, help, link-aic, linux, perf, reboot, save-aic, scp, scp-aic, strace, tar'
+            aic, git, help, linux, perf, reboot, save-aic, scp, strace, tar'
 
 #            echo 'Example:
 #            '$0 'scp src:<path>/<file> dst'

@@ -67,6 +67,8 @@ myechoh1 'init 3 and installation'
 	#sudo service lightdm stop
 	#sudo init 3
 	#cd /home/xy2/tools/GPU/
+    # NVIDIA-Linux-x86_64-390.48.run: https://www.nvidia.com/content/DriverDownload-March2009/confirmation.php?url=/XFree86/Linux-x86_64/390.48/NVIDIA-Linux-x86_64-390.48.run&lang=us&type=TITAN
+
 	#sudo ./NVIDIA-Linux-x86_64-390.48.run -no-x-check -no-nouveau-check -no-opengl-files
 	#cd -
 	#sudo service lightdm start
