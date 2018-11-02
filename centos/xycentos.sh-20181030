@@ -1,0 +1,307 @@
+#!/bin/bash
+
+
+# add variables
+#CWD=$1
+wordlength=20
+wordblank='                    '
+
+command=$1
+readinput=0
+
+#echo
+#echo -e "\033[30m 黑色字oldboy trainning \033[0m"
+#echo -e "\033[31m 红色字oldboy trainning \033[0m"
+#echo -e "\033[32m 绿色字oldboy trainning \033[0m"
+#echo -e "\033[33m 黄色字oldboy trainning \033[0m"
+#echo -e "\033[34m 蓝色字oldboy trainning \033[0m"
+#echo -e "\033[35m 紫色字oldboy trainning \033[0m"
+#echo -e "\033[36m 天蓝字oldboy trainning \033[0m"
+#echo -e "\033[37m 白色字oldboy trainning \033[0m"
+#echo
+#echo -e "\033[40;37m 黑底白字 welcome to old1boy\033[0m"
+#echo -e "\033[41;37m 红底白字 welcome to old2boy\033[0m"
+#echo -e "\033[42;37m 绿底白字 welcome to old3boy\033[0m"
+#echo -e "\033[43;37m 黄底白字 welcome to old4boy\033[0m"
+#echo -e "\033[44;37m 蓝底白字 welcome to old5boy\033[0m"
+#echo -e "\033[45;37m 紫底白字 welcome to old6boy\033[0m"
+#echo -e "\033[46;37m 天蓝白字 welcome to old7boy\033[0m"
+#echo -e "\033[47;30m 白底黑字 welcome to old8boy\033[0m"
+#echo
+
+#--------------------------------------head------------------------------------#
+
+# add functions
+function check-permission {
+    echo 'check-permission'
+    echo
+
+	case $USER in
+		root)
+			echo 'You are root, go on...'
+			;;
+		*)
+			echo 'You are '${USER}', please "sudo -s"'
+			exit
+			;;
+	esac
+}
+function myecho () {
+	if [ "$1" ]; then
+		echo -e '\t'"$1"
+	fi
+}
+# highlight title
+function myhighlight()
+{
+	echo
+	if [ "$1" ]; then
+		# 黄底黑字
+		echo -e "\033[43;30m$1\033[0m"
+	fi
+}
+function myprompt()
+{
+	read -p "$1 [YES/NO]: " readinput
+}
+
+
+# task title
+function myecho1task()
+{
+	echo
+	if [ "$1" ]; then
+		# 蓝底白字
+		echo -e "\033[44;37m ${1} \033[0m"
+		#printf "\033[44;37m %-${wordlength}s \n\033[0m" "$1"
+	fi
+}
+
+# things title
+function myecho2thing()
+{
+	echo
+	if [ "$1" ]; then
+		# 绿底黑字
+		words=${1}${wordblank}
+		echo -e "\033[42;30m ---> ${words:0:$wordlength} \033[0m"
+	fi
+}
+
+# steps title
+function myecho3step()
+{
+    echo
+	if [ "$1" ]; then
+		# 黄色字
+		echo -e "\033[33m - $1 \033[0m"
+	fi
+}
+
+# reference title
+function myecho4ref()
+{
+	if [ "$1" ]; then
+		echo -e "$1"
+	fi
+}
+
+#--------------------------------------my func---------------------------------#
+function mygit {
+	myecho2thing 'simple git operation'
+
+        echo
+        myprompt 'git status'
+        git status
+    
+        echo
+        myprompt 'git commit'
+        git commit
+    
+        echo
+        myprompt 'git log'
+        git log | more
+    
+        echo
+        myprompt 'git pull'
+        git pull origin master
+    
+        echo
+        myprompt 'git log'
+        git log | more
+    
+        echo
+        myprompt 'git push'
+        git push origin master
+    
+        echo
+        myprompt 'git branch'
+        git branch -av
+}
+function centos-install-kernel {
+	# way1. elrepo 
+    echo 'https://www.linuxidc.com/Linux/2017-03/141941.htm'
+	uname -sr
+	sudo rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+	sudo rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
+	sudo yum --disablerepo="*" --enablerepo="elrepo-kernel" list available
+	sudo yum --enablerepo=elrepo-kernel install kernel-ml
+	sudo reboot
+	uname -sr
+	
+	# way2. yum install
+	# Not good: not the latest kernel
+	sudo yum install -y kernel
+}
+function mylinux {
+	myecho2thing 'linux command'
+	myecho3step ''
+
+	subcommand=$2
+	echo 'subcommand:' $subcommand
+
+	echo
+	case $subcommand in
+        build)
+            sudo -s
+            dhclient ens3
+            exit
+
+            git clone https://github.com/torvalds/linux.git
+            cd linux
+            git checkout -b branch-name tag-name
+            cp /boot/$(uname -r).config .
+            ln -s $(uname -r).config .config
+            make clean
+            make -j$(cat /proc/cpuinfo | grep "processor" | wc -l)
+            #make modules
+            sudo make modules_install
+            sudo make install
+            sudo reboot
+            ;;
+		scp)
+			#scp -r xycentos.sh-20181030 xy2@10.239.82.126:~/yuan/scp .
+			
+			target=$3
+			where=$4
+			echo 'where:' $where
+			
+			case $where in
+			    xy2)
+			        dst='xy2@10.239.82.126:~/yuan/scp/'
+			        ;;
+			    *)
+			        echo
+			        echo 'where to scp?'
+			        echo
+			        echo 'where: xy2, xy4, go, hop'
+			        echo
+			        exit
+			esac
+			
+			echo -e 'target\t' $target
+			echo -e 'dst\t' $dst
+			echo
+			scp -r $target $dst
+			;;
+        update-kernel)
+            echo "https://blog.csdn.net/reyleon/article/details/52229293"
+
+            # kernel 4.14
+            #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-4.14.0-1.el7.elrepo.x86_64.rpm
+            #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-devel-4.14.0-1.el7.elrepo.x86_64.rpm
+            #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-doc-4.14.0-1.el7.elrepo.noarch.rpm
+            #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-headers-4.14.0-1.el7.elrepo.x86_64.rpm
+            #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-tools-4.14.0-1.el7.elrepo.x86_64.rpm
+            #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-tools-libs-4.14.0-1.el7.elrepo.x86_64.rpm
+            #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-tools-libs-devel-4.14.0-1.el7.elrepo.x86_64.rpm
+
+            # kernel 4.18
+            #sudo yum install -y http://elrepo.reloumirrors.net/kernel/el7/x86_64/RPMS/kernel-ml-4.18.16-1.el7.elrepo.x86_64.rpm
+
+            # remove old header
+            #sudo rpm -ql kernel-headers
+            #sudo yum remove kernel-headers
+
+            # header: for compile
+            #sudo yum install -y http://elrepo.reloumirrors.net/kernel/el7/x86_64/RPMS/kernel-ml-headers-4.18.16-1.el7.elrepo.x86_64.rpm
+
+            # devel: for driver Makefile
+            #sudo yum install -y http://elrepo.reloumirrors.net/kernel/el7/x86_64/RPMS/kernel-ml-devel-4.18.16-1.el7.elrepo.x86_64.rpm
+            #sudo yum install -y http://elrepo.reloumirrors.net/kernel/el7/x86_64/RPMS/kernel-ml-doc-4.18.16-1.el7.elrepo.noarch.rpm
+
+            # or
+            #wget http://vault.centos.org/5.7/os/x86_64/CentOS/kernel-headers-2.6.18-274.el5.x86_64.rpm
+            #rpm -ivh  kernel-headers-2.6.18-164.el5.i686.rpm
+
+            # kernel 4.19
+            sudo yum install -y http://elrepo.reloumirrors.net/kernel/el7/x86_64/RPMS/kernel-ml-4.19.0-1.el7.elrepo.x86_64.rpm
+
+            # remove kernel
+            # rpm -qa | grep kernel
+            # yum autoremove kernel-3.10.0-327.13.1.el7.x86_64
+
+            ;;
+		*)
+			echo 'unknown linux command, exiting...'
+			exit
+	esac
+}
+#--------------------------------------main------------------------------------#
+
+function init {
+	myecho2thing 'init'
+
+	function when {
+		date
+	}
+	function where {
+		#myecho 'https://www.cnblogs.com/cnpirate/archive/2012/09/16/2687519.html'
+		if [[ -z "$CWD" ]] || [[ ! -d "$CWD" ]]; then
+			#echo 'use the current directory.'
+			nowdir=$(pwd)
+		else
+			#echo 'cd new directory.'
+			cd $CWD
+			nowdir=$(pwd)
+		fi
+		echo 'nowdir: '${nowdir}
+	}
+	function who {
+		echo 'You are '${USER}''
+	}
+
+    when && where && who
+}
+
+
+function main {
+
+	echo '------------------------------------main------------------------------------------'
+	myecho1task 'xy centos - 20181030'
+	myecho4ref ''
+	echo 'main:' $@
+
+	init
+
+    case $command in
+    	linux)
+    		mylinux $@
+    		;;
+    	*)
+		echo '
+		commands --->
+		help, linux'
+		echo
+		exit
+    esac
+
+
+	myecho2thing 'End'
+}
+
+
+# start from here
+
+main $@ | tee -a mylog-tools-$(date +%Y%m%d-%H%M%S).txt
+

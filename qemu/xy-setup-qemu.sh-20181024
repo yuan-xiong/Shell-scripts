@@ -1,0 +1,93 @@
+#!/bin/bash
+
+function myecho {
+	echo -e '\t' $1
+}
+
+function setup-qemu {
+
+	echo 'setup-qemu'
+	# .gitmodules
+#
+#	myecho 'way1. get QEMU'
+#	git clone https://git.qemu.org/git/qemu.git qemu.git
+#
+#	myecho 'way2. build QEMU'
+#	#git clone git://git.qemu.org/qemu.git
+#
+#	cp .gitmodules-bak20181025 qemu/.gitmodules
+	cd qemu2
+#	git submodule init
+#	git submodule update --recursive
+
+	sudo apt-get install gcc make flex bison pkg-config libpixman-1-dev libtool libglib2.0-dev
+	./configure  --target-list=x86_64-softmmu
+	make
+	sudo make install
+}
+
+#-------------------------------------------------------------------------------------#
+
+
+function setup-network {
+	su
+	# password
+	
+	dhclient ens3
+	ifconfig
+	wget www.baidu.com
+}
+
+function qemu-install-centos {
+	echo 'install centos'
+
+	# 1000G
+	dd if=/dev/zero of=centos.img bs=1M count=1024000
+
+	# from Guang
+#	qemu-system-x86_64 -smp 48 -m 80960 -enable-kvm -monitor stdio -boot order=cd,once=d -hda centos7.img -cdrom ~/yuan/scp/CentOS-7-x86_64-DVD-1804.iso -vga vmware -vnc :6
+}
+
+function qemu-install-ubuntu {
+	echo 'install ubuntu'
+
+	#qemu-img create -f qcow2 t.qcow2 1G
+
+	# image
+	qemu-img create -f qcow2 ubuntu-100G.qcow2 100G
+	qemu-img info ubuntu-100G.qcow2
+	qemu-img resize ubuntu-100G.qcow2 +924G
+	mv ubuntu-100G.qcow2 ubuntu-1T.qcow2	
+
+	# installation
+	sudo -s
+	qemu-system-x86_64 -m 80960 -smp 48 -enable-kvm -boot order=cd,once=d -hda ubuntu-1T.qcow2 -cdrom ~/yuan/scp/ubuntu-16.04.4-desktop-amd64.iso -vga vmware -full-screen -vnc :7
+
+	# start up
+	# reboot qemu-system-x86_64 if needed
+	qemu-system-x86_64 -m 80960 -smp 48 -enable-kvm -hda qemu-imgs/1029/ubuntu-1T.qcow2 -vnc :7
+	# vnc viewer : 10.239.93.166:5907
+}
+
+function qemu-start-vm {
+	echo 'qemu-start-vm'
+
+	qemu-system-x86_64 -m 80960 -smp 48 -enable-kvm -hda qemu-imgs/1029/centos7.img -vnc :6
+	qemu-system-x86_64 -m 80960 -smp 48 -enable-kvm -monitor stdio -hda qemu-imgs/1029/centos7.img -vga vmware -vnc :6
+}
+
+function main {
+
+#	setup-qemu
+
+#	qemu-install-centos
+
+	qemu-start-vm
+}
+
+
+# start from here
+
+	main
+
+

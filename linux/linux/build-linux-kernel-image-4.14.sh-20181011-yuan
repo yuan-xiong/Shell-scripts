@@ -128,6 +128,8 @@ function go {
 	
 	myecho2thing 'go'
 
+    #git checkout -b my4.14 v4.14
+
 	myecho3step '.config'
 #		cp /boot/config-4.4.0-131-generic .config
 #		make menuconfig
