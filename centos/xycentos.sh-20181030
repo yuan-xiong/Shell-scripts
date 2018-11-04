@@ -162,86 +162,104 @@ function mylinux {
 
 	echo
 	case $subcommand in
-        build)
-            sudo -s
-            dhclient ens3
-            exit
+        	build)
+        	    sudo -s
+        	    dhclient ens3
+        	    exit
 
-            git clone https://github.com/torvalds/linux.git
-            cd linux
-            git checkout -b branch-name tag-name
-            cp /boot/$(uname -r).config .
-            ln -s $(uname -r).config .config
-            make clean
-            make -j$(cat /proc/cpuinfo | grep "processor" | wc -l)
-            #make modules
-            sudo make modules_install
-            sudo make install
-            sudo reboot
-            ;;
+                # kernel code
+        	    git clone https://github.com/torvalds/linux.git
+        	    cd linux
+        	    git checkout -b branch-name tag-name
+        	    cp /boot/$(uname -r).config .
+        	    ln -s $(uname -r).config .config
+
+                # requirsite
+                sudo yum install ncurses-devel elfutils-libelf-devel openssl-devel 
+            
+                # make
+        	    make clean
+        	    make -j$(cat /proc/cpuinfo | grep "processor" | wc -l)
+        	    #make modules
+        	    sudo make modules_install
+        	    sudo make install
+
+                # update
+                uname -r
+                rpm -qa | grep kernel
+                cat /boot/grub2/grub.cfg | grep kernel-3.10.0-229
+                grub2-set-default "kernel-3.10.0-229"
+                grub2-editenv list
+                grub2-mkconfig -o /boot/grub2/grub.cfg
+
+                # reboot
+        	    sudo reboot
+
+        	    ;;
+			scp)
+				#scp -r xycentos.sh-20181030 xy2@10.239.82.126:~/yuan/scp .
+				
+				target=$3
+				where=$4
+				echo 'where:' $where
+				
+				case $where in
+				    xy2)
+				        dst='xy2@10.239.82.126:~/yuan/scp/'
+				        ;;
+				    *)
+				        echo
+				        echo 'where to scp?'
+				        echo
+				        echo 'where: xy2, xy4, go, hop'
+				        echo
+				        exit
+				esac
+				
+				echo -e 'target\t' $target
+				echo -e 'dst\t' $dst
+				echo
+				scp -r $target $dst
+				;;
+        	update-kernel)
+        	    echo "https://blog.csdn.net/reyleon/article/details/52229293"
+
+        	    # kernel 4.14
+        	    #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-4.14.0-1.el7.elrepo.x86_64.rpm
+        	    #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-devel-4.14.0-1.el7.elrepo.x86_64.rpm
+        	    #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-doc-4.14.0-1.el7.elrepo.noarch.rpm
+        	    #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-headers-4.14.0-1.el7.elrepo.x86_64.rpm
+        	    #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-tools-4.14.0-1.el7.elrepo.x86_64.rpm
+        	    #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-tools-libs-4.14.0-1.el7.elrepo.x86_64.rpm
+        	    #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-tools-libs-devel-4.14.0-1.el7.elrepo.x86_64.rpm
+
+        	    # kernel 4.18
+        	    #sudo yum install -y http://elrepo.reloumirrors.net/kernel/el7/x86_64/RPMS/kernel-ml-4.18.16-1.el7.elrepo.x86_64.rpm
+        	    #sudo yum install -y http://elrepo.reloumirrors.net/kernel/el7/x86_64/RPMS/kernel-ml-headers-4.18.16-1.el7.elrepo.x86_64.rpm
+        	    #sudo yum install -y http://elrepo.reloumirrors.net/kernel/el7/x86_64/RPMS/kernel-ml-devel-4.18.16-1.el7.elrepo.x86_64.rpm
+        	    #sudo yum install -y http://elrepo.reloumirrors.net/kernel/el7/x86_64/RPMS/kernel-ml-doc-4.18.16-1.el7.elrepo.noarch.rpm
+
+        	    # or
+        	    #wget http://vault.centos.org/5.7/os/x86_64/CentOS/kernel-headers-2.6.18-274.el5.x86_64.rpm
+        	    #rpm -ivh  kernel-headers-2.6.18-164.el5.i686.rpm
+
+        	    # kernel 4.19
+        	    sudo yum install -y http://elrepo.reloumirrors.net/kernel/el7/x86_64/RPMS/kernel-ml-4.19.0-1.el7.elrepo.x86_64.rpm
+
+        	    # remove kernel
+        	    # rpm -qa | grep kernel
+        	    # yum autoremove kernel-3.10.0-327.13.1.el7.x86_64
+        	    # remove old header
+        	    #sudo rpm -ql kernel-headers
+        	    #sudo yum remove kernel-headers
+
+        	    ;;
 		scp)
-			#scp -r xycentos.sh-20181030 xy2@10.239.82.126:~/yuan/scp .
-			
-			target=$3
-			where=$4
-			echo 'where:' $where
-			
-			case $where in
-			    xy2)
-			        dst='xy2@10.239.82.126:~/yuan/scp/'
-			        ;;
-			    *)
-			        echo
-			        echo 'where to scp?'
-			        echo
-			        echo 'where: xy2, xy4, go, hop'
-			        echo
-			        exit
-			esac
-			
-			echo -e 'target\t' $target
-			echo -e 'dst\t' $dst
-			echo
-			scp -r $target $dst
-			;;
-        update-kernel)
-            echo "https://blog.csdn.net/reyleon/article/details/52229293"
-
-            # kernel 4.14
-            #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-4.14.0-1.el7.elrepo.x86_64.rpm
-            #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-devel-4.14.0-1.el7.elrepo.x86_64.rpm
-            #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-doc-4.14.0-1.el7.elrepo.noarch.rpm
-            #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-headers-4.14.0-1.el7.elrepo.x86_64.rpm
-            #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-tools-4.14.0-1.el7.elrepo.x86_64.rpm
-            #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-tools-libs-4.14.0-1.el7.elrepo.x86_64.rpm
-            #sudo yum install -y http://mirror.rc.usf.edu/compute_lock/elrepo/kernel/el7/x86_64/RPMS/kernel-ml-tools-libs-devel-4.14.0-1.el7.elrepo.x86_64.rpm
-
-            # kernel 4.18
-            #sudo yum install -y http://elrepo.reloumirrors.net/kernel/el7/x86_64/RPMS/kernel-ml-4.18.16-1.el7.elrepo.x86_64.rpm
-
-            # remove old header
-            #sudo rpm -ql kernel-headers
-            #sudo yum remove kernel-headers
-
-            # header: for compile
-            #sudo yum install -y http://elrepo.reloumirrors.net/kernel/el7/x86_64/RPMS/kernel-ml-headers-4.18.16-1.el7.elrepo.x86_64.rpm
-
-            # devel: for driver Makefile
-            #sudo yum install -y http://elrepo.reloumirrors.net/kernel/el7/x86_64/RPMS/kernel-ml-devel-4.18.16-1.el7.elrepo.x86_64.rpm
-            #sudo yum install -y http://elrepo.reloumirrors.net/kernel/el7/x86_64/RPMS/kernel-ml-doc-4.18.16-1.el7.elrepo.noarch.rpm
-
-            # or
-            #wget http://vault.centos.org/5.7/os/x86_64/CentOS/kernel-headers-2.6.18-274.el5.x86_64.rpm
-            #rpm -ivh  kernel-headers-2.6.18-164.el5.i686.rpm
-
-            # kernel 4.19
-            sudo yum install -y http://elrepo.reloumirrors.net/kernel/el7/x86_64/RPMS/kernel-ml-4.19.0-1.el7.elrepo.x86_64.rpm
-
-            # remove kernel
-            # rpm -qa | grep kernel
-            # yum autoremove kernel-3.10.0-327.13.1.el7.x86_64
-
-            ;;
+			target="xy2@10.239.82.126:~/yuan/scp/${3}"
+			echo -e 'target\t' ${target}
+			dst=$4
+			scp -r ${target} ${dst}
+			;;	
 		*)
 			echo 'unknown linux command, exiting...'
 			exit
