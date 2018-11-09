@@ -246,6 +246,7 @@ function myaic {
             esac
         
             echo
+            echo -e 'mkdir\t' ${tag}
             mkdir -p ${tag}
             mv aic aic-manager.tar.gz android.tar.gz ${tag}
             echo 'src:' ${dir}/${tag}/
@@ -409,6 +410,11 @@ function mylinux {
             echo
             scp -r $target $dst
             ;;
+    	tar)
+            target=$3
+            echo 'target' $target
+            tar cvzf ${target}.tar.gz ${target}
+    		;;
 		*)
 			echo 'unknown linux command, exiting...'
 			exit
@@ -449,15 +455,6 @@ function mystrace {
 	myecho3step ''
 
     strace -o mystrace-$(data +%Y%m%d-%H%M%S) -e trace=open,read
-}
-function mytar {
-	myecho2thing 'tar'
-    echo 'mytar:' $@
-    echo
-
-    target=$2
-    echo 'target' $target
-    tar cvzf ${target}.tar.gz ${target}
 }
 #--------------------------------------main------------------------------------#
 
@@ -528,9 +525,6 @@ function main {
         strace)
         	mystrace $@
     		;;
-    	tar)
-    		mytar $@
-    		;;
     	*)
 #            echo
 #            echo 'Unknown command, exiting...'
@@ -556,5 +550,5 @@ function main {
 
 # start from here
 
-main $@ | tee -a mylog-tools-$(date +%Y%m%d-%H%M%S).txt
+main $@ | tee -a mylog-tools-$(date +%Y%m%d).txt
 

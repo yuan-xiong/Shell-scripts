@@ -1,0 +1,27 @@
+#!/bin/bash
+
+
+function check-env {
+
+    # clear
+    ./aic uninstall
+    sudo rm -fr workdir/
+    sudo reboot
+
+    # install
+    ./aic uninstall
+    ls /dev/bi*
+    ./aic install -n 10
+    sudo dmesg -c
+    sudo docker start aic-manager
+    # check
+    ls /dev/bi*
+    sudo dmesg -c
+
+    # start
+    ./aic start 0
+    ./ps-docker.sh-20180831-yuan 2
+    sudo cp workdir/data0/system.log .
+    dmesg >> mydmesg
+
+}

@@ -1,0 +1,123 @@
+#!/bin/bash
+
+function docker-build {
+
+    sudo docker build -t xy2 .
+#    sudo docker build -t xy2:backup1109 .
+}
+
+
+function docker-ops {
+
+    echo 'docker operations'
+
+    #docker images
+    #docker tag 81543c09a8e9 xy2:hello-world
+
+    #docker rmi xy2:latest
+}
+
+function docker-run-shell-command {
+
+    sudo docker run -ti xy2 /bin/bash
+    #sudo docker run -ti -v /dev:/dev xy2 /bin/bash
+    sudo docker run -ti -v /dev:/dev-test xy2 /bin/bash
+
+    sudo docker run xy2 /bin/bash -c "ls -l /dev"
+
+# xy2 ubuntu
+
+    # root@925a7fa95bba:/# ll /dev/
+    # total 4
+    # drwxr-xr-x 5 root root    360 Nov  9 07:07 ./
+    # drwxr-xr-x 1 root root   4096 Nov  9 07:07 ../
+    # crw--w---- 1 root tty  136, 0 Nov  9 07:07 console
+    # lrwxrwxrwx 1 root root     11 Nov  9 07:07 core -> /proc/kcore
+    # lrwxrwxrwx 1 root root     13 Nov  9 07:07 fd -> /proc/self/fd/
+    # crw-rw-rw- 1 root root   1, 7 Nov  9 07:07 full
+    # drwxrwxrwt 2 root root     40 Nov  9 07:07 mqueue/
+    # crw-rw-rw- 1 root root   1, 3 Nov  9 07:07 null
+    # lrwxrwxrwx 1 root root      8 Nov  9 07:07 ptmx -> pts/ptmx
+    # drwxr-xr-x 2 root root      0 Nov  9 07:07 pts/
+    # crw-rw-rw- 1 root root   1, 8 Nov  9 07:07 random
+    # drwxrwxrwt 2 root root     40 Nov  9 07:07 shm/
+    # lrwxrwxrwx 1 root root     15 Nov  9 07:07 stderr -> /proc/self/fd/2
+    # lrwxrwxrwx 1 root root     15 Nov  9 07:07 stdin -> /proc/self/fd/0
+    # lrwxrwxrwx 1 root root     15 Nov  9 07:07 stdout -> /proc/self/fd/1
+    # crw-rw-rw- 1 root root   5, 0 Nov  9 07:07 tty
+    # crw-rw-rw- 1 root root   1, 9 Nov  9 07:07 urandom
+    # crw-rw-rw- 1 root root   1, 5 Nov  9 07:07 zero
+
+# aic android
+
+    # 5b5f960f8bd9:/ # ls -l /dev
+
+    # total 0
+    # crw------- 1 root   root         249,   0 2018-11-08 15:38 6:0:0:0
+    # drwxr-xr-x 2 root   root              760 2018-11-08 15:38 __properties__
+    # crw-rw-rw- 1 root   root          10,  51 2018-11-08 15:38 ashmem
+    # crw------- 1 root   root          10, 235 2018-11-08 15:38 autofs
+    # crw-rw-rw- 1 root   root          10,  52 2018-11-08 15:38 binder0
+    # crw-rw-rw- 1 root   root          10, 256 2018-11-08 15:38 binder1
+    # crw-rw-rw- 1 root   root          10, 257 2018-11-08 15:38 binder2
+    # crw-rw-rw- 1 root   root          10, 258 2018-11-08 15:38 binder3
+    # crw-rw-rw- 1 root   root          10, 259 2018-11-08 15:38 binder4
+    # crw-rw-rw- 1 root   root          10, 260 2018-11-08 15:38 binder5
+    # crw-rw-rw- 1 root   root          10, 261 2018-11-08 15:38 binder6
+    # crw-rw-rw- 1 root   root          10, 262 2018-11-08 15:38 binder7
+    # crw-rw-rw- 1 root   root          10, 263 2018-11-08 15:38 binder8
+    # crw-rw-rw- 1 root   root          10, 264 2018-11-08 15:38 binder9
+    # drwxr-xr-x 4 root   root              320 2018-11-08 15:38 block
+    # crw------- 1 root   root          10, 234 2018-11-08 15:38 btrfs-control
+    # drwxr-xr-x 3 root   root               60 2018-11-08 15:38 bus
+    # crw------- 1 root   root           5,   1 2018-11-08 15:38 console
+    # crw------- 1 root   root          10,  59 2018-11-08 15:38 cpu_dma_latency
+    # drwxr-xr-x 2 system system              0 2018-11-08 15:38 cpuctl
+    # drwxr-xr-x 6 system system              0 2018-11-08 15:38 cpuset
+    # crw------- 1 root   root          10, 236 2018-11-08 15:38 device-mapper
+    # drwxr-xr-x 2 root   root               80 2018-11-08 15:38 dri
+    # crw------- 1 root   root          10,  61 2018-11-08 15:38 ecryptfs
+    # lrwxrwxrwx 1 root   root               13 2018-11-08 15:38 fd -> /proc/self/fd
+    # drwxrwx--- 2 root   system             40 2018-11-08 15:38 fscklogs
+    # crw-rw-rw- 1 root   root           1,   7 2018-11-08 15:38 full
+    # crw------- 1 root   root          10, 229 2018-11-08 15:38 fuse
+    # drwxr-xr-x 2 root   root               60 2018-11-08 15:38 graphics
+    # crw------- 1 root   root         247,   0 2018-11-08 15:38 hidraw0
+    # crw------- 1 root   root         247,   1 2018-11-08 15:38 hidraw1
+    # crw------- 1 root   root         247,   2 2018-11-08 15:38 hidraw2
+    # crw------- 1 root   root         247,   3 2018-11-08 15:38 hidraw3
+    # crw------- 1 root   root          10, 228 2018-11-08 15:38 hpet
+
+}
+
+function docker-share-folder {
+
+    #sudo docker run -v  xy2
+    sudo docker run -v /home/xy2/workspace/git/docker/test/dev-xy:/dev-xy xy2 /bin/bash -c "ls -l"
+    sudo docker run -v /home/xy2/workspace/git/docker/test/dev-xy:/dev-xy xy2 /bin/bash -c "ls -l /dev-xy"
+
+}
+
+function linux-mknod {
+
+    echo 'https://blog.csdn.net/wj78080458/article/details/83501003'
+    sudo mknod /dev/ttyS100 c 4 100
+
+    # $ ll /dev/ | grep ttyS1*
+    # crw-rw----   1 root dialout   4,  64 11月  3 17:18 ttyS0
+    # crw-rw----   1 root dialout   4,  65 11月  3 17:18 ttyS1
+    # crw-rw----   1 root dialout   4,  74 11月  3 17:18 ttyS10
+    # crw-r--r--   1 root root      4, 100 11月  9 10:02 ttyS100
+
+}
+
+function main {
+
+    docker-build
+
+}
+
+
+# start from here
+
+    main

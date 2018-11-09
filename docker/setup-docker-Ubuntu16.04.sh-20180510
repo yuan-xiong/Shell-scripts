@@ -84,6 +84,32 @@ myecho4ref 'https://docs.docker.com/install/linux/docker-ce/ubuntu/'
 myecho4ref 'https://docs.docker.com/config/daemon/systemd/#httphttps-proxy'
 
 #-----------------------------------------------------------------
+
+
+function add-user-to-docker-group {
+
+    echo 'https://blog.csdn.net/u013948858/article/details/78429954'
+
+    # 新建用户组docker之前，查看用户组中有没有docker组
+    sudo cat /etc/group | grep docker
+
+    # 创建docker分组，并将相应的用户添加到这个分组里面
+    #sudo groupadd -g 999 docker 
+
+    sudo usermod -aG docker xy2
+    # 检查一下创建是否有效
+    sudo cat /etc/group | grep docker
+    
+    # 退出当前用户登陆状态，然后重新登录，以便让权限生效,或重启docker-daemon
+    sudo systemctl restart docker
+    docker  info
+
+    # ps: 如果提示get ......dial unix /var/run/docker.sock权限不够，则修改/var/run/docker.sock权限
+    sudo chmod a+rw /var/run/docker.sock
+
+    # END
+}
+
 myecho2thing 'repository'
 myecho3step 'apt'
 	#prompt '[update...] '
