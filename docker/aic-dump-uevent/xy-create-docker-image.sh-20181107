@@ -98,6 +98,11 @@ function docker-share-folder {
 
 }
 
+function docker-stop-container {
+    sudo docker ps
+    sudo docker stop 1e37
+}
+
 function linux-mknod {
 
     echo 'https://blog.csdn.net/wj78080458/article/details/83501003'

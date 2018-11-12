@@ -1,0 +1,25 @@
+#!/bin/bash
+
+source=$1
+
+function myecho {
+	echo
+	echo -e " ---> xy $1"
+}
+
+function check-para {
+	if [[ -z "${source}" ]]; then
+		myecho 'check-para'
+		echo -e 'Please input para\n'
+		exit
+	fi
+}
+
+
+# start from here
+
+	check-para
+
+	myecho 'workdir'
+    pwd
+
