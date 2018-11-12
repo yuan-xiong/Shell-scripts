@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source=$1
-target=mknod
+target=dump
 mydev=hidraw8
 myfile=myfile.txt
 
@@ -43,7 +43,8 @@ function check-permission {
     ls -l /     | grep ${myfile}
 
     myecho 'compile'
-    gcc -W -o ${target} ${source}
+    #gcc -W -o ${target} ${source}
+    gcc -W -o ${target} main.c dump.c 
     ls -l | grep -v "sh"
 
     myecho 'run'
