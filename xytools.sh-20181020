@@ -159,6 +159,7 @@ function myaic {
             	#make multidroid -j16 2>&1 | tee mylog-$VERSION.cloud
                 #make multidroid -j16 && aic-build 2>&1 | tee mylog-$VERSION.cloud
 
+#                ./build -t cloud
             cd -
             ;;
         link)

@@ -2,8 +2,11 @@
 
 function docker-build {
 
-    sudo docker build -t xy2 .
+    #sudo docker build -t xy2 .
 #    sudo docker build -t xy2:backup1109 .
+
+    sudo docker build --build-arg http_proxy=http://child-prc.intel.com:913/ --build-arg https_proxy=http://child-prc.intel.com:913/ -t xy2 .
+    #sudo docker build --build-arg http_proxy=http://proxy-shz.intel.com:911/ --build-arg https_proxy=http://proxy-shz.intel.com:911/ -t xy2 .
 }
 
 
@@ -15,6 +18,8 @@ function docker-ops {
     #docker tag 81543c09a8e9 xy2:hello-world
 
     #docker rmi xy2:latest
+
+    sudo docker run -ti --privileged=true xy2 /bin/bash
 }
 
 function docker-run-shell-command {

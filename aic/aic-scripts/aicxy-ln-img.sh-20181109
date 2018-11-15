@@ -1,0 +1,40 @@
+#!/bin/bash
+
+
+source=$1
+
+function myecho {
+
+	echo
+	echo -e " ---> xy $1"
+}
+
+function check-para {
+
+	if [[ -z "${source}" ]]; then
+		myecho 'check-para'
+		echo 'Please input link source folder'
+		echo
+		exit
+	fi
+}
+
+	check-para
+
+	myecho 'check'
+	ls -l | grep -E "aic|aic-manager.tar.gz|android.tar.gz" | grep -v "xy"
+
+	myecho 'unlink'
+	unlink aic
+	unlink aic-manager.tar.gz
+	unlink android.tar.gz
+
+	myecho 'check'
+	ls -l | grep -E "aic|aic-manager.tar.gz|android.tar.gz" | grep -vE "xy|source"
+
+	myecho 'new link'
+	ln -s ${source}* .
+
+	myecho 'check'
+	ls -l | grep -E "aic|aic-manager.tar.gz|android.tar.gz" | grep -v "xy"
+

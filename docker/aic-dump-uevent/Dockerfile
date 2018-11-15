@@ -1,30 +1,19 @@
 FROM ubuntu:bionic
 
 #ARG DEBIAN_FRONTEND=noninteractive
+#ENV http_proxy 'http://child-prc.intel.com:913'
+#ENV https_proxy 'http://child-prc.intel.com:913'
+#ENV http_proxy ""
+#ENV https_proxy ""
 
 #RUN apt-get -q -y update \
-#        && apt-get install -y vim
+#        && apt-get install -y gcc 
+#build-essential
 
-#COPY test.txt /test.txt
+COPY src/ /uevent_dump/src
 
-#COPY src/a.out /a.out
-COPY src/mknod /mknod
-COPY src/check-dev.sh /check-dev.sh
-
-#COPY lsmod.sh /lsmod.sh
-
-ADD dev-xy/lsmod.sh /lsmod.sh
-
-#CMD echo "welcome back, xy!"
 #CMD ls -l /
 
-#CMD lsmod 
-#CMD /bin/bash lsmod 
-#CMD ["sh", "lsmod.sh"]
-
-#ENTRYPOINT ["/aic-manager-entry"]
-#ENTRYPOINT ["/a.out"]
-#ENTRYPOINT ["/lsmod.sh"]
-#
-#ENTRYPOINT ["/mknod"]
+#ENTRYPOINT ["/uevent_dumper"]
+#ENTRYPOINT ["/uevent_dump/src/uevent_dump.sh"]
 

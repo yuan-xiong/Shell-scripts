@@ -1,30 +1,26 @@
 #include <errno.h>
+#include <dirent.h>
+#include <fcntl.h>
+#include <linux/netlink.h>
 #include <poll.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-// for mknod
-#include <sys/types.h>
+#include <sys/socket.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 #include <unistd.h>
 
-#include <dirent.h>
 
-#include <sys/socket.h>
-#include <linux/netlink.h>
-#include <fcntl.h>
-
-#include "dump.h"
-
-#define COLDBOOT_DONE "/dev/.coldboot_done"
 #define UEVENT_MSG_LEN  2048
 #define NETLINK_KOBJECT_UEVENT 15
+#define DUMP_PATH "/uevent_dump/devices/"
+#define DUMP_DONE "/dev/.uevent_dump_done"
 
 //#define SCM_RIGHTS  0x01            /* rw: access rights (array of int) */
 #define SCM_CREDENTIALS 0x02        /* rw: struct ucred     */
 //#define SCM_SECURITY    0x03        /* rw: security label       */
-
+//
 struct ucred {
     __u32   pid;
     __u32   uid;
@@ -62,15 +58,14 @@ int uevent_open_socket(int buf_sz, int passcred)
 }
 
 
-
-
 static int write_uevent_dump(const char *msg, int size) {
     FILE *fp;
     int write_len;
     char filename[512] = {'\0'};
 
     //snprintf(filename, sizeof(filename), "/uevent_dump/dump_%d", uevent_index);
-    snprintf(filename, sizeof(filename), "uevent_dump/dump_%d", uevent_index);
+    //snprintf(filename, sizeof(filename), "uevent_dump/dump_%d", uevent_index);
+    snprintf(filename, sizeof(filename), "%sdump_%d", DUMP_PATH, uevent_index);
     uevent_index++;
 
     if((fp = fopen(filename, "a+b")) == NULL) {
@@ -237,13 +232,14 @@ void device_init() {
     //device_fd = uevent_open_socket(256*1024, true);
     device_fd = uevent_open_socket(256*1024, 1);
 
-    printf("device_init device_fd %d\n", device_fd);
+    //printf("device_init device_fd %d\n", device_fd);
     if (device_fd == -1) {
         return;
     }
     fcntl(device_fd, F_SETFL, O_NONBLOCK);
     
-    if (access(COLDBOOT_DONE, F_OK) == 0) { 
+    //if (access(COLDBOOT_DONE, F_OK) == 0) { 
+    if (access(DUMP_DONE, F_OK) == 0) { 
         printf("Skipping coldboot, already done!\n");
         return;
     }    
@@ -253,7 +249,8 @@ void device_init() {
     coldboot("/sys/class");
     coldboot("/sys/block");
     coldboot("/sys/devices");
-    close(open(COLDBOOT_DONE, O_WRONLY|O_CREAT|O_CLOEXEC, 0000));
+    //close(open(COLDBOOT_DONE, O_WRONLY|O_CREAT|O_CLOEXEC, 0000));
+    close(open(DUMP_DONE, O_WRONLY|O_CREAT|O_CLOEXEC, 0000));
 //    NOTICE("Coldboot took %.2fs.\n", t.duration());
     printf("device_init coldboot end\n");
 
@@ -264,9 +261,17 @@ int dump_host_devices() {
 
     int listen = 1;
 
-    if(mkdir("uevent_dump", 0666) != 0) {
-        printf("Failed to create uevent_dump! error: %s\n", strerror(errno));
-        return -1;
+
+    printf("start to dump!\n");
+    //if(access(dump_path, F_OK) == 0) {
+    if(access(DUMP_PATH, F_OK) == 0) {
+        printf("dump folder already existed, continue...\n");
+    } else {
+        printf("dump folder not existed, create...\n");
+        if(mkdir(DUMP_PATH, 0666) != 0) {
+            printf("Failed to create %s! error: %s\n", DUMP_PATH, strerror(errno));
+            return -1;
+        }
     }
 
     device_init();
@@ -274,8 +279,9 @@ int dump_host_devices() {
     struct pollfd ufd;
     ufd.events = POLLIN;
     ufd.fd = device_fd;
-    printf("dump_host_devices ufd.fd %d\n", ufd.fd);
-    
+    //printf("dump_host_devices ufd.fd %d\n", ufd.fd);
+
+/*    
     while (listen) {
         ufd.revents = 0;
         int nr = poll(&ufd, 1, -1);
@@ -285,6 +291,8 @@ int dump_host_devices() {
         if (ufd.revents & POLLIN) {
             handle_device_fd();
         }   
-    }  
+    }
+*/
+
 }
 

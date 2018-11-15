@@ -1,0 +1,39 @@
+#!/bin/bash
+
+number=$1
+
+function myecho {
+	echo
+	echo -e " ---> xy $1"
+}
+
+function myprompt {
+	read -p "$1 [Yes/No] "
+}
+
+function check-para {
+
+	if [[ -z "${number}" ]]; then
+		myecho 'check-para'
+		echo 'Please input number'
+		echo
+		exit
+	fi
+}
+
+	check-para
+
+	myecho 'uninstall'
+	./aic uninstall
+
+	myprompt 'rm workdir ?'
+	sudo rm -fr workdir/
+
+	./aic uninstall
+
+	./aic install -n ${number}
+
+	myprompt 'dmesg -c ?'
+	sudo dmesg -c	 
+
+

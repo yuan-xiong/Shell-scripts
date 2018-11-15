@@ -96,11 +96,7 @@ myecho4ref 'https://www.kernel.org'
  
 myecho3step 'prerequsites'
 	#sudo apt-get update
-	#sudo apt-get install -y bison
-	#sudo apt-get install -y flex
-	#sudo apt-get install -y libncurses5-dev
-	#sudo apt-get install -y libelf-dev
-	#sudo apt-get install -y libssl-dev
+	#sudo apt-get install -y bison flex libncurses5-dev libelf-dev libssl-dev
 	
 myecho3step 'for boot firmware'
 	#sudo apt install intel-microcode
