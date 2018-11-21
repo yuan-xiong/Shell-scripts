@@ -170,7 +170,11 @@ myecho3step 'env.'
 	# not available
 	#source build/envsetup.sh
 	#lunch aosp_arm64-eng
+    
+    # ok with MobaXterm
 	#emulator
+
+    # failed with vnc
 	#emulator -gpu off
 
 

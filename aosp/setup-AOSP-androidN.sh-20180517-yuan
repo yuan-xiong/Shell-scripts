@@ -195,9 +195,19 @@ myecho3step 'env.'
 	# not available
 	#source build/envsetup.sh
 	#lunch aosp_arm64-eng
-	#emulator
-	#emulator -gpu off
 
+    # ok with MobaXterm
+    #emulator
+    #adb kill-server
+    #adb start-server
+    #adb devices
+    #adb -s emulator:5554
+    #netstat -ano | grep 5554
+    #lsof -i:5554
+    #kill -9 $?
+
+    # failed with vnc
+    #emulator -gpu off
 
 # new chapter
 echo

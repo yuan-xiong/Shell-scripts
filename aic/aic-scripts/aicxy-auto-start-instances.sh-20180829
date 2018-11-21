@@ -1,0 +1,143 @@
+#!/bin/bash
+
+
+BEGIN_IDX=$1
+END_IDX=$2
+
+INTERVAL=$3
+TOLERANCE=$4
+
+
+log=app-ps-docker.log
+ss=0
+launcher=0
+app=0
+tmgp=0
+number=0
+
+function check3times() {
+	date
+
+	for((j=0; j<3; j++))
+	{
+		echo -e '\ncheck3times '$j
+#		sleep $((INTERVAL*2))
+		sleep 1
+
+			ss=`ps -A	| grep system_server	| wc -l`
+			launcher=`ps -A	| grep launcher		| wc -l`
+			app=`ps -A	| grep tainertest	| wc -l`
+			tmgp=`ps -A	| grep tmgp		| wc -l`
+			number=`ps -A	| grep subwaysurf	| wc -l`
+			echo
+			echo -e ' ---> system_server\t'$ss
+			echo -e ' ---> launcher\t\t'$launcher
+#			echo -e ' ---> com.example\t'$app
+#			echo -e ' ---> tencent.tmgp\t'$tmgp
+#			echo -e ' ---> subwaysurf\t'$number
+
+		#while [[ $((number+TOLERANCE)) -le $1 ]] ; do
+		#while [[ $((app+TOLERANCE)) -le $1 ]] ; do
+		#while [[ $((tmgp+TOLERANCE)) -le $1 ]] ; do
+		while [[ $((launcher+TOLERANCE)) -le $1 ]] ; do
+			sleep $INTERVAL
+
+			if(($j)) ; then
+				let j=0
+			fi
+
+			ss=`ps -A	| grep system_server	| wc -l`
+			launcher=`ps -A	| grep launcher		| wc -l`
+			app=`ps -A	| grep tainertest	| wc -l`
+			tmgp=`ps -A	| grep tmgp		| wc -l`
+			number=`ps -A	| grep subwaysurf	| wc -l`
+			echo
+			echo -e ' ---> system_server\t'$ss
+			echo -e ' ---> launcher\t\t'$launcher
+#			echo -e ' ---> com.example\t'$app
+#			echo -e ' ---> tencent.tmgp\t'$tmgp
+#			echo -e ' ---> subwaysurf\t'$number
+		done
+	}
+}
+
+
+function main()
+{
+
+	for i in $(seq $BEGIN_IDX $((END_IDX-1)))
+	{
+		echo -e '\n--------------------------------'
+		./aic start $i
+
+		check3times $i
+
+		index=$((i%10))
+		if [[ $index = 9 ]];then
+			echo '[sleep 10s...]'
+			sleep 20
+		fi
+
+#		sleep $INTERVAL
+	}
+}
+
+
+CHECK_INTERVAL=$((INTERVAL/5))
+function main_fix_interval()
+{
+	for i in $(seq $BEGIN_IDX $((END_IDX-1)))
+	{
+	
+		echo
+		echo '--------------------------------'
+	
+		echo -e 'aic start\t'$i
+		./aic start $i
+	
+		time_elapse=0
+
+		while [[ $time_elapse -lt $INTERVAL ]];do
+	
+			date
+			echo
+			ss=`ps -A| grep system_server | wc -l`
+			number=`ps -A| grep subwaysurf | wc -l`
+			echo -e ' ---> system_server\t'$ss
+			echo -e ' ---> subwaysurf\t'$number
+
+			sleep $CHECK_INTERVAL
+			time_elapse=$((time_elapse+CHECK_INTERVAL))
+			#echo -e 'time_elapse\t'$time_elapse
+		done
+	
+
+		rest=$((i%10))
+		if [[ $rest = 9 ]];then
+			echo '[sleep 10s...]'
+			sleep 10
+		fi
+	}
+}
+
+
+
+echo -e '\n------------------------new test--------------------------------'
+
+	date
+	sudo dmesg -c
+
+	if [[ ! $# == 4 ]]; then
+		echo "script argc: $#"
+		echo "Usage: $0 beginIdx endIdx interval tolerance"
+		echo
+		exit
+	fi
+
+# way 1: wait before
+	main | tee -a $log
+
+# way 2: fixed interval
+	#main_fix_interval | tee -a $log
+
+

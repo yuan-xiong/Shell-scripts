@@ -223,19 +223,19 @@ function myaic {
         
             case $where in
                 xy2)
-                    dst='xy2@10.239.82.126:~/yuan/current/'
+                    dst='xy2@10.239.82.92:~/yuan/current/'
                     ;;
                 xy4)
                     dst='xy4@10.239.76.28:~/yuan/current/'
                     ;;
                 go)
-                    dst='binyang@10.239.93.166:~/yuan/current/'
+                    dst='binyang@10.239.93.186:~/yuan/current/'
                     ;;
                 hop)
                     dst='binyang@10.239.93.163:~/yuan/current/'
                     ;;
                 backup)
-                    dst='xy2@10.239.82.126:/home/xy2/aic-all/source-bak/out-bak/'
+                    dst='xy2@10.239.82.92:/home/xy2/aic-all/source-bak/out-bak/'
                     ;;
                 *)
                     echo
@@ -384,7 +384,7 @@ function mylinux {
 
             case $where in
                 xy2)
-                    dst='xy2@10.239.82.126:~/yuan/scp/'
+                    dst='xy2@10.239.82.92:~/yuan/scp/'
                     ;;
                 xy4)
                     #dst=xy4@10.239.76.28:~/yuan/scp/
@@ -392,7 +392,7 @@ function mylinux {
                     dst='xy4@10.239.76.28:~/yuan/scp/'
                     ;;
                 go)
-                    dst='binyang@10.239.93.166:~/yuan/scp/'
+                    dst='binyang@10.239.93.186:~/yuan/scp/'
                     ;;
                 hop)
                     dst='binyang@10.239.93.163:~/yuan/scp/'
@@ -551,5 +551,5 @@ function main {
 
 # start from here
 
-main $@ | tee -a mylog-tools-$(date +%Y%m%d).txt
+main $@ | tee -a ~/yuan/mylog-tools-$(date +%Y%m%d).txt
 
