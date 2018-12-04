@@ -59,6 +59,14 @@ function qemu-install-ubuntu {
 	qemu-img resize ubuntu-100G.qcow2 +924G
 	mv ubuntu-100G.qcow2 ubuntu-1T.qcow2	
 
+    # resize
+    # dangerous here
+    #$ qemu-img resize --shrink ubuntu-1T.qcow2 -2G
+    #    Image resized.
+    #$ qemu-img resize --shrink ubuntu-1T.qcow2 -- 1G
+    #^C
+
+
 	# installation
 	sudo -s
 	qemu-system-x86_64 -m 80960 -smp 48 -enable-kvm -boot order=cd,once=d -hda ubuntu-1T.qcow2 -cdrom ~/yuan/scp/ubuntu-16.04.4-desktop-amd64.iso -vga vmware -full-screen -vnc :7

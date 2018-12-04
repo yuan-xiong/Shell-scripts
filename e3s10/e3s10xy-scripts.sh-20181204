@@ -1,0 +1,21 @@
+#!/bin/bash
+
+function e3s10-setup {
+
+    # e5 network
+    ifconfig enp0s20f0u1u1 up
+    dhclient enp0s20f0u1u1
+    
+    # e3 mount
+    mount 172.31.1.254:/home/tools /e3s10/
+    
+    # demo 1: classification_sample_async
+    source /root/E3S10.env
+    ./classification_sample_async -m /root/ali/ali_detector_2.0_for_intel_only_confidential.xml -i /opt/intel/OpenVINO/images/dog.jpg -d HETERO:FPGA,CPU -ni 1000 -nireq 8
+    
+    # demo 2: video_analytics_example
+    source /root/E3S10.env
+    export OMP_NUM_THREADS=1
+    ./video_analytics_example -i ../../test_content/videos/0.h264 -batch 1 -fps 5 -c 48 -m /root/ali/ali_detector_2.0_for_intel_only_confidential.xml -d HETERO:FPGA,CPU
+    
+}
