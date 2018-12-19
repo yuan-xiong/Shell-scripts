@@ -119,6 +119,7 @@ myecho3step 'repository'
 	# Google
 	#repo init -u https://android.googlesource.com/platform/manifest
 	#repo init -u https://android.googlesource.com/platform/manifest -b android-7.1.1_r6
+    repo init -u https://android.googlesource.com/platform/manifest -b android-8.1.0_r9
 
 	#cd .repo/manifests/
 	#git branch
@@ -167,15 +168,21 @@ myecho3step 'make'
 #-----------------------------------------------------------------
 myecho2thing 'Launch Emulator'
 myecho3step 'env.'
-	# not available
 	#source build/envsetup.sh
 	#lunch aosp_arm64-eng
     
     # ok with MobaXterm
 	#emulator
-
     # failed with vnc
 	#emulator -gpu off
+
+    # android 8 ok
+	#emulator
+    #adb kill-server
+    #adb start-server
+    #adb devices
+    #adb -s emulator-5556 shell
+    #ls -l /dev/
 
 
 # new chapter

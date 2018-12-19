@@ -82,6 +82,9 @@ function qemu-start-vm {
 
 	qemu-system-x86_64 -m 80960 -smp 48 -enable-kvm -hda qemu-imgs/1029/centos7.img -vnc :6
 	qemu-system-x86_64 -m 80960 -smp 48 -enable-kvm -monitor stdio -hda qemu-imgs/1029/centos7.img -vga vmware -vnc :6
+
+    # on xy4
+    qemu-system-x86_64 -m 8096 -smp 4 -enable-kvm -hda img/centos7-base1106.qcow2 -vnc :6
 }
 
 function main {

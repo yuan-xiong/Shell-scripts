@@ -196,6 +196,15 @@ myecho3step 'env.'
 	#source build/envsetup.sh
 	#lunch aosp_arm64-eng
 
+    # android 7 ok
+	#emulator
+    #adb kill-server
+    #adb start-server
+    #adb devices
+    #adb -s emulator:5554 shell
+
+	#emulator -gpu off
+
     # ok with MobaXterm
     #emulator
     #adb kill-server
