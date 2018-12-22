@@ -82,6 +82,14 @@ function login {
             ssh openvino@10.239.82.211
             #11**11
             ;;
+	dell)
+		ssh admin@10.240.99.202
+		#1
+		;;
+	fan)
+		ssh hefan@10.239.132.186
+		#linux123
+		;;
 		-h)
 			help
 			;;
