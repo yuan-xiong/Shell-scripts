@@ -103,9 +103,6 @@ myecho1task 'download Caffe'
 
 # install OpenCV 3.3.0
 	#mysource '/home/xy2/workspace/backup/scripts/opencv3.3.0.sh-20180505-yuan'
-#
-# makefile config
-	#mysource 'scripts/configure-caffe.sh-20180510'
 
 
 # install protobuf
@@ -125,6 +122,9 @@ envfile=~/.bashrc
 #	#echo 'export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libopencv_core.so' | tee -a $envfile
 #	#echo '' | tee -a $envfile
 
+#
+# makefile config
+	#mysource 'scripts/configure-caffe.sh-20180510'
 
 # new chapter
 myecho1task 'build Caffe'

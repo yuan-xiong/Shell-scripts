@@ -1,0 +1,190 @@
+#!/usr/bin/bash
+
+	echo "https://www.cnblogs.com/qjoanven/p/7813957.html"
+	sudo yum install -y protobuf-devel leveldb-devel snappy-devel opencv-devel boost-devel hdf5-devel
+	sudo yum install -y gflags-devel glog-devel lmdb-devel
+	sudo yum install -y atlas-devel cmake glibc-devel gcc-gfortran autoconf automake gcc gcc-c++ git libtool make  pkgconfig zlib-devel SDL* yasm* python-devel cmake* git ncurses* *freetype2 nasm nasm*
+
+
+	# Download BVLC caffe
+		git clone https://github.com/BVLC/caffe.git
+
+	mkdir pre-installed
+	cd pre-intstalled/
+
+	# openBlas
+		wget http://github.com/xianyi/OpenBLAS/archive/v0.2.20.tar.gz
+		tar xzvf v0.2.20.tar.gz
+		cd OpenBLAS-0.2.20
+
+		#wget http://public.dhe.ibm.com/software/server/POWER/Linux/xl-compiler/eval/ppc64le/rhel7/repodata/repomd.xml.key
+		#sudo rpm --import repomd.xml.key
+		#wget http://public.dhe.ibm.com/software/server/POWER/Linux/xl-compiler/eval/ppc64le/rhel7/ibm-xl-compiler-eval.repo
+		#sudo cp ibm-xl-compiler-eval.repo /etc/yum.repos.d/
+		#sudo yum install libxlmass-devel.8.1.3
+
+		make NO_LAPACK=1
+		sudo make PREFIX=/usr/local install
+		export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+
+	# intel MKL (failed, please use openBlas)
+	# Download at https://registrationcenter.intel.com/en/products/postregistration/?sn=NVGW-F7967LCN&EmailID=yuan.xiong%40intel.com&Sequence=1765794&dnld=t 
+        	tar zxvf l_mkl_2019.1.144.tgz
+        	cd l_mkl_2019.1.144.tgz
+        	sudo sh install_GUI.sh
+
+		# setup mkl env.
+		echo '/opt/intel/lib/intel64' | sudo tee -a /etc/ld.so.conf.d/intel_mkl.conf
+        	echo '/opt/intel/mkl/lib/intel64' | sudo tee -a /etc/ld.so.conf.d/intel_mkl.conf
+        	echo '/usr/local/cuda/lib64' | sudo tee -a /etc/ld.so.conf.d/cuda.conf
+        	echo '/lib' | sudo tee -a /etc/ld.so.conf.d/cuda.conf
+		sudo ldconfig
+
+		# Verify mkl installation.
+        	cd /opt/intel/mkl/examples/examples_core_c/cblas
+        	source /opt/intel/mkl/bin/mklvars.sh intel64
+        	sudo make libintel64 compiler=gnu
+
+        #prompt 'set mkl to BLAS in Makefile.config'
+		#BLAS := mkl
+		#BLAS_INCLUDE := /opt/intel/mkl
+		#BLAS_LIB := /opt/intel/mkl
+
+	# protobuf
+		echo 'https://blog.csdn.net/u014156736/article/details/52331392'
+		sudo yum install -y autoconf automake libtool curl make gcc-c++ unzip
+		# Download
+			cd pre-intstalled/
+			git clone https://github.com/google/protobuf.git
+			cd protobuf/
+		        git submodule update --init --recursive
+		        ./autogen.sh
+		        ./configure --prefix=/usr/local/protobuf
+			make -j16
+        		make check
+		        sudo make install
+
+		# python mode in protobuf
+			cd protobuf/python/
+			sudo python setup.py build
+			sudo python setup.py test
+			sudo python setup.py install
+			#完成后，验证是否安装成功
+			echo 'Check python protobuf:'
+			protoc --version
+			cd -
+
+	# cmake
+		yum install gcc gcc-c++ sudo autoconf automake libtool git
+		wget https://cmake.org/files/v3.10/cmake-3.10.3.tar.gz
+
+                ./bootstrap --prefix=/usr/local
+		gmake && gmake install
+
+		# for cmake
+		export PATH=/usr/local/bin/:$PATH
+
+	# OpenCV
+		echo 'https://www.cnblogs.com/0x4863/p/7890115.html'
+		echo 'https://blog.csdn.net/qinglongzhan/article/details/81942935'
+		yum -y install epel-release
+
+		# for CentOS 7 ffmpeg
+			echo "https://www.cnblogs.com/zhangyin6985/p/6513483.html"
+			su -c 'yum localinstall --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm https://download1.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm'
+			#sudo rpm --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro
+			#sudo rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-1.el7.nux.noarch.rpm
+			sudo yum install -y ffmpeg ffmpeg-devel
+
+
+		yum install -y gcc gcc-c++ gtk* gtk+-devel libjpeg-devel libtiff-devel jasper-devel libpng-devel zlib-devel cmake libdc1394
+		yum install -y git gtk2-devel pkgconfig numpy python python-pip python-devel gstreamer-plugins-base-devel libv4l mplayer mencoder flvtool2 
+
+		wget https://github.com/opencv/opencv/archive/3.3.1.zip
+		unzip 3.3.1.zip
+		cd opencv-3.3.1
+
+		mkdir build
+		cd build/
+
+		cmake -D WITH_TBB=ON -D WITH_EIGEN=ON ..    
+		cmake -D BUILD_DOCS=ON -D BUILD_TESTS=OFF -D BUILD_PERF_TESTS=OFF -D BUILD_EXAMPLES=OFF ..    
+		cmake -D WITH_OPENCL=OFF -D WITH_CUDA=OFF -D BUILD_opencv_gpu=OFF -D BUILD_opencv_gpuarithm=OFF -D BUILD_opencv_gpubgsegm=OFF -D BUILD_opencv_gpucodec=OFF -D BUILD_opencv_gpufeatures2d=OFF -D BUILD_opencv_gpufilters=OFF -D BUILD_opencv_gpuimgproc=OFF -D BUILD_opencv_gpulegacy=OFF -D BUILD_opencv_gpuoptflow=OFF -D BUILD_opencv_gpustereo=OFF -D BUILD_opencv_gpuwarping=OFF ..    
+		cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..  
+
+		# wait for serveral minutes
+		# download https://github.com/opencv/opencv_3rdparty/blob/ippicv/master_20170822/ippicv/ippicv_2017u3_lnx_intel64_general_20170822.tgz
+
+		make
+		sudo make install
+
+		# set up env.
+			echo "/usr/local/lib" > /etc/ld.so.conf.d/opencv.conf
+			sudo ldconfig
+			export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig
+
+		# varify
+			cd ../samples/cpp/example_cmake
+			make
+			./opencv_example
+
+        #prompt 'set 3 to OpenCV version in Makefile.config'
+		#OPENCV_VERSION := 3
+
+	# gflags
+		wget --no-check-certificate https://github.com/schuhschuh/gflags/archive/master.zip
+		mkdir build && cd build
+		export CXXFLAGS="-fPIC" && cmake .. && make VERBOSE=1
+		make && make install
+
+##------------------------------------------------------------------------------------------------------##
+
+	# make config
+		# for CentOS 7.4
+		echo 'https://www.cnblogs.com/qjoanven/p/7813957.html'
+
+		echo 'https://zhuanlan.zhihu.com/p/25709284'
+		echo 'https://www.linuxidc.com/Linux/2017-10/147617.htm'
+		echo 'https://blog.csdn.net/u012253191/article/details/79027494'
+		
+		echo 'Makefile.config'
+			echo 'cp Makefile.config.example Makefile.config'
+			echo 'USE_CUDNN := 1'
+			echo 'USE_CUDNN := 1'
+			echo 'BLAS := mkl'
+			echo 'OPENCV_VERSION := 3'
+			echo 'WITH_PYTHON_LAYER := 1'
+			echo 'INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include /usr/include/hdf5/serial'
+			echo 'LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/hdf5/serial'
+			
+			echo '#-gencode arch=compute_20,code=sm_20 \'
+			echo '#-gencode arch=compute_20,code=sm_21 \'
+		        #prompt '[Config] configure the Caffe Makefile.config done?'
+		
+		
+		echo 'Makefile'
+			echo 'caffe/Makefile'
+			echo 'LIBRARIES += glog gflags protobuf boost_system boost_filesystem m hdf5_serial_hl hdf5_serial'
+			echo 'NVCCFLAGS += -D_FORCE_INLINES -ccbin=$(CXX) -Xcompiler -fPIC $(COMMON_FLAGS)'
+		        #prompt '[Config] configure the Caffe Makefile done?'
+		
+		
+		echo 'CUDA host_config'
+			echo '/usr/local/cuda/targets/x86_64-linux/include/crt/host_config.h'
+			echo '//#error-- unsupported GNU version! gcc versions later than 6 are not supported!'
+		        #prompt '[Config] configure the Caffe CUDA host_config done?'
+		
+		
+		echo 'g++ 5'
+
+##------------------------------------------------------------------------------------------------------##
+
+	# make
+		make clean
+		make all -j16
+		make test -j16
+		make runtest
+			# [----------] Global test environment tear-down
+			# [==========] 1162 tests from 152 test cases ran. (36361 ms total)
+			# [  PASSED  ] 1162 tests.
+

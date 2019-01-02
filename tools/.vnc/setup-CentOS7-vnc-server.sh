@@ -9,6 +9,7 @@ function setup-vnc-server-way2 {
 
 	vncserver -kill :1
 	vncserver :1
+	vncserver :1 -geometry 1280x960
 
 	# 开机自启动
 	sudo systemctl enable vncserver@:1.service

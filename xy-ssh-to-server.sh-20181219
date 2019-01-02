@@ -75,8 +75,9 @@ function login {
             #12**56
             ;;
         mo)
-            #ssh root@10.239.85.158
-            ssh root@e3-server 
+            ssh root@10.239.85.134
+            #ssh root@e3-server 
+	    # 123456
             ;;
         ov)
             ssh openvino@10.239.82.211
@@ -86,9 +87,19 @@ function login {
 		ssh admin@10.240.99.202
 		#1
 		;;
+	caffe)
+		ssh cuda@10.239.65.145
+		# ~/zhiheng/rfcn/dilation/
+		# 1****1
+		;;
 	fan)
 		ssh hefan@10.239.132.186
 		#linux123
+		;;
+	sheila)
+		ssh root@10.239.85.99
+		# root:	12**56
+		# intel:intel123
 		;;
 		-h)
 			help
