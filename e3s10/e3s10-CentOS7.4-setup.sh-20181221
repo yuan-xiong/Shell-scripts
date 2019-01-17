@@ -1,0 +1,129 @@
+
+
+# 1. E3 setup env.
+
+	# scp -r /etc/resolv.conf /etc/
+
+        export http_proxy=http://child-prc.intel.com:913/
+        export https_proxy=https://child-prc.intel.com:913/
+
+	# wget www.baidu.com
+
+
+# 2. E3 packages
+	
+	# mount
+	        mount 172.31.1.254:/home/tools /root/tools
+
+
+        # cmake > 3.5
+        	yum install gcc gcc-c++ sudo autoconf automake libtool git
+
+		#wget https://cmake.org/files/v3.3/cmake-3.3.2.tar.gz
+		wget https://cmake.org/files/v3.10/cmake-3.10.3.tar.gz
+                ./bootstrap --prefix=/usr/local
+		gmake && gmake install
+
+		# for cmake
+		export PATH=/usr/local/bin/:$PATH
+
+
+	# bsp
+		e3s10_18.0.1_b261/
+
+
+	# inference engine
+		export INFER_ENG_DIR=/root/pre-installed/inference-engine
+		export ARCH_ROOT_DIR=$INFER_ENG_DIR/thirdparty/dla/arch_descriptions
+		export DLA_ARCH_NAME=$ARCH_ROOT_DIR/2x16x64_fp11_res18_i1_s10hw_act8_elttrue.prototxt
+		export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$INFER_ENG_DIR/temp/opencv_centos7/lib/:$INFER_ENG_DIR/temp/mkltiny_lnx_20180510/lib/:./lib:/usr/local/lib/
+
+		cmake -DENABLE_TESTS=OFF -DVERBOSE_BUILD=ON -DENABLE_PERFORMANCE_TESTS=OFF -DENABLE_INTEGRATION_TESTS=OFF -DENABLE_FUNCTIONAL_TESTS=OFF -DENABLE_BEH_TESTS=ON -DENABLE_PLUGIN_RPATH=OFF -DCMAKE_BUILD_TYPE=Release -DENABLE_OPENVX_CVE=OFF -DENABLE_PRIVATE_MODELS=ON ..
+	
+	# ie
+		yum install boost
+		yum install boost-devel
+
+	# e3s10
+		yum install mesa*
+		yum install libpciaccess-devel
+		yum install xorg-x11-drivers
+
+		yum install openssl -y
+		yum install openssl-devel -y
+		instll pyhton3, pip3
+		pip3 install -r requirements_caffe.txt
+
+	# source libva/media/tbb
+		mkdir -p /usr/lib/x86_64-linux-gnu
+		mkdir build
+
+		# libva
+			git clone https://github.com/01org/libva.git
+			cd libva
+			git checkout fbf7138389f7d6adb6ca743d0ddf2dbc232895f6
+			./autogen.sh --prefix=/usr --libdir=/usr/lib/x86_64-linux-gnu
+			make -j16 && make install
+
+		# export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib64/pkgconfig
+		## export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig/
+		## export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+
+		# libva-utils
+			git clone https://github.com/01org/libva-utils.git
+			cd libva-utils
+			git checkout 7b85ff442d99c233fb901a6fe3407d5308971645
+			./autogen.sh --prefix=/usr --libdir=/usr/lib/x86_64-linux-gnu
+                        make -j16 && make install
+
+		# gmmlib
+			git clone https://github.com/intel/gmmlib.git
+			cd gmmlib
+			git checkout b1451bbe4c506f17ddc819f12b4b448fc08698c5
+
+		# media-driver
+			git clone https://github.com/intel/media-driver.git
+			cd media-driver 
+			git checkout 2eab2e248c5787ceaebd76be791e60e28e56fbf3
+
+			cd ../build/
+			cmake ../media-driver/ -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=/usr/lib/x86_64-linux-gnu -DLIBVA_DRIVERS_PATH=/usr/lib/x86_64-linux-gnu/dri
+                        make -j16 && make install
+
+		# libyuv
+			#git clone https://chromium.googlesource.com/libyuv/libyuv.git
+			git clone https://chromium.googlesource.com/libyuv/libyuv
+			cd libyuv
+			mkdir build
+			cd build
+			cmake ..
+			make -j16
+			make install
+
+		# tbb
+			git clone https://github.com/01org/tbb.git
+			cd tbb
+			git checkout 4c73c3b5d7f78c40f69e0c04fd4afb9f48add1e6
+			make tbb tbbmalloc
+			export TBBROOT=/opt/intel/tbb
+			mkdir $TBBROOT; mkdir $TBBROOT/bin; mkdir $TBBROOT/lib
+			cp -r include $TBBROOT
+			cp build/linux_*_release/libtbbmalloc* $TBBROOT/lib
+			cp build/linux_*_release/libtbb.so* $TBBROOT/lib
+
+		# MediaSKD
+			git clone https://github.com/Intel-Media-SDK/MediaSDK.git
+			cd MediaSDK
+			export MFX_HOME=/home/xy3/workspace/git/e3s10/pre-install/MediaSDK
+			mkdir build
+			cd build
+			cmake ..
+			make -j16
+			make install
+
+			#perl tools/builder/build_mfx.pl --cmake=intel64.make.release
+			#make -C __cmake/intel64.make.release/ -j4
+			#make -C __cmake/intel64.make.release/ -j4 --target=
+			#cd /home/xy3/workspace/git/e3s10/pre-install/MediaSDK/__cmake/intel64.make.release; make install
+
+

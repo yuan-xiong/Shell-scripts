@@ -1,0 +1,3 @@
+
+	yum install epel-release
+	yum install gparted

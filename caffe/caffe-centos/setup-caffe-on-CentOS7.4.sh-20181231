@@ -72,6 +72,7 @@
 			#完成后，验证是否安装成功
 			echo 'Check python protobuf:'
 			protoc --version
+			#libprotoc 2.5.0
 			cd -
 
 	# cmake
@@ -187,4 +188,25 @@
 			# [----------] Global test environment tear-down
 			# [==========] 1162 tests from 152 test cases ran. (36361 ms total)
 			# [  PASSED  ] 1162 tests.
+
+
+##------------------------------------------------------------------------------------------------------##
+
+	# from: https://www.cnblogs.com/denny402/p/5075490.html
+
+	# MNIST test
+	#http://caffe.berkeleyvision.org/gathered/examples/mnist.html
+		cd caffe/
+		./data/mnist/get_mnist.sh
+		./examples/mnist/create_mnist.sh
+		# change "solver_mode: GPU" to "solver_mode: CPU" in "examples/mnist/lenet_solver.prototxt".
+		./examples/mnist/train_lenet.sh
+	
+	# Cifar10 test
+	#http://caffe.berkeleyvision.org/gathered/examples/cifar10.html
+		./data/cifar10/get_cifar10.sh
+		./examples/cifar10/create_cifar10.sh
+		# change "solver_mode: GPU" to "solver_mode: CPU" in "examples/cifar10/cifar10_quick_solver.prototxt".
+		# change "solver_mode: GPU" to "solver_mode: CPU" in "examples/cifar10/cifar10_quick_solver_lr1.prototxt".
+		./examples/cifar10/train_quick.sh
 
