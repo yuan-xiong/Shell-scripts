@@ -71,7 +71,8 @@ function login {
             #12**56
             ;;
         dai)
-            ssh root@10.239.85.182
+            ssh root@10.239.85.142
+	    ssh root@e3s10-host1
             #12**56
             ;;
         mo)
@@ -88,7 +89,8 @@ function login {
 		#1
 		;;
 	caffe)
-		ssh cuda@10.239.65.145
+		#ssh cuda@10.239.65.140
+		ssh cuda@cuda.sh.intel.com
 		# ~/zhiheng/rfcn/dilation/
 		# 1****1
 		;;
@@ -110,7 +112,9 @@ function login {
 		#ssh root@cldai-gpu
 		#cldai-gpu123--
 		#cd /home/cldai/model/ali/yuan
-		#export PYTHONPATH=/home/cldai/intelcaffe/python
+		#export PYTHONPATH=/home/cldai/caffe_ssd/python
+		#export LD_LIBRARY_PATH=/home/cldai/caffe_ssd/build/lib:$LD_LIBRARY_PATH
+		#cd /home/cldai/model/ali/
 		;;
 	-h)
 		help

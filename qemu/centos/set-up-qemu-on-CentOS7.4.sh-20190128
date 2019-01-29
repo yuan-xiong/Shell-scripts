@@ -1,0 +1,54 @@
+#!/usr/bin/bash
+
+echo "https://blog.csdn.net/shangguanyunluo123/article/details/79949772"
+
+
+function setup {
+
+	# dependancy
+	yum -y install gcc gcc-c++ automake libtool zlib-devel glib2-devel bzip2-devel libuuid-devel spice-protocol spice-server-devel usbredir-devel libaio-devel
+
+	# build & install
+	wget http://wiki.qemu-project.org/download/qemu-2.8.0-rc0.tar.bz2
+	tar xvf qemu-2.8.0-rc0.tar.bz2
+	cd qemu-2.8.0-rc0
+	./configure --enable-usb-redir --enable-libusb --enable-spice --enable-uuid --enable-kvm --enable-bzip2 --prefix=/usr/local/qemu --enable-linux-aio --enable-system
+	echo "make -j$[$(cat /proc/cpuinfo | grep processor |wc -l) + 1]"
+	make -j$[$(cat /proc/cpuinfo | grep processor |wc -l) + 1]
+	sudo make install
+}
+
+function qemu-check {
+	# qemu env.
+        export PATH=/usr/local/qemu/bin:$PATH
+	echo " ---> qemu-img"
+	qemu-img  --version
+	echo " ---> qemu-system-x86_64"
+	qemu-system-x86_64 --version
+}
+
+function qemu-image {
+	# image
+	qemu-img create -f qcow2 centos-caffe-20190128.qcow2 1000G
+}
+
+function qemu-install {
+	# installation
+	sudo -s
+        qemu-system-x86_64 -m 20480 -smp 4 -enable-kvm -boot order=cd,once=d -hda centos-caffe-20190128.qcow2 -cdrom /home/xy3/workspace/backup/kernel-images/CentOS-7.4-for-VCA.iso
+        #qemu-system-x86_64 -m 20480 -smp 4 -enable-kvm -boot order=cd,once=d -hda centos-caffe-20190128.qcow2 -cdrom /home/xy3/workspace/backup/kernel-images/CentOS-7.4-for-VCA.iso -vnc :7
+
+	# Open vnc: 10.239.82.97:5907
+}
+
+function qemu-start {
+	qemu-system-x86_64 -m 30720 -smp 4 -enable-kvm -hda centos-caffe-20190128.qcow2 -vnc :7
+}
+
+function main {
+	#setup
+	qemu-check
+}
+
+# start from here
+	main
