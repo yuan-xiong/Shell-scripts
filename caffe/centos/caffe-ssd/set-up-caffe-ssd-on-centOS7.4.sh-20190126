@@ -1,0 +1,64 @@
+#!/usr/bin/bash
+
+processors=$(cat /proc/cpuinfo | grep processor | wc -l)
+echo -e "processors\t$processors" 
+jobs=$[$processors + 1]
+echo -e "jobs\t\t$jobs" 
+
+
+function set-up-caffe-ssd {
+
+	echo "https://blog.csdn.net/xiao_lxl/article/details/79106837"
+
+	# git	
+		git clone https://github.com/weiliu89/caffe.git
+		cd caffe
+		git checkout ssd
+	
+		cp Makefile.config.example Makefile.config
+	
+	# python3, pip3
+		yum install -y openssl-devel openssl-static zlib-devel lzma tk-devel xz-devel bzip2-devel ncurses-devel gdbm-devel readline-devel sqlite-devel gcc make libffi-devel
+                #wget https://www.python.org/ftp/python/3.6.2/Python-3.6.2.tar.xz
+                wget https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
+                tar -xvJf Python-3.6.2.tar.xz
+                cd Python-3.6.2
+                ./configure prefix=/usr/local/python3
+                make -j9
+                sudo make install
+                ls /usr/local/python3/bin/python3
+                ln -sf /usr/local/python3/bin/python3 /usr/bin/python3ln -s
+
+                export PATH=/usr/local/bin:$PATH
+                pip3 install -r requirements_caffe.txt
+
+
+	# compile
+		export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+		make all  -j$jobs
+		make pycaffe -j$jobs
+		make test -j$jobs
+		make runtest -j$jobs
+
+	# data
+	#https://pan.baidu.com/s/1o9c0GGU (passwd: fucx)
+
+	cd data
+	wget  http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar
+	wget http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtrainval_06-Nov-2007.tar
+	wget http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtest_06-Nov-2007.tar
+	tar -xvf VOCtrainval_11-May-2012.tar
+	tar -xvf VOCtrainval_06-Nov-2007.tar
+	tar -xvf VOCtest_06-Nov-2007.tar
+
+	# Error:
+	# pip
+	sudo -H pip install -U pip --proxy="http://child-prc.intel.com:913/"
+	# skimage.io
+	#sudo pip install -U scikit-image --proxy="http://child-prc.intel.com:913/"
+	#sudo pip install 'scikit-image<0.15' --proxy="http://child-prc.intel.com:913/"
+
+	# pip3
+	sudo pip3 install -r requirements.txt --proxy="http://child-prc.intel.com:913/"
+}
+
