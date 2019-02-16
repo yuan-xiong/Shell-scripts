@@ -1,0 +1,49 @@
+#!/usr/bin/bash
+
+
+	echo "https://my.oschina.net/u/3269534/blog/1811627/"
+
+	# source code
+	git clone https://github.com/weiliu89/caffe.git
+	cd caffe
+	git checkout ssd
+
+	# env. setup
+	echo 'export CAFFE_ROOT=$HOME/caffe-ssd' >> ~/.bashrc	# ??$CAFFE_ROOT
+	echo 'export PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/dist-packages:$CAFFE_ROOT/python'>>~/.bashrc
+	echo 'export PATH=$PATH:$CAFFE_ROOT/build/tool' >> ~/.bashrc
+	source ~/.bashrc
+
+	# dependancy
+	sudo yum install -y epel-release \
+	wget \
+	zip \
+	gcc-c++ \
+	cmake \
+	protobuf-devel \
+	leveldb-devel \
+	snappy-devel \
+	boost-devel \
+	hdf5-devel \
+	gflags-devel \
+	glog-devel \
+	lmdb-devel \
+	openblas-devel \
+	python-devel \
+	liblas-devel \
+	atlas-devel	\
+	libopenblas-dev \
+	python-matplotlib \
+	numpy
+
+	# opencv
+	sudo wget -O /opt/opencv2.4.13.6.zip https://github.com/opencv/opencv/archive/2.4.13.6.zip
+	sudo unzip /opt/opencv2.4.13.6.zip -d /opt
+	cd /opt/opencv-2.4.13.6/ && sudo mkdir release/ && cd release
+	sudo cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
+	sudo make && sudo make install
+
+	# python
+	sudo yum install -y python-pip
+	sudo pip install --upgrade pip
+
