@@ -27,7 +27,7 @@ function set-up-caffe-ssd {
                 make -j9
                 sudo make install
                 ls /usr/local/python3/bin/python3
-                ln -sf /usr/local/python3/bin/python3 /usr/bin/python3ln -s
+                ln -sf /usr/local/python3/bin/python3 /usr/bin/python3
 
                 export PATH=/usr/local/bin:$PATH
                 pip3 install -r requirements_caffe.txt
