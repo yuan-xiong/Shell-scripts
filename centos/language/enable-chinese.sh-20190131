@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+
+	# check
+	echo en_US.UTF-8
+	locale
+
+	# install chinese
+	sudo yum groupinstall chinese-support

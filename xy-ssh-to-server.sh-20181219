@@ -104,8 +104,8 @@ function login {
 		# intel:intel123
 		;;
 	long)
-		ssh root@10.239.85.58
-		12**56
+		ssh root@10.239.85.142
+		# 12**56
 		;;
 	cldai-gpu)
 		ssh root@10.239.89.9

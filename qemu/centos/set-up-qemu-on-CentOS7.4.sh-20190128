@@ -42,7 +42,10 @@ function qemu-install {
 }
 
 function qemu-start {
-	qemu-system-x86_64 -m 30720 -smp 4 -enable-kvm -hda centos-caffe-20190128.qcow2 -vnc :7
+	#qemu-system-x86_64 -m 30720 -smp 4 -enable-kvm -hda centos-caffe-20190128.qcow2 -vnc :7				# good
+	#qemu-system-x86_64 -m 30720 -smp 4 -enable-kvm -hda centos-caffe-20190128.qcow2 -vga vmware -vnc :7			# no better
+	#qemu-system-x86_64 -m 30720 -smp 4 -enable-kvm -hda centos-caffe-20190128.qcow2 -vga vmware -full-screen -vnc :7
+	qemu-system-x86_64 -m 30720 -smp 4 -enable-kvm -hda centos-caffe-20190128.qcow2 -full-screen -vnc :7
 }
 
 function main {
