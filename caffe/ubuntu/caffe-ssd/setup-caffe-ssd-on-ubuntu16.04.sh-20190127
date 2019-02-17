@@ -1,0 +1,216 @@
+#!/usr/bin/bash
+
+
+# 1. compile
+#------------------------------------------------------------------------------------------------------------------#
+
+function setup-on-ubuntu16.04 {
+
+	# ubuntu 16.04
+	echo "https://blog.csdn.net/lukaslong/article/details/81390276"
+
+	# source code
+		git clone https://github.com/weiliu89/caffe.git
+		cd caffe
+		git checkout ssd
+
+	# env. setup
+		echo 'export CAFFE_ROOT=$HOME/caffe-ssd' >> ~/.bashrc	# ??$CAFFE_ROOT
+		echo 'export PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/dist-packages:$CAFFE_ROOT/python'>>~/.bashrc
+		echo 'export PATH=$PATH:$CAFFE_ROOT/build/tool' >> ~/.bashrc
+		source ~/.bashrc
+
+	# dependancy
+		sudo apt-get install -y --no-install-recommends libboost-all-dev
+		sudo apt-get install -y libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev libgflags-dev \
+		libopenblas-dev protobuf-compiler libatlas-base-dev python-dev libgflags-dev libgoogle-glog-dev liblmdb-dev python-numpy
+
+	# openblas
+		git clone https://github.com/xianyi/OpenBLAS.git
+		cd OpenBLAS
+		make -j8
+		sudo make PREFIX=/usr/local/OpenBLAS install
+
+	# python, pip
+		sudo apt-get install python-pip
+		sudo pip install --upgrade pip --proxy=http://child-prc.intel.com:913/
+		#sudo pip install -r caffe/python/requirements.txt
+		sudo pip install -r python/requirements.txt --proxy=http://child-prc.intel.com:913/
+
+	# compile
+		cp Makefile.config.example Makefile.config
+		sudo vim Makefile.config
+
+		# modify Makefile.config
+			8 CPU_ONLY := 1	# only CPU
+			89 WITH_PYTHON_LAYER := 1 # use Python layer
+
+			# option: hdf5 path
+			91 INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include /usr/include/hdf5/serial
+			92 LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib/usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/hdf5/serial
+
+		# Makefile
+			#LIBRARIES += glog gflags protobuf boost_system boost_filesystem boost_regex m hdf5_hl hdf5
+			LIBRARIES += glog gflags protobuf boost_system boost_filesystem boost_regex m hdf5_serial_hl hdf5_serial
+
+			#NVCCFLAGS +=-ccbin=$(CXX) -Xcompiler-fPIC $(COMMON_FLAGS)
+			NVCCFLAGS += -D_FORCE_INLINES -ccbin=$(CXX) -Xcompiler -fPIC $(COMMON_FLAGS)
+
+			#LIBRARIES += boost_thread stdc++后加boost_regex
+			LIBRARIES += boost_thread stdc++ boost_regex
+
+		source env-caffe-ssd-on-ubuntu16.04.sh-20190217
+		make all -j9
+		make pycaffe
+		make test -j9
+		make runtest -j9
+
+
+	# Errors
+		# error
+			/usr/bin/ld: cannot find -lopenblas
+		# solution
+			sudo apt-get install libopenblas-dev
+
+		# error
+			fatal error: numpy/arrayobject.h: No such file or directory
+		# solution
+			sudo apt-get install python-numpy
+}
+
+function setup-on-centos-7.4 {
+
+	# centos 7.4
+	echo "https://my.oschina.net/u/3269534/blog/1811627/"
+
+	# source code
+		git clone https://github.com/weiliu89/caffe.git
+		cd caffe
+		git checkout ssd
+
+	# env. setup
+		echo 'export CAFFE_ROOT=$HOME/caffe-ssd' >> ~/.bashrc	# ??$CAFFE_ROOT
+		echo 'export PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/dist-packages:$CAFFE_ROOT/python'>>~/.bashrc
+		echo 'export PATH=$PATH:$CAFFE_ROOT/build/tool' >> ~/.bashrc
+		source ~/.bashrc
+
+	# dependancy
+
+		sudo yum install -y epel-release wget zip gcc-c++ cmake protobuf-devel leveldb-devel snappy-devel \
+		boost-devel hdf5-devel gflags-devel glog-devel lmdb-devel openblas-devel python-devel \
+		liblas-devel atlas-devel libopenblas-dev python-matplotlib numpy
+
+		sudo yum install -y protobuf-devel leveldb-devel snappy-devel opencv-devel boost-devel hdf5-devel
+		sudo yum install -y atlas-devel cmake glibc-devel gcc-gfortran autoconf automake gcc gcc-c++ git
+		sudo yum install -y libtool make  pkgconfig zlib-devel SDL* yasm* python-devel cmake* git ncurses*
+		sudo yum install -y gflags-devel glog-devel lmdb-devel *freetype2 nasm nasm*
+
+	# opencv
+		sudo wget -O /opt/opencv2.4.13.6.zip https://github.com/opencv/opencv/archive/2.4.13.6.zip
+		sudo unzip /opt/opencv2.4.13.6.zip -d /opt
+		cd /opt/opencv-2.4.13.6/ && sudo mkdir release/ && cd release
+		sudo cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
+		sudo make && sudo make install
+
+	# python
+		sudo yum install -y python-pip
+		sudo pip install --upgrade pip --proxy=http://child-prc.intel.com:913/
+
+		sudo pip3 install -r caffe/python/requirements.txt
+
+	# compile
+		cp Makefile.config.example Makefile.config
+		sudo vim Makefile.config
+
+		# modify Makefile.config
+		8 CPU_ONLY := 1	# only CPU
+		89 WITH_PYTHON_LAYER := 1 # use Python layer
+
+		# option: hdf5 path
+		91 INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include /usr/include/hdf5/serial
+		92 LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib/usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/hdf5/serial
+		
+		source caffe-ssd-on-centOS7.4.env-20190216 
+		make all
+		make pycaffe
+		make test
+		# option
+		make runtest -j8	
+
+	# Errors
+		# error
+		./include/caffe/util/cudnn.hpp:8:34: fatal error:caffe/proto/caffe.pb.h: no such file or
+		# reason
+		lower version
+		# solution
+		sudo pip3 install --proxy=http://child-prc.intel.com:913/ --upgrade pip
+
+		sudo pip install protobuf --upgrade -i http://pypi.douban.com/simple --trusted-host pypi.douban.com --user
+		sudo pip install pillow --upgrade -i http://pypi.douban.com/simple --trusted-host pypi.douban.com --user
+}
+
+
+# 2. training and models
+#------------------------------------------------------------------------------------------------------------------#
+
+	# centos 7.4
+	echo "https://my.oschina.net/u/3269534/blog/1811627/"
+
+	export CAFFE_ROOT=/home/xy3/workspace/git/caffe-ssd-216/caffe
+
+
+	# VGGNet
+		# way 1: failed
+		#http://www.cs.unc.edu/~wliu/projects/	# Wei Liu: The University of North Carolina
+		#wget -P $CAFFE_ROOT/model http://www.cs.unc.edu/%7Ewliu/projects/SSD/models_VGGNet_VOC0712_SSD_300x300.tar.gz
+
+		# way 2: ok
+		#[download] https://drive.google.com/file/d/0BzKzrI_SkD1_WVVTSmQxU0dVRzA/view
+		tar -zxvf $CAFFE_ROOT/model/models_VGGNet_VOC0712_SSD_300x300.tar.gz -C $CAFFE_ROOT/model
+
+	# VOC dataset
+		wget -P $HOME/data http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar
+		wget -P $HOME/data http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtrainval_06-Nov-2007.tar
+		wget -P $HOME/data http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtest_06-Nov-2007.tar
+		
+		# uncompress in the following order
+		tar -xvf $HOME/data/VOCtrainval_11-May-2012.tar -C $HOME/data
+		tar -xvf $HOME/data/VOCtrainval_06-Nov-2007.tar -C $HOME/data
+		tar -xvf $HOME/data/VOCtest_06-Nov-2007.tar -C $HOME/data
+
+	# LMDB
+		./data/VOC0712/create_list.sh
+		vim data/VOC0712/create_data.sh
+			# root_dir=$CAFFE_ROOT
+		./data/VOC0712/create_data.sh
+
+	# Errors
+		# error
+		ImportError: No module named skimage.io
+		# reason
+		lower version
+		# solution
+		sudo pip3 install --proxy=http://child-prc.intel.com:913/ --upgrade pip
+
+		sudo pip install scikit-image
+		sudo pip install protobuf --upgrade -i http://pypi.douban.com/simple --trusted-host pypi.douban.com --user
+		sudo pip install pillow --upgrade -i http://pypi.douban.com/simple --trusted-host pypi.douban.com --user
+
+	# train
+		python examples/ssd/ssd_pascal.py 
+
+	# test
+		python examples/ssd/score_ssd_pascal.py 
+
+		# error
+		Using GPUs 0
+		Cannot use GPU in CPU-only Caffe: check mode.
+		# solution
+		# https://blog.csdn.net/yx2017/article/details/72870565
+		vim cafffe/examples/ssd/score_ssd_pascal.py
+			#if num_gpus > 0:
+			#  batch_size_per_device = int(math.ceil(float(batch_size) / num_gpus))
+			#  iter_size = int(math.ceil(float(accum_batch_size) / (batch_size_per_device * num_gpus)))
+			#  solver_mode = P.Solver.GPU
+			#  device_id = int(gpulist[0])
+			
