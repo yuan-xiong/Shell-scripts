@@ -178,6 +178,9 @@ function setup-on-centos-7.4 {
 		tar -xvf $HOME/data/VOCtrainval_06-Nov-2007.tar -C $HOME/data
 		tar -xvf $HOME/data/VOCtest_06-Nov-2007.tar -C $HOME/data
 
+	# model
+		wget http://cs.unc.edu/~wliu/projects/ParseNet/VGG_ILSVRC_16_layers_fc_reduced.caffemodel
+
 	# LMDB
 		./data/VOC0712/create_list.sh
 		vim data/VOC0712/create_data.sh
@@ -213,4 +216,8 @@ function setup-on-centos-7.4 {
 			#  iter_size = int(math.ceil(float(accum_batch_size) / (batch_size_per_device * num_gpus)))
 			#  solver_mode = P.Solver.GPU
 			#  device_id = int(gpulist[0])
-			
+
+		# error
+		File not found: models/VGGNet/VGG_ILSVRC_16_layers_fc_reduced.caffemodel
+		# solution
+		wget http://cs.unc.edu/~wliu/projects/ParseNet/VGG_ILSVRC_16_layers_fc_reduced.caffemodel
