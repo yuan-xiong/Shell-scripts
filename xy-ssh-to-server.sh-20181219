@@ -65,7 +65,7 @@ function login {
             # /store/bdeng/nougat-mr1-dev
 			;;
         e5)
-            ssh intel@10.239.85.74
+		ssh root@10.239.85.84
             #ssh intel@e3s10-host4
             #ssh intel@e3s10-host4.sh.intel.com
             #12**56
@@ -75,6 +75,9 @@ function login {
 	    ssh root@e3s10-host1
             #12**56
             ;;
+        peng)
+            ssh root@10.239.85.129
+		;;
         mo)
             ssh root@10.239.85.141
             #ssh root@e3-server 
@@ -99,12 +102,13 @@ function login {
 		#linux123
 		;;
 	sheila)
-		ssh root@10.239.85.79
+		ssh root@10.239.85.74
+		#ssh root@10.239.85.79
 		# root:	12**56
 		# intel:intel123
 		;;
 	long)
-		ssh root@10.239.85.142
+		ssh root@10.239.85.71
 		# 12**56
 		;;
 	cldai-gpu)
@@ -115,6 +119,21 @@ function login {
 		#export PYTHONPATH=/home/cldai/caffe_ssd/python
 		#export LD_LIBRARY_PATH=/home/cldai/caffe_ssd/build/lib:$LD_LIBRARY_PATH
 		#cd /home/cldai/model/ali/
+		;;
+	boost)
+		ssh root@10.239.85.164
+		;;
+	xy2)
+		# Hongpeng
+		ssh root@10.239.85.70
+		;;
+	xy3)
+		# Yong
+		ssh root@10.239.85.164
+		;;
+	iqi)
+		# iqi
+		ssh root@10.239.85.102
 		;;
 	-h)
 		help

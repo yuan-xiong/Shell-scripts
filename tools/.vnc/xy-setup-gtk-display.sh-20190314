@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+        grep 'Xexport DISPLAY=:0.0
+        grep 'Xxhost +localhost
+

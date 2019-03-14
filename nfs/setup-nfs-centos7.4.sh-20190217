@@ -1,0 +1,16 @@
+sudo systemctl enable nfs-server.service
+sudo systemctl start nfs-server.service
+sudo systemctl enable rpcbind.service
+sudo systemctl start rpcbind.service
+
+sudo systemctl status firewalld
+sudo systemctl start firewalld
+#sudo systemctl stod firewalld
+
+sudo firewall-cmd --permanent --zone=public --add-service=nfs
+sudo firewall-cmd --permanent --zone=public --add-service=mountd
+sudo firewall-cmd --permanent --zone=public --add-service=rpc-bind
+sudo firewall-cmd --reload
+
+echo "/home/xy3/workspace     10.0.0.0/255.0.0.0(ro,sync,no_root_squash,no_all_squash)" | sudo tee -a /etc/exports
+sudo exportfs -a

@@ -28,17 +28,21 @@ function qemu-check {
 }
 
 function qemu-image {
-	# image
+	# centos
 	qemu-img create -f qcow2 centos-caffe-20190128.qcow2 1000G
+	# ubuntu
+	qemu-img create -f qcow2 ubuntu-caffe-20190216.qcow2 1000G
 }
 
 function qemu-install {
 	# installation
 	sudo -s
         qemu-system-x86_64 -m 20480 -smp 4 -enable-kvm -boot order=cd,once=d -hda centos-caffe-20190128.qcow2 -cdrom /home/xy3/workspace/backup/kernel-images/CentOS-7.4-for-VCA.iso
+	# Open vnc: 10.239.82.97:5907
         #qemu-system-x86_64 -m 20480 -smp 4 -enable-kvm -boot order=cd,once=d -hda centos-caffe-20190128.qcow2 -cdrom /home/xy3/workspace/backup/kernel-images/CentOS-7.4-for-VCA.iso -vnc :7
 
-	# Open vnc: 10.239.82.97:5907
+	# ubuntu
+        qemu-system-x86_64 -m 30720 -smp 4 -enable-kvm -boot order=cd,once=d -hda ubuntu-caffe-20190216.qcow2 -cdrom /home/xy3/workspace/backup/kernel-images/ubuntu-16.04.5-desktop-amd64.iso
 }
 
 function qemu-start {
@@ -46,6 +50,8 @@ function qemu-start {
 	#qemu-system-x86_64 -m 30720 -smp 4 -enable-kvm -hda centos-caffe-20190128.qcow2 -vga vmware -vnc :7			# no better
 	#qemu-system-x86_64 -m 30720 -smp 4 -enable-kvm -hda centos-caffe-20190128.qcow2 -vga vmware -full-screen -vnc :7
 	qemu-system-x86_64 -m 30720 -smp 4 -enable-kvm -hda centos-caffe-20190128.qcow2 -full-screen -vnc :7
+
+	qemu-system-x86_64 -m 30720 -smp 4 -enable-kvm -hda images/ubuntu-caffe-20190216.qcow2 -vga vmware -vnc :7
 }
 
 function main {
