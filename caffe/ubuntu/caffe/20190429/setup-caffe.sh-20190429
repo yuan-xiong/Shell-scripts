@@ -1,0 +1,69 @@
+#!/bin/bash
+
+
+# reference
+	http://www.bubuko.com/infodetail-1827296.html
+
+
+# dependencies
+	# update
+		sudo apt-get update
+		sudo apt-get install -y libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler
+		sudo apt-get install -y --no-install-recommends libboost-all-dev
+	# BLAS
+		sudo apt-get install libatlas-base-dev
+	# pycaffe
+		sudo apt-get install -y python-numpy python-scipy python-matplotlib python-sklearn python-skimage python-h5py python-protobuf
+		sudo apt-get install -y python-leveldb python-networkx python-nose python-pandas python-gflags cython ipython
+	# others
+		sudo apt-get install -y git libgflags-dev libgoogle-glog-dev liblmdb-dev
+
+
+# cmake
+	sudo apt install cmake
+
+# opencv
+	wget https://github.com/opencv/opencv/archive/3.4.1.zip
+	mkdir build
+	cd build/
+
+	# IPPICV
+		cmake -D WITH_IPP=OFF -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local ..
+
+	make -j9
+	sudo make install
+
+	# check
+	pkg-config --modversion opencv
+	3.4.1
+
+	export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+
+# bvlc caffe
+	git clone https://github.com/BVLC/caffe.git
+
+	# Makefile.config
+		 CPU_ONLY := 1
+		 USE_OPENCV := 0
+		 OPENCV_VERSION := 3
+		 WITH_PYTHON_LAYER := 1
+
+		INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include /usr/include/hdf5/serial/
+
+	# Makefile
+		#LIBRARIES += hdf5_hl hdf5
+		LIBRARIES += hdf5_serial_hl hdf5_serial
+
+
+# make
+	sudo make all -j16
+	sudo make test -j16
+	sudo make runtest -j16
+	make pycaffe -j16
+
+
+# varify
+	cd python
+	python
+	import caffe
+

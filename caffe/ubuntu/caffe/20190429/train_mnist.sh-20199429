@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# MNIST
+	cd /home/c1/workspace/git/caffe-ubuntu/caffe 
+
+	#1.下载数据
+	./data/mnist/get_mnist.sh 
+
+	#2.转化为lmdb格式
+	./examples/mnist/create_mnist.sh
+
+	#3.训练数据
+	./examples/mnist/train_lenet.sh

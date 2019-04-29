@@ -1,0 +1,4 @@
+#!/bin/bash
+
+	cd /home/c1/workspace/git/caffe-ubuntu/caffe
+./data/cifar10/get_cifar10.sh
