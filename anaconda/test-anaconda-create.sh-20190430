@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# anaconda
+	echo -e "[+] source anaconda env."
+	source anaconda.env-20190430
+
+# create
+	conda create --name python35 python=3.5
+
+	source activate python35
+	python --version
+
+	source deactivate python35
+	python --version
+
+	conda remove --name python35 --all
+
+# check env.
+	conda info -e
+
+# make caffe
+	sudo make pycaffe
+	sudo make runtest -j8
+

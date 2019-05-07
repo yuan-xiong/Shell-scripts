@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# download
+	https://www.anaconda.com/distribution/#linux
+
+# installation
+	bash tools/Anaconda2-2019.03-Linux-x86_64.sh
+	conda --version
+
+	# re-enter shell to activate anaconda
+	
+# configuration
+	# mirror: tsinghua
+	conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+	conda config --set show_channel_urls yes
+
