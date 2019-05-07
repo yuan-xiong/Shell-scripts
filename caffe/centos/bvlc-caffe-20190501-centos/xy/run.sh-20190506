@@ -1,0 +1,51 @@
+#!/bin/bash
+
+DATA=../data/xy
+MY=examples/xy
+
+read -p "[*] create train/test txt? [y/n] " go
+	echo -e "[+] Creating train.txt..."
+		rm -fr $MY/train.txt
+	
+		for i in $(seq 3 7)
+		do
+			echo "collecting training images started with $i"
+			find $DATA/train -name $i*.jpg | cut -d '/' -f4-5 | sed "s/$/ $i/" >> $MY/train.txt
+		done
+	
+	echo -e "[+] Creating test.txt..."
+		rm -fr $MY/test.txt
+	
+		for i in $(seq 3 7)
+		do
+			echo "collecting testing images started with $i"
+			find $DATA/test -name $i*.jpg | cut -d '/' -f4-5 | sed "s/$/ $i/" >> $MY/test.txt
+		done
+	echo
+
+
+read -p "[*] create train/test lmdb? [y/n] " go
+	echo -e "[+] Creating xy train lmdb..."
+		rm -fr $MY/img_train_lmdb
+	
+		build/tools/convert_imageset --shuffle --resize_height=256 --resize_width=256 \
+		$DATA/ $MY/train.txt $MY/img_train_lmdb
+	
+	
+	echo -e "[+] Creating xy test lmdb..."
+		rm -fr $MY/img_test_lmdb
+	
+		build/tools/convert_imageset --shuffle --resize_height=256 --resize_width=256 \
+		$DATA/ $MY/test.txt $MY/img_test_lmdb
+	echo
+
+
+read -p "[*] compute image mean? [y/n] " go
+	rm examples/xy/mean.binaryproto
+	build/tools/compute_image_mean examples/xy/img_train_lmdb examples/xy/mean.binaryproto
+	echo
+
+	echo -e "[+] save mean to npy"
+	python run.py-20190506 mean.binaryproto mean.npy
+
+echo -e "[+] All done."

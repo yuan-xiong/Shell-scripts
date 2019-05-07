@@ -1,0 +1,17 @@
+#!/usr/bin/bash
+
+function myread {
+	read -p "[*] $1 ? [y/n] " go
+}
+
+myread "source bvlc caffe anaconda env."
+	source /home/xy3/workspace/git/bvlc-caffe-20190501-centos/bvlc-caffe-anaconda.env-20190501
+
+myread "downlaod cifar10 data"
+	source data/cifar10/get_cifar10.sh
+
+myread "create lmdb"
+	source examples/cifar10/create_cifar10.sh
+
+myread "start to train"
+	source examples/cifar10/train_quick.sh

@@ -1,0 +1,74 @@
+#!/bin/bash
+
+# anaconda
+	echo -e "[+] reference: https://www.jianshu.com/p/157b43e069b0"
+
+	# issue1: /usr/bin/ld: cannot find -lcblas
+	conda install openblas=2.6.1
+	# issue2: /usr/bin/ld: cannot find -latlas
+	conda install atlas
+
+	# opencv
+	#conda install opencv
+	conda install -y --channel https://conda.anaconda.org/menpo opencv3
+
+	# issue: hdf5 version mismatch
+		# way 1: remove hdf5
+		source ../anaconda/anaconda.env-20190430 
+		conda remove hdf5
+	
+		source bvlc-caffe-anaconda.env-20190501 
+		cd caffe/
+		make clean
+		make -j16 all
+		make -j16 test
+		make -j16 runtest
+
+		# way 2: to be verified
+		pip uninstall h5py
+		pip install h5py
+
+	# issue: No module named google.protobuf.internal
+		conda install protobuf
+
+	# issue: error incompatible with your Protocol Buffer headers. Please update
+		#conda list | grep pro
+		conda remove libprotobuf-dev
+
+	# libraries
+	export LD_LIBRARY_PATH=/home/xy3/anaconda2/lib:$LD_LIBRARY_PATH
+
+# bvlc caffe
+	git clone https://github.com/BVLC/caffe.git
+
+	# Makefile.config
+		# anaconda
+		ANACONDA_HOME=/home/xy3/anaconda2
+		BLAS_INCLUDE := $(ANACONDA_HOME)/include/atlas
+		BLAS_LIB := $(ANACONDA_HOME)/lib
+
+		CPU_ONLY := 1
+		USE_OPENCV := 0
+		OPENCV_VERSION := 3
+		WITH_PYTHON_LAYER := 1
+
+		INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include /usr/include/hdf5/serial/
+
+	# Makefile
+		#LIBRARIES += hdf5_hl hdf5
+		LIBRARIES += hdf5_serial_hl hdf5_serial
+
+
+# make
+	sudo make all -j16
+	sudo make test -j16
+	sudo make runtest -j16
+	make pycaffe -j16
+
+
+# varify
+	cd python
+	python
+	import caffe
+
+
