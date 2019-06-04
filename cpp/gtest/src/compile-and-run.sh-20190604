@@ -1,0 +1,12 @@
+#!/bin/bash
+
+target=xygtest
+
+echo -e "[+] rm"
+	rm $target
+
+echo -e "[+] compile"
+	make -j $(nproc)
+
+echo -e "[+] run"
+	./$target
