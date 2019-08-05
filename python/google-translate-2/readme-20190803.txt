@@ -1,0 +1,13 @@
+
+1. set up anaconda
+
+	conda create --name google_translate_py37 python=3.7
+
+2. install dependencies
+
+	conda install -y xlrd openpyxl
+	conda install -y requests pandas
+
+3. run python script
+
+	python simple_google_translate-20190804.py
