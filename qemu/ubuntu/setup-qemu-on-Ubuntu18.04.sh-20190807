@@ -1,0 +1,27 @@
+#!/bin/bash
+
+function myecho {
+	echo -e '\t' $1
+}
+
+function setup-qemu {
+	sudo apt install qemu-system-x86
+}
+
+function qemu-install-centos {
+	qemu-img create -f qcow2 centos7.5-sgx.qcow2 200G
+}
+
+function main {
+	setup-qemu
+
+	qemu-install-centos
+	qemu-start-vm
+}
+
+
+# start from here
+
+	main
+
+
