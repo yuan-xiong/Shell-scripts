@@ -1,0 +1,11 @@
+#!/bin/bash
+
+	# apt
+	sudo apt search qemu-system
+	sudo apt install -y qemu-system
+		# check
+		qemu-system-x86_64 --version
+
+	# system image
+	qemu-img create -f qcow2 ~/tools/ubuntu-1804-clang.qcow2 200G
+
