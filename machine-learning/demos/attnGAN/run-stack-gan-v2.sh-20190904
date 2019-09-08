@@ -1,0 +1,36 @@
+#!/bin/bash
+
+function show-test-cases {
+	echo
+	echo -e "show-test-cases"
+
+	echo -e "[*] 11	generate valid images for birds"
+	echo -e "[*] 12	generate valid images from customer"	
+	echo
+}
+
+function run-test-case {
+	echo
+	echo -e "run-test-cases" $1
+
+	case $1 in
+	11)
+		echo "bird"
+		echo "change 'BATCH_SIZE: 100' to 'BATCH_SIZE: 10' for the GPU Memory's sake"
+		python main.py --cfg cfg/eval_bird.yml --gpu 0
+		;;
+	12)
+		echo "customer"
+		python main.py --cfg cfg/eval_bird.yml --gpu 0
+		;;
+	*)
+		echo "Unknown test case, exiting..."
+		;;
+	esac
+}
+
+# start from here
+	show-test-cases
+	read -p "[+] Pleash chooice a test case [number] " go
+	run-test-case $go
+
