@@ -139,11 +139,14 @@ myecho3step 'new'
 	#sudo vim /etc/systemd/system/docker.service.d/http-proxy.conf
 #	sudo echo '[Service]' >> /etc/systemd/system/docker.service.d/http-proxy.conf
 #	sudo echo 'Environment="HTTP_PROXY=http://child-prc.intel.com:913/"' >> /etc/systemd/system/docker.service.d/http-proxy.conf
-
+	echo '[Service]' | sudo tee -a /etc/systemd/system/docker.service.d/http-proxy.conf
+	echo 'Environment="HTTP_PROXY=http://child-prc.intel.com:913/"' | sudo tee -a /etc/systemd/system/docker.service.d/http-proxy.conf
 	#sudo vim /etc/systemd/system/docker.service.d/https-proxy.conf
 #	sudo echo '[Service]' >> /etc/systemd/system/docker.service.d/https-proxy.conf
 #	sudo echo 'Environment="HTTPS_PROXY=http://child-prc.intel.com:913/"' >> /etc/systemd/system/docker.service.d/https-proxy.conf
-
+	echo '[Service]' | sudo tee -a /etc/systemd/system/docker.service.d/https-proxy.conf
+	echo 'Environment="HTTPS_PROXY=http://child-prc.intel.com:913/"' | sudo tee -a /etc/systemd/system/docker.service.d/https-proxy.conf
+	
 myecho3step 'restart'
 #	sudo systemctl daemon-reload
 #	sudo systemctl restart docker
