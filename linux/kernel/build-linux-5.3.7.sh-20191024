@@ -1,0 +1,26 @@
+#!/usr/bin/bash
+
+	sudo yum install -y gcc make git ctags ncurses-devel openssl-devel bison flex elfutils-libelf-devel bc
+	
+	cp /boot/config-3.10.0-957.el7.x86_64 .config
+	make oldconfig
+	make menuconfig
+	make -j$(nproc)
+	make modules
+	sudo make modules_install
+	sudo make install
+
+
+	# Generate grub.cfg file
+	sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+
+	# grub2-editenv list
+	# ls /boot/vmlinu***
+	# grub2-set-default "CentOS Linux (5.1.16-1.el7.elrepo.x86_64) 7 (Core)"
+	sudo awk -F\' '$1=="menuentry " {print i++ " : " $2}' /boot/grub2/grub.cfg
+	sudo grub2-set-default 0
+
+	# reboot
+	sudo reboot
+	uname -r
+

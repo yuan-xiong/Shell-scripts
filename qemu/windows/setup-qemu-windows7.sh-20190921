@@ -1,0 +1,18 @@
+#!/bin/bash
+
+	# apt
+	sudo apt search qemu-system
+	sudo apt install -y qemu-system
+		# check
+		qemu-system-x86_64 --version
+
+	# system image
+	qemu-img create -f qcow2 ~/tools/ubuntu-1804-clang.qcow2 200G
+
+	# install OS on system image
+	qemu-system-x86_64 -m 10240 -smp 4 -boot order=cd,once=d -hda ~/tools/ubuntu-1804-clang.qcow2 -cdrom ~/tools/ubuntu-18.04.3-desktop-amd64.iso -vga vmware -vnc :7
+		# vnc	:5907
+
+	# start qemu vm
+	sudo qemu-system-x86_64 -m 8096 -smp 4 -enable-kvm -hda ~/tools/ubuntu-1804-clang.qcow2 -vnc :7
+
