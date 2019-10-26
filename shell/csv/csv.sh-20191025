@@ -1,0 +1,22 @@
+cat city_house_price.txt | grep Shaanxi
+cat city_house_price.txt | grep -v Shaanxi
+cat city_house_price.txt | grep -v ^Shaanxi
+
+# '-n +2': read from 2th line
+cat city_house_price.txt | tail -n +2
+
+# '-F,': split with ','
+cat city_house_price.txt | awk -F, '{print }'
+cat city_house_price.txt | tail -n +2 | awk -F, '{print }' | sort -g
+cat city_house_price.txt | tail -n +2 | awk -F, '{print $1","$3}' | sort -t ',' -k 2 -g
+
+# save to csv
+printf "Host,Data\n" >> test.csv
+printf "yuanxion,20191025\n" >> test.csv
+printf "xy18,20191026" >> test.csv
+
+echo input.txt >> input.csv
+awk -F, 'BEGIN {OFS=","} {$6="col_6";print}' input.csv
+awk -F, 'BEGIN {OFS=","} {$6="col_6";print}' input.csv >> output.csv
+cat output.csv
+
