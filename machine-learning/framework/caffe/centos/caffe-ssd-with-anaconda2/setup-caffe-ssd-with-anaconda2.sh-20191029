@@ -1,0 +1,57 @@
+#!/usr/bin/bash
+
+# anaconda
+	echo -e "[+] install"
+	wget https://repo.anaconda.com/archive/Anaconda2-2019.10-Linux-x86_64.sh
+	bash Anaconda2-2019.10-Linux-x86_64.sh
+
+	echo -e "[+] run"
+	export PATH="/root/anaconda2/bin:$PATH"
+
+	# https://blog.csdn.net/qq_34612369/article/details/90756251
+	# anaconda search -t conda python
+	# anaconda show conda-forge/aliyun-python-sdk-core
+	# conda install --channel https://conda.anaconda.org/conda-forge aliyun-python-sdk-core
+
+	conda create -n caffe-ssd python3.7
+	source activate caffe-ssd
+
+# caffe
+	# caffe ssd
+	git clone https://github.com/weiliu89/caffe.git
+	mv caffe caffe-ssd
+	cd caffe-ssd
+	git checkout ssd
+
+	# openblas
+	sudo yum install -y liblas-devel atlas-devel
+	#mkdir build && cd build
+	#cmake .. -DCMAKE_BUILD_TYPE=Release -DBLAS="Open" -Dpython_version=3 -DCUDA_HOST_COMPILER=/usr/bin/g++-5 -DCUDA_PROPAGATE_HOST_FLAGS=off -DCMAKE_CXX_FLAGS="-std=c++11"
+
+	# makefile
+	cp Makefile.config.example Makefile.config
+		# GPU/CPU
+		CPU_ONLY := 1
+
+		# opencv
+		USE_OPENCV := 1
+		OPENCV_VERSION := 3
+		#INCLUDE_DIRS := $(PYTHON_INCLUDE) /opt/intel/openvino_fpga_2019.2.245/opencv/include
+		#LIBRARY_DIRS := $(PYTHON_LIB) /opt/intel/openvino_fpga_2019.2.245/opencv/lib
+
+		# pycaffe
+		WITH_PYTHON_LAYER := 1
+ 
+	# make
+	conda install boost numpy
+	make -j8
+
+	export PYTHONPATH=/root/tools/yuan/tools/caffe-ssd/python
+	make pycaffe
+	make all -j8
+	make test -j8
+
+	# libopencv_core.so.3.3
+	export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+	make runtest -j8
+
