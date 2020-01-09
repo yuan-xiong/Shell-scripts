@@ -14,7 +14,7 @@ function run {
 			echo
             #echo -e "[-] file:\t" $file
     
-			subffix=$(printf "%03d" $i)'.jpg'
+			subffix=$(printf "%05d" $i)'.jpg'
 			echo -e "--> Handling $i [$total]"
 
 			# make dir
