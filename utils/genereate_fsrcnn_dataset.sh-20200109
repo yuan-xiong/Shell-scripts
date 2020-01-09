@@ -1,0 +1,49 @@
+src_folder=$1
+dst_folder=/mnt/yuan/yuan/data/fsrcnn_dataset
+log=my.log
+
+i=0
+files=$(ls $src_folder)
+total=$(ls $src_folder | wc -l)
+echo -e "Total images:\t" $total
+
+function run {
+    for file in $files; do
+        #if [[ $i -lt 2 ]]; then
+        if [[ $i -lt $total ]]; then
+			echo
+            #echo -e "[-] file:\t" $file
+    
+			subffix=$(printf "%03d" $i)'.jpg'
+			echo -e "--> Handling $i [$total]"
+
+			# make dir
+			command="mkdir -p $dst_folder/$src_folder/label"
+            echo -e $command
+            $command
+
+			command="mkdir -p $dst_folder/$src_folder/data"
+            echo -e $command
+            $command
+
+			echo
+            label_file="$dst_folder/$src_folder/label/label_${src_folder}_$subffix"
+            command="cp $src_folder/$file $label_file"
+            echo -e $command
+            $command
+    
+            data_file="$dst_folder/$src_folder/data/data_${src_folder}_$subffix"
+            command="ffmpeg -i $label_file -vf scale=640:360 -sws_flags area $data_file"
+            echo -e $command
+            $command
+        fi
+    
+        i=$((i + 1))
+    done
+}
+
+# start from here
+    run | tee -a $log
+
+# ./genereate_fsrcnn_dataset.sh-20200109 wolf
+

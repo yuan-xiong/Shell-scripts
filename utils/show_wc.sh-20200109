@@ -1,0 +1,26 @@
+folder=$1
+i=0
+
+function run {
+	echo -e "Show files number under:\t" $folder
+	total=$(ls $folder | wc -l)
+
+	subfolders=$(ls $folder)
+	echo "subfolders:\t" $subfolders
+
+	# show subfolder
+	for subfolder in $subfolders; do
+		i=$((i+1))
+
+		# count files in subfolder
+		var=$(ls $subfolder | wc -l)
+		echo -e "[$i / $total] subfolder:\t" $subfolder "\t" $var
+	done
+}
+
+# start from here
+	run
+
+# usage:
+# ./show_wc.sh-20200109 .
+

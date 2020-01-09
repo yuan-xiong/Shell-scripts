@@ -17,10 +17,11 @@
 	source activate caffe-ssd
 
 # caffe
+# https://github.com/weiliu89/caffe/tree/ssd
 	# caffe ssd
 	git clone https://github.com/weiliu89/caffe.git
 	mv caffe caffe-ssd
-	cd caffe-ssd
+	cd /root/tools/yuan/tools/caffe-ssd
 	git checkout ssd
 
 	# openblas

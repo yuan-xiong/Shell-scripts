@@ -1,0 +1,37 @@
+folder=$1
+subfolders=$(ls $folder)
+
+function run {
+	for subfolder in $subfolders; do
+		echo -e "subfolder:\t" $subfolder
+
+		# make new folder for selected frames
+		command="mkdir -p pics_selected/$subfolder/"
+		echo -e "$command"
+		$command
+
+		# select frames
+		total=$(ls $folder/$subfolder | wc -l)
+		echo -e "Total:\t" $total
+
+		i=0
+		frames=$(ls $folder/$subfolder)
+		for frame in $frames; do
+			idx=$((i % 30))
+			if [[ $idx = 0 ]]; then
+				command="cp $folder/$subfolder/$frame pics_selected/$subfolder/"
+				echo -e "$command"
+				$command
+			fi
+
+			i=$((i+1))
+		done
+	done
+}
+
+# start from here
+	run
+
+# usage:
+# ./select-frames.sh-20200109 pics
+

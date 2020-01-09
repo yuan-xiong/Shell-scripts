@@ -1,0 +1,6 @@
+#!/bin/bash
+
+	# Env: anaconda
+	export PATH=/home/xy18/anaconda3/bin:$PATH
+
+	conda update conda

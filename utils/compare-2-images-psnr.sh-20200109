@@ -1,0 +1,14 @@
+file1=$1
+file2=$2
+
+# source activate /home/intel/yuanxiong/anaconda3/envs/fsrcnn-tf-gpu1.13-py37
+
+	#ffmpeg -i 8.jpg -i 9.jpg -lavfi '[0:v][1:v]ssim=ssim.log;[0:v][1:v]psnr=psnr.log' -f null -
+	ffmpeg -i $file1 -i $file2 -lavfi '[0:v][1:v]ssim=ssim.log;[0:v][1:v]psnr=psnr.log' -f null -
+
+	# psnr_avg
+	psnr=$(cat psnr.log | awk '{print $6}' | awk -F':' '{print $2}')
+	echo -e "[psnr_avg]:\t" $psnr
+
+	echo $var >> test.log
+
