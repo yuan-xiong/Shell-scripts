@@ -1,0 +1,77 @@
+import os
+import sys
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+def draw_psnr(file):
+	print('draw_psnr file:\t{}'.format(file))
+
+	xaxis = []
+	yaxis_1 = []
+	yaxis_2 = []
+	with open(file) as f:
+		# read
+		lines = f.read().splitlines()
+		for line in lines:
+			#print(line)
+
+			column1 = line.split(' ')[0]
+			if 0 != column1.find('label_'):
+				# remove prefix 'label_'
+				column1 = column1[6:]
+			xaxis.append(column1)
+
+			column2 = line.split(' ')[1]
+			# convert str to float
+			yaxis_1.append(float(column2))
+
+			column3 = line.split(' ')[2]
+			yaxis_2.append(float(column3))
+
+			#print("column1:\t{}".format(column1))
+			#print("column2:\t{}".format(column2))
+			#print("column3:\t{}".format(column3))
+
+		print(xaxis)
+		print(yaxis_1)
+		print(yaxis_2)
+
+		# draw
+		fig = plt.figure(1)
+		#plt.plot(range(1, len(data) + 1), data, 'o-', ms=10,lw=1,color='black')
+		line1 = plt.plot(xaxis, yaxis_1, 'o-', ms=8,lw=2,color='blue', label='lr=0.01')
+		line2 = plt.plot(xaxis, yaxis_2, 'x--', ms=8,lw=2,color='green', label='lr=0.0001')
+
+		plt.xlabel('Image')
+		plt.ylabel('PSNR')
+		#plt.legend(line1, "line1_label")
+		#plt.legend(loc='upper right')
+		plt.legend(loc='best')
+
+		# You can specify a rotation for the tick labels in degrees or with keywords
+		#fig.autofmt_xdate(rotation=45)
+		plt.xticks(size='small', rotation=45, ha='right', fontsize=8, verticalalignment='top', horizontalalignment='right')
+		fig.autofmt_xdate()
+
+
+		# save
+		#plt.show()
+		#plt.pause(0.5)
+		plt.savefig(file.split('.')[0] + '.png')
+
+		
+
+def main():
+	print('[+] main')
+
+	file = sys.argv[1]
+	draw_psnr(file)
+
+if __name__ == '__main__':
+	sys.exit(main())
+
+
+# cat temp.txt | awk '{print $1" "$5" "$6}' > test.txt
+# python draw-statistics-diagram.py-20200114 temp.txt
+

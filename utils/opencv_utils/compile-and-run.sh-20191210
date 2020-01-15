@@ -7,7 +7,7 @@ source=$1
 folder1=$2
 folder2=$3
 
-target=psnr_xy
+target=xy_opencv_util
 
 	echo -e "[-] remove"
 	rm $target
@@ -29,9 +29,15 @@ target=psnr_xy
 	echo -e "[-] run $target"
     #./$target $image1 $image2
 
-	./$target $image1 $image2
+	for image1 in $(ls $folder1); do
+		echo -e "[-] Convert to gray:\t" $image1
+		./$target $folder1/$image1 $image2
+	done
 
 
 # usage
 # ./compile-and-run.sh-20191210 opencv-tools.cpp /root/tools/yuan/data/dota2.jpg
 # ./compile-and-run.sh-20191210 test_psnr.cpp car-grey-640-360.png car-scale2.png
+
+# convert color to gray in the folder
+# ./compile-and-run.sh-20191210 opencv-tools.cpp test6416_20/

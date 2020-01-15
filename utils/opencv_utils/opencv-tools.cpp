@@ -108,14 +108,15 @@ void color2grey(const std::string file) {
 	// resize_img
 	cv::Mat dst720;
 	cv::resize(greyImg, dst720, cv::Size(1280, 720), cv::INTER_AREA);
-	std::string path720(file.substr(0, pos) + "-grey-1280-720.png");
+	std::string path720(file.substr(0, pos) + "-1280x720-gray.png");
 	cout << "save grey-resized image to:\t" << path720 << endl;
 	cv::imwrite(path720, dst720);
 
-//	cv::resize(greyImg, dst, cv::Size(640, 360), cv::INTER_AREA);
-//	std::string resizeImgPath(file.substr(0, pos) + "-grey-640-360.png");
-//	cout << "save grey-resized image to:\t" << resizeImgPath << endl;
-//	cv::imwrite(resizeImgPath, dst);
+	cv::Mat dst360;
+	cv::resize(greyImg, dst360, cv::Size(640, 360), cv::INTER_AREA);
+	std::string resizeImgPath(file.substr(0, pos) + "-640x360-gray.png");
+	cout << "save grey-resized image to:\t" << resizeImgPath << endl;
+	cv::imwrite(resizeImgPath, dst360);
 }
 
 int main(int argc, char **argv) {
@@ -124,6 +125,7 @@ int main(int argc, char **argv) {
 
 	//show_binary(argv[1]);
 
+	//cout << "[-] main argv[1]:\t" << argv[1] << endl;
 	color2grey(argv[1]);
 	//resize_img(argv[1]);
 

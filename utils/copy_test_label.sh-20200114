@@ -1,0 +1,20 @@
+t_record=temp.txt
+test_folder=test6416_20
+
+	rm $test_record
+	ls test/label/ | awk -F"." '{print $1}' > $test_record
+
+	rmdir $test_folder
+	mkdir $test_folder
+
+	for line in $(cat $test_record); do
+		name=$(echo ${line#_*})
+		echo -e "[-]" $name
+		command="cp input/kuaishou/label/$name* test6416_20/"
+		echo -e " $command"
+		$command
+	done
+
+	ls test6416_20/
+	ls test6416_20/ | wc -l
+
